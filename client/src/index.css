@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.boarding-icon{
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
+  border: solid whitesmoke .2rem;
+  border-radius: 1rem;
+}
+.boarding-title{
+  float: left;
+}
