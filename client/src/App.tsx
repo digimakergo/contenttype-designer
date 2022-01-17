@@ -4,8 +4,8 @@ import { Form, Container } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import Boarding from './components/Boarding';
-import DragNDropComponent from './components/DragNDropComponent';
+//import Boarding from './components/Boarding';
+//import DragNDropComponent from './components/DragNDropComponent';
 
 
 
@@ -61,11 +61,7 @@ function App() {
       <Form>  
         <DndProvider backend={HTML5Backend}>
           
-          {list.map((field:any, index:number) => (
-            <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
-              <Boarding txt={field.txt}/>
-            </DragNDropComponent>
-          ))}
+          
         </DndProvider>
 
 
@@ -77,3 +73,9 @@ function App() {
 }
 
 export default App;
+
+/*{list.map((field:any, index:number) => (
+            <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
+              <Boarding txt={field.txt}/>
+            </DragNDropComponent>
+          ))} */
