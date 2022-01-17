@@ -1,18 +1,15 @@
 import React from 'react'
-import { Form, Input } from 'antd';
+import { Form, Col,Row } from 'react-bootstrap';
 
 
 function Title() {
     return (
-        <Form.Item
-        label='Tittel'
-        name='tittel'
-        rules={[{required:true, message: 'Please enter the Title'}]}>
-
-          <Input>
-          
-          </Input>
-        </Form.Item>
+      <Form>
+        <Form.Group className="mb-3" controlId="Title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control type="text" placeholder="Write the title of the article"/>
+        </Form.Group>
+      </Form>
     )
 }
 
