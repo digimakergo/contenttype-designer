@@ -1,4 +1,4 @@
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row } from 'react-bootstrap';
 
 
 const Boarding = (props:any) => {
@@ -11,7 +11,7 @@ const Boarding = (props:any) => {
                 </Form.Label>
             </Row>
             <Row>
-                <Form.Control type="text" value={props.txt}/>
+                <Form.Control type="text"/>
             </Row>
         </>
     )

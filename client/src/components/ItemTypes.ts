@@ -1,4 +1,3 @@
 export const ItemTypes = {
-    Boarding:'boarding',
-    Image:'img',
+    FIELD: 'field',
 }

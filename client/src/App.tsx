@@ -4,16 +4,13 @@ import { Form, Container } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-//import Boarding from './components/Boarding';
-//import DragNDropComponent from './components/DragNDropComponent';
-
-
-
+import Boarding from './components/Boarding';
+import DragNDropComponent from './components/DragNDropComponent';
 
 function App() {
 
   
-
+  
   const [list, setList] = useState([
     {
       id: 1,
@@ -26,21 +23,23 @@ function App() {
     {
       id: 3,
       txt:"sd"
-    },
+    }
 
   ]);
 
   const moveItem = useCallback(
     (dragIndex:number, hoverIndex:number) => {
-      const dragField = list[dragIndex]
+      const dragField = list[dragIndex];
       setList(
         update(list, {
           $splice:[
             [dragIndex, 1],
             [hoverIndex, 0, dragField]
           ],
-        }),
-      )
+        })
+      );
+      
+      
     },
     [list],
   )
@@ -61,7 +60,7 @@ function App() {
       <Form>  
         <DndProvider backend={HTML5Backend}>
           
-          
+        
         </DndProvider>
 
 
@@ -74,8 +73,14 @@ function App() {
 
 export default App;
 
-/*{list.map((field:any, index:number) => (
+/*
+for the drag and drop
+
+
+{list.map((field:any, index:number) => (
             <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
-              <Boarding txt={field.txt}/>
+              <Boarding />
             </DragNDropComponent>
-          ))} */
+          ))}
+          
+*/
