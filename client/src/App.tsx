@@ -4,6 +4,8 @@ import { Form, Container } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import Summary from './components/Summary';
+import Title from './components/Title';
 //import Boarding from './components/Boarding';
 //import DragNDropComponent from './components/DragNDropComponent';
 
@@ -63,10 +65,13 @@ function App() {
           
           
         </DndProvider>
-
+        <Title />
+        <Summary />
 
       </Form>
       </Container>
+      
+      
      
     </div>
   );
