@@ -63,13 +63,17 @@ function App() {
     <div className="App">
       <Container>
       <Form>  
+      <Title />
         <DndProvider backend={HTML5Backend}>
-          
+        {list.map((field:any, index:number) => (
+            <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
+              <Summary />
+            </DragNDropComponent>
+          ))}
         
         </DndProvider>
-        <Title />
-        <Summary />
-
+        
+        
       </Form>
       </Container>
       
