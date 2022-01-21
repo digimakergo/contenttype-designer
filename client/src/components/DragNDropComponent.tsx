@@ -9,7 +9,6 @@ interface DragItem {
     index:number,
     id:string,
     type:string
-
 }
 
 const DragNDropComponent = (props:any) => {

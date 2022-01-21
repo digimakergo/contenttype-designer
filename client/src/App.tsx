@@ -1,12 +1,10 @@
 import { useState, useCallback } from 'react';
 import './App.css';
-import { Form, Container } from 'react-bootstrap';
+import { Form, Row, Container } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import Summary from './components/Summary';
-import Title from './components/Title';
-import Boarding from './components/Boarding';
+import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
 
 
@@ -19,15 +17,7 @@ function App() {
   const [list, setList] = useState([
     {
       id: 1,
-      txt: "s"
-    },
-    {
-      id: 2,
-      txt:"d"
-    },
-    {
-      id: 3,
-      txt:"sd"
+      fieldname: "Summary"
     }
 
   ]);
@@ -63,12 +53,14 @@ function App() {
     <div className="App">
       <Container>
       <Form>  
-      <Title />
+      
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
-            <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
-              <Summary />
-            </DragNDropComponent>
+            
+              <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
+                <Field fieldname={field.fieldname}/>
+              </DragNDropComponent>
+            
           ))}
         
         </DndProvider>
