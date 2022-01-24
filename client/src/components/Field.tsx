@@ -31,29 +31,42 @@ const Field = (props:any) => {
         })
     }, [])
 
-    const getFormControl = (type:string) =>{
+    const getFormControl = (type:string, element:ParamElements) =>{
         if(type === 'int'){
+            props.field.parameters[element.label] = 0;
             return (
-                <Form.Control type='int' />
+                <Form.Control type='number' onChange={(e) => {
+                    props.field.parameters[element.label] = e.target.value; 
+                }}/>
             )
         }else if(type === 'bool'){
+            props.field.parameters[element.label] = false;
             return (
-                <Form.Check />
+                <Form.Check onClick={(e:any) => {
+                    props.field.parameters[element.label] = e.target.checked;
+                }}/>
             )
         }else if(type.indexOf("radio") != -1){
+            props.field.parameters[element.label] = "";
             const radiobuttons = type.split(":")[1].split(",");
             
             return radiobuttons.map((value, index) => (
-                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'radio'} />
+                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'radio'} onClick={(e:any) => {
+                    if(e.target.checked){
+                        props.field.parameters[element.label] = value;
+                    }
+                }}/>
             ));
 
         }
+        
         return;
     }
 
     
 
     const addParameter = (val:any) => {
+        props.field.parameters = {};
        let elements:ParamElements[] = [];
         let key:any;
         let value:any;
@@ -81,7 +94,7 @@ const Field = (props:any) => {
     return (
         <>
             <Row className='justify-content-start'>
-                <Col xs lg="1">
+                <Col xs md lg="1">
                     <Form.Label style={{textAlign:"left"}} column sm="2" >
                         Type    
                     </Form.Label>
@@ -101,25 +114,27 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check type="checkbox"/>
+                <Form.Check type="checkbox" onClick={(e:any) => {
+                    props.field.required = e.target.checked;
+                }}/>
                 </Col>
                 
             </Row>
 
-            {params.map((element:any, index:number) => (
-
-                
-                <div key={index}>
-                    <Row className=''>
-                        <Form.Label  column sm="2" >
-                            {element.label}    
-                        </Form.Label>
-                    </Row>
-                    <Row>
-                        {getFormControl(element.type)}
-                    </Row>
-                </div>
-                ))}
+            {
+                params.map((element:any, index:number) => (
+                    <Row key={index} className='justify-content-start'>
+                        <Col xs lg="1">
+                            <Form.Label style={{textAlign:"left"}} column sm="2" >
+                            {element.label}   
+                            </Form.Label>
+                        </Col>
+                        <Col >
+                            {getFormControl(element.type, element)}
+                        </Col>
+                    </Row>  
+                ))
+            }
         </>
     )
 }

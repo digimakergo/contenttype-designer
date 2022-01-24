@@ -20,7 +20,7 @@ function App() {
       fieldname: "Body",
       type: "",
       required: false,
-      params: {},
+      parameters: {},
     }
   ]);
 
@@ -64,7 +64,7 @@ function App() {
         {list.map((field:any, index:number) => (
             
               <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.fieldname} moveItem={moveItem}>
-                <Field field={field} list={list}/>
+                <Field field={field}/>
               </DragNDropComponent>
             
           ))}
