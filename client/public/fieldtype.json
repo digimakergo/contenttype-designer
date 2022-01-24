@@ -1,12 +1,12 @@
 {
     "text": {"parameters":{"max_length":"int","is_multi": "bool"}},
     "richtext":{ "parameters":{"mode":"radio:compact,full"}},
-    "radio":{"parameter":{"Options":"Yes or No"}},
+    "radio":{"parameters":{"Options":"bool"}},
     "file": {"parameters":{"max_size":"10mb","format":"pdf,docx"}},
     "image":{ "parameters":{"format":"jpg,png"}},
     "select":{"parameters":{"list":""}},
     "int": {"parameters":{}},
-    "datetime": {"parameters":{"dateonly":"true,false"}},
+    "datetime": {"parameters":{"dateonly":"bool"}},
     "password": {"parameters":{}},
     "checkbox": {"parameters":{}}
 }

@@ -1,5 +1,5 @@
 import { Form, Row, Col } from 'react-bootstrap';
-import { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 
 interface ParamElements {
     label:string,
@@ -40,6 +40,13 @@ const Field = (props:any) => {
             return (
                 <Form.Check />
             )
+        }else if(type.indexOf("radio") != -1){
+            const radiobuttons = type.split(":")[1].split(",");
+            
+            return radiobuttons.map((value, index) => (
+                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'radio'} />
+            ));
+
         }
         return;
     }
