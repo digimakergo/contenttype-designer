@@ -17,9 +17,11 @@ function App() {
   const [list, setList] = useState([
     {
       id: 1,
-      fieldname: "Summary"
+      fieldname: "Body",
+      type: "",
+      required: false,
+      params: {},
     }
-
   ]);
 
   const moveItem = useCallback(
@@ -49,6 +51,10 @@ function App() {
     console.log("submitting to the server failed!");
   }
   
+
+  //const addContent = (values) => {
+  //    setList(...list, values);
+  //}
   return (
     <div className="App">
       <Container>
@@ -58,7 +64,7 @@ function App() {
         {list.map((field:any, index:number) => (
             
               <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.fieldname} moveItem={moveItem}>
-                <Field />
+                <Field field={field} list={list}/>
               </DragNDropComponent>
             
           ))}

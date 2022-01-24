@@ -1,5 +1,5 @@
 
-const remove = () => {
+const Remove = () => {
     return (
         <div>
             
@@ -7,4 +7,4 @@ const remove = () => {
     )
 }
 
-export default remove
+export default Remove

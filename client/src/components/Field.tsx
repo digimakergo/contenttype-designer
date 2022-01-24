@@ -59,6 +59,10 @@ const Field = (props:any) => {
         let value:any;
         for([key, value] of Object.entries(fields)){
             if(key === val){
+
+                props.field.type = val;
+
+                
                 params.map((p) => {
                     elements.push(p);
                 })
@@ -103,6 +107,8 @@ const Field = (props:any) => {
             </Row>
 
             {params.map((element:any, index:number) => (
+
+                
                 <div key={index}>
                     <Row className=''>
                         <Form.Label  column sm="2" >
