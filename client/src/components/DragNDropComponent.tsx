@@ -1,4 +1,4 @@
-import { useRef} from 'react';
+import { useRef, useState} from 'react';
 import { Form, Col, Row} from 'react-bootstrap';
 import Move from './Move';
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
@@ -66,20 +66,33 @@ const DragNDropComponent = (props:any) => {
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref))
 
+    const [dropDownContent, setDropDownContent] = useState(true);
+    const dropdown = () => {
+        setDropDownContent(!dropDownContent)
+    }
+
 
     return (
-        <div ref={ref}  data-handler-id={props.handlerId} style={{opacity: opacity}}  >
-        <Form.Group  className="mb-3 boarding" controlId="boarding">
-        <Row>
-            <Col className="col-10">
-                {props.children}
+        <Form.Group  className="boarding" controlId="boarding" style={{opacity: opacity}}>
+            <Row>
+            <Col xs md lg="10">
+                <div  style={{border:"solid black 0.1rem", padding:"0.5rem"}}  >
+                    
+                        <Row className='identifier align-items-center'>
+                            <Col xs md lg="11"><h2>{props.fieldname}</h2></Col>
+                            <Col ><img onClick={dropdown} style={{width:"2rem", float:"right"}} src='./images/dropdownicon.png'/></Col>
+                        </Row>
+                        
+                    <Row className='' style={ !dropDownContent ? {display:"None"} : {}}>
+                        {props.children}
+                    </Row>
+                </div>
             </Col>
-            <Col className="col-1">
+            <Col xs md lg="2" ref={ref}  data-handler-id={props.handlerId}>
                 <Move  />
             </Col>
-        </Row>
-    </Form.Group>
-    </div>
+            </Row>
+        </Form.Group>
     )
 }
 

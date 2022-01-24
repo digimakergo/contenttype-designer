@@ -57,8 +57,8 @@ function App() {
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
             
-              <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
-                <Field fieldname={field.fieldname}/>
+              <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.fieldname} moveItem={moveItem}>
+                <Field />
               </DragNDropComponent>
             
           ))}

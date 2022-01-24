@@ -1,4 +1,4 @@
-import { Form, Row } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import { SetStateAction, useEffect, useState } from 'react';
 
 interface ParamElements {
@@ -70,35 +70,35 @@ const Field = (props:any) => {
     return (
         <>
             <Row className='justify-content-start'>
-                <Form.Label style={{textAlign:"left"}} column sm="2" >
-                    ContentType    
-                </Form.Label>
+                <Col xs lg="1">
+                    <Form.Label style={{textAlign:"left"}} column sm="2" >
+                        Type    
+                    </Form.Label>
+                </Col>
+                <Col >
+                    <Form.Control type="text"  onChange={(event) => {addParameter(event.target.value)}}/>
+                </Col>
+                
             </Row>
-            <Row>
-                <Form.Control type="text" readOnly={true} value={props.fieldname}/>
-            </Row>
+            
 
             <Row className='justify-content-start'>
-                <Form.Label style={{textAlign:"left"}} column sm="2" >
-                    Type    
-                </Form.Label>
-            </Row>
-            <Row>
-                <Form.Control type="text"  onChange={(event) => {addParameter(event.target.value)}}/>
-            </Row>
 
-            <Row className='justify-content-start'>
-                <Form.Label style={{textAlign:"left"}} column sm="2" >
+            <Col xs lg="1">
+                    <Form.Label style={{textAlign:"left"}} column sm="2" >
                     Required    
-                </Form.Label>
-            </Row>
-            <Row>
+                    </Form.Label>
+                </Col>
+                <Col >
                 <Form.Check type="checkbox"/>
+                </Col>
+                
             </Row>
+
             {params.map((element:any, index:number) => (
                 <div key={index}>
-                    <Row className='justify-content-start'>
-                        <Form.Label style={{textAlign:"left"}} column sm="2" >
+                    <Row className=''>
+                        <Form.Label  column sm="2" >
                             {element.label}    
                         </Form.Label>
                     </Row>
