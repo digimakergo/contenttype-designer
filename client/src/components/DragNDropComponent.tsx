@@ -4,6 +4,7 @@ import Move from './Move';
 import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { XYCoord } from 'dnd-core';
 import { ItemTypes } from './ItemTypes';
+import Remove from './Remove';
 
 interface DragItem {
     index:number,
@@ -90,6 +91,14 @@ const DragNDropComponent = (props:any) => {
             </Col>
             <Col xs md lg="2" ref={ref}  data-handler-id={props.handlerId}>
                 <Move  />
+            
+
+            </Col>
+
+            <Col xs md lg="2">
+                <Remove element={props.index} list={props.list} />
+                
+                
             </Col>
             </Row>
         </Form.Group>

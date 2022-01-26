@@ -52,9 +52,15 @@ function App() {
   }
   
 
-  //const addContent = (values) => {
-  //    setList(...list, values);
-  //}
+  const addContent = (values) => {
+    const id=
+     setList(...list, values);
+
+
+  }
+  const deleteElement=(id)=>{
+    setList(list.filter((list.id)=>list.id !=id))
+  }
   return (
     <div className="App">
       <Container>

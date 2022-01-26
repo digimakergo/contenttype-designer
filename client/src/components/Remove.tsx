@@ -1,9 +1,10 @@
 
 const Remove = () => {
     return (
-        <div>
-            
-        </div>
+       <Row>
+
+           
+       </Row>
     )
 }
 
