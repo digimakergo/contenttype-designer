@@ -6,13 +6,16 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
+import DropDownContentTypes from './components/DropDownContentTypes';
 
 
 
 
 function App() {
 
+  const contentType = ["title", "summary", "body", "coverimage", "relations", "editors"];
   
+
   
   const [list, setList] = useState([
     {
@@ -75,7 +78,7 @@ function App() {
       </Form>
       </Container>
       
-      
+      <DropDownContentTypes contenttype={contentType} />
      
     </div>
   );
@@ -94,3 +97,4 @@ for the drag and drop
           ))}
           
 */
+
