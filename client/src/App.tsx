@@ -12,19 +12,20 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 
 
 function App() {
-
-  const contentType = ["title", "summary", "body", "coverimage", "relations", "editors"];
+  let i = 2;
+  const contentType = ["Title", "Summary", "Body", "Coverimage", "Relations", "Editors"];
   
 
   
   const [list, setList] = useState([
     {
       id: 1,
-      fieldname: "Body",
+      identifier: "body",
       type: "",
+      name: "Body",
       required: false,
       parameters: {},
-    }
+    },
   ]);
 
   const moveItem = useCallback(
@@ -55,9 +56,19 @@ function App() {
   }
   
 
-  //const addContent = (values) => {
-  //    setList(...list, values);
-  //}
+  const addContent = (value:string) => {
+    const contentObj = {
+      id: i,
+      identifier: value.toLowerCase().replaceAll(" ","_"),
+      type: "",
+      name: value,
+      required: false,
+      parameters: {},
+    }
+    i++;
+      setList([...list, contentObj]);
+      console.log(value);
+  }
   return (
     <div className="App">
       <Container>
@@ -66,7 +77,7 @@ function App() {
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
             
-              <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.fieldname} moveItem={moveItem}>
+              <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.name} moveItem={moveItem}>
                 <Field field={field}/>
               </DragNDropComponent>
             
@@ -78,7 +89,7 @@ function App() {
       </Form>
       </Container>
       
-      <DropDownContentTypes contenttype={contentType} />
+      <DropDownContentTypes contenttype={contentType} onClick={addContent} />
      
     </div>
   );
