@@ -19,7 +19,7 @@ function App() {
   
   const [list, setList] = useState([
     {
-      id: 1,
+      
       identifier: "body",
       type: "",
       name: "Body",
@@ -58,7 +58,7 @@ function App() {
 
   const addContent = (value:string) => {
     const contentObj = {
-      id: i,
+     
       identifier: value.toLowerCase().replaceAll(" ","_"),
       type: "",
       name: value,
@@ -77,7 +77,7 @@ function App() {
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
             
-              <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.name} moveItem={moveItem}>
+              <DragNDropComponent key={index} index={index} fieldname={field.name} moveItem={moveItem}>
                 <Field field={field}/>
               </DragNDropComponent>
             

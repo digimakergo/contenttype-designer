@@ -58,6 +58,18 @@ const Field = (props:any) => {
                 }}/>
             ));
 
+        }else if(type.indexOf("check") != -1){
+            props.field.parameters[element.label] = "";
+            const radiobuttons = type.split(":")[1].split(",");
+            
+            return radiobuttons.map((value, index) => (
+                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} onClick={(e:any) => {
+                    if(e.target.checked){
+                        props.field.parameters[element.label] = value;
+                    }
+                }}/>
+            ));
+
         }
         
         return;
@@ -126,7 +138,7 @@ const Field = (props:any) => {
                     <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
                             <Form.Label style={{textAlign:"left"}} column sm="2" >
-                            {element.label}   
+                            {(element.label).replace()}   
                             </Form.Label>
                         </Col>
                         <Col >

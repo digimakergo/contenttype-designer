@@ -1,9 +1,9 @@
 {
-    "text": {"parameters":{"max_length":"int","is_multi": "bool"}},
+    "text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
     "richtext":{ "parameters":{"mode":"radio:compact,full"}},
     "radio":{"parameters":{"Options":"bool"}},
-    "file": {"parameters":{"max_size":"10mb","format":"pdf,docx"}},
-    "image":{ "parameters":{"format":"jpg,png"}},
+    "file": {"parameters":{"max_size":"mb","format":"check:pdf,docx"}},
+    "image":{ "parameters":{"format":"check:jpg,png"}},
     "select":{"parameters":{"list":""}},
     "int": {"parameters":{}},
     "datetime": {"parameters":{"dateonly":"bool"}},

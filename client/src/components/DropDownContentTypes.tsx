@@ -7,15 +7,7 @@ const DropDownContentTypes = (props:any) => {
 return (
     <Row style = {{marginTop:"2rem"}}>
         <Col xs md lg={{span: 4,offset: 5}} style={{marginLeft:"39rem"}} >
-    <Form.Select style = {{border:"solid black 3px"}} onChange={(event) => {
-        setValue(event.target.value)
-    } }>
-        <option>Choose contentTypes</option>
-        {props.contenttype.map((element:string)=>(
-            <option>{element}</option>
-        ) )}
-
-    </Form.Select>
+        <Form.Control type='text'/>
     </Col>
     <Col>
     <Button variant="primary" onClick={() => {
@@ -26,6 +18,16 @@ return (
     </Row>
 )
 };
+
+/*<Form.Select style = {{border:"solid black 3px"}} onChange={(event) => {
+        setValue(event.target.value)
+    } }>
+        <option>Choose contentTypes</option>
+        {props.contenttype.map((element:string)=>(
+            <option>{element}</option>
+        ) )}
+
+    </Form.Select> */
 
 export default DropDownContentTypes;
 

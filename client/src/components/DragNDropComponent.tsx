@@ -29,6 +29,8 @@ const DragNDropComponent = (props:any) => {
 
             const dragIndex = item.index;
             const hoverIndex = props.index;
+            console.log(dragIndex);
+            console.log(hoverIndex);
 
             if(dragIndex === hoverIndex){
                 return
@@ -51,12 +53,11 @@ const DragNDropComponent = (props:any) => {
         },
     }
     );
-    let id = props.id;
     let index = props.index;
     const [{ isDragging }, drag] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
-            return { id, index}
+            return index;
         },
         collect: (monitor:any) => ({
             isDragging: monitor.isDragging(),
