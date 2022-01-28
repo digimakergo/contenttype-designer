@@ -1,4 +1,4 @@
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { SetStateAction, useEffect, useState } from 'react';
 
 interface ParamElements {
@@ -11,10 +11,14 @@ const Field = (props:any) => {
     const [fields, setFields] = useState({});
     const def:ParamElements[] = [];
     const [params, setParams] = useState(def);
+    //console.log(props.field);
+    //props.field.map((fields:any) => {
+    //    setParams([...params, {label}])
+    //}
 
 
     useEffect(()=>{
-        fetch('fieldtype.json',{
+        fetch('FieldTypeDefinition.json',{
             headers:{
                 'Content-Type':'application/json',
                 'Accept':'application/json'
@@ -58,7 +62,38 @@ const Field = (props:any) => {
                 }}/>
             ));
 
-        }
+        }else if(type.indexOf("check") != -1){
+            props.field.parameters[element.label] = "";
+            const radiobuttons = type.split(":")[1].split(",");
+            
+            return radiobuttons.map((value, index) => (
+                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} onClick={(e:any) => {
+                    if(e.target.checked){
+                        props.field.parameters[element.label] = value;
+                    }
+                }}/>
+            ));
+
+        }/*else if(type == "list"){
+            props.field.parameters[element.label] = "";
+            const [list, setList] = useState([]);
+
+            
+            
+            return (
+                <>
+                    {list.map((listval:string, index:number) => (
+                        <Form.Control type='text' onChange={(e) => {
+                            list[index] = e.target.value;
+                        }}/>
+                    ))}
+                    <Button variant='primary' value='Add' onClick={() => {
+                        list.push("");
+                    }}/>
+                </>
+            );
+
+        }*/
         
         return;
     }
@@ -72,7 +107,7 @@ const Field = (props:any) => {
         let value:any;
         for([key, value] of Object.entries(fields)){
             if(key === val){
-
+                
                 props.field.type = val;
 
                 
@@ -89,6 +124,9 @@ const Field = (props:any) => {
         if(params.length != 0){
             setParams([])
         }
+
+        if(val === "Choose a type"){props.field.type = "";}
+        console.log(props.field)
     }
 
     return (
@@ -100,7 +138,17 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control type="text"  onChange={(event) => {addParameter(event.target.value)}}/>
+
+                <Form.Select style = {{border:"solid black 3px"}} onChange={(event) => {
+                    addParameter(event.target.value)
+                } }>
+                    <option>Choose a type</option>
+                    {Object.keys(fields).map((element:any, index:number)=>(
+                        <option key={index}>{element}</option>
+                    ) )}
+
+    </Form.Select>
+                    
                 </Col>
                 
             </Row>
@@ -114,7 +162,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check type="checkbox" onClick={(e:any) => {
+                <Form.Check type="checkbox" value={props.field.required} onClick={(e:any) => {
                     props.field.required = e.target.checked;
                 }}/>
                 </Col>
@@ -126,7 +174,7 @@ const Field = (props:any) => {
                     <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
                             <Form.Label style={{textAlign:"left"}} column sm="2" >
-                            {element.label}   
+                            {(element.label).replace()}   
                             </Form.Label>
                         </Col>
                         <Col >
