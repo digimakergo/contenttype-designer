@@ -29,8 +29,6 @@ const DragNDropComponent = (props:any) => {
 
             const dragIndex = item.index;
             const hoverIndex = props.index;
-            console.log(dragIndex);
-            console.log(hoverIndex);
 
             if(dragIndex === hoverIndex){
                 return
@@ -54,10 +52,11 @@ const DragNDropComponent = (props:any) => {
     }
     );
     let index = props.index;
+    let id = props.id;
     const [{ isDragging }, drag] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
-            return index;
+            return { id, index };
         },
         collect: (monitor:any) => ({
             isDragging: monitor.isDragging(),
@@ -74,7 +73,7 @@ const DragNDropComponent = (props:any) => {
 
 
     return (
-        <Form.Group  className="boarding" controlId="boarding" style={{opacity: opacity}}>
+        <Form.Group ref={ref} data-handler-id={handlerId} className="boarding" controlId="boarding" style={{opacity: opacity}}>
             <Row>
             <Col xs md lg="10">
                 <div  style={{border:"solid black 0.1rem", padding:"0.5rem"}}  >
@@ -89,7 +88,7 @@ const DragNDropComponent = (props:any) => {
                     </Row>
                 </div>
             </Col>
-            <Col xs md lg="2" ref={ref}  data-handler-id={props.handlerId}>
+            <Col xs md lg="2">
                 <Move  />
             </Col>
             </Row>

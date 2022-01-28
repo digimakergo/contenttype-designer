@@ -19,13 +19,19 @@ function App() {
   
   const [list, setList] = useState([
     {
-      
       identifier: "body",
       type: "",
       name: "Body",
       required: false,
       parameters: {},
     },
+    {
+      identifier: "summary",
+      type: "",
+      name: "Summary",
+      required: false,
+      parameters: {},
+    }
   ]);
 
   const moveItem = useCallback(
@@ -77,7 +83,7 @@ function App() {
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
             
-              <DragNDropComponent key={index} index={index} fieldname={field.name} moveItem={moveItem}>
+              <DragNDropComponent key={field.identifier} id={field.identifier} index={index} fieldname={field.name} moveItem={moveItem}>
                 <Field field={field}/>
               </DragNDropComponent>
             
