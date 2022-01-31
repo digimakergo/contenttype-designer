@@ -62,9 +62,12 @@ function App() {
       setList([...list, contentObj]);
       console.log(value);
   }
-  const deleteElement=(index:number)=>{
-    const newlist=(list.filter((any:any)=>any.index !=index))
+  const deleteElement=(identifier:string)=>{
+    const newlist=(list.filter((any:any)=>any.identifier !=identifier))
+
     setList(newlist);
+    console.log(identifier);
+   
   }
   return (
     <div className="App">
@@ -73,7 +76,8 @@ function App() {
       
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}>
+              <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
+              Remove={deleteElement}>
                 <Field field={field}/>
               </DragNDropComponent>
           ))}

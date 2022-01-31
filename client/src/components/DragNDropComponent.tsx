@@ -6,6 +6,7 @@ import { XYCoord } from 'dnd-core';
 import { ItemTypes } from './ItemTypes';
 import Remove from './Remove';
 
+
 interface DragItem {
     index:number,
     id:string,
@@ -96,7 +97,8 @@ const DragNDropComponent = (props:any) => {
             </Col>
 
             <Col xs md lg="1">
-                <Remove element={props.index} list={props.list} />
+                <Remove element={props.identifier}
+                 Remove={props.Remove}/>
                 
                 
             </Col>
