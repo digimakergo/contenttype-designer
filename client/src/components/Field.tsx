@@ -1,5 +1,5 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface ParamElements {
     label:string,
@@ -8,32 +8,18 @@ interface ParamElements {
 
 const Field = (props:any) => {
 
-    const [fields, setFields] = useState({});
+    
     const def:ParamElements[] = [];
     const [params, setParams] = useState(def);
+    const [list, setList] = useState(def);
+    
     //console.log(props.field);
     //props.field.map((fields:any) => {
     //    setParams([...params, {label}])
     //}
 
 
-    useEffect(()=>{
-        fetch('FieldTypeDefinition.json',{
-            headers:{
-                'Content-Type':'application/json',
-                'Accept':'application/json'
-            }
-        }).then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw response;
-        }).then(data => {
-            setFields(data)
-        }).catch(error => {
-            console.log("error: " + error);
-        })
-    }, [])
+    
 
     const getFormControl = (type:string, element:ParamElements) =>{
         if(type === 'int'){
@@ -76,20 +62,31 @@ const Field = (props:any) => {
 
         }/*else if(type == "list"){
             props.field.parameters[element.label] = "";
-            const [list, setList] = useState([]);
+            const def:string[] = [];
+            params
 
             
             
             return (
                 <>
-                    {list.map((listval:string, index:number) => (
-                        <Form.Control type='text' onChange={(e) => {
-                            list[index] = e.target.value;
+                    <Row>
+                        {list.map((listval:string, index:number) => (
+                            <>
+                            <Form.Control type='text' onChange={(e) => {
+                                list[index] = e.target.value;
+                            }}>Name</Form.Control>
+                            <Form.Control type='text' onChange={(e) => {
+                                list[index] = e.target.value;
+                            }}>Value</Form.Control>
+                            </>
+                        ))}
+                        
+                    </Row>
+                    <Row>
+                        <Button variant='primary' value='Add' onClick={() => {
+                            setList([...list,""]);
                         }}/>
-                    ))}
-                    <Button variant='primary' value='Add' onClick={() => {
-                        list.push("");
-                    }}/>
+                    </Row>
                 </>
             );
 
@@ -105,7 +102,7 @@ const Field = (props:any) => {
        let elements:ParamElements[] = [];
         let key:any;
         let value:any;
-        for([key, value] of Object.entries(fields)){
+        for([key, value] of Object.entries(props.fields)){
             if(key === val){
                 
                 props.field.type = val;
@@ -143,7 +140,7 @@ const Field = (props:any) => {
                     addParameter(event.target.value)
                 } }>
                     <option>Choose a type</option>
-                    {Object.keys(fields).map((element:any, index:number)=>(
+                    {Object.keys(props.fields).map((element:any, index:number)=>(
                         <option key={index}>{element}</option>
                     ) )}
 
@@ -170,8 +167,8 @@ const Field = (props:any) => {
             </Row>
 
             {
-                params.map((element:any, index:number) => (
-                    <Row key={index} className='justify-content-start'>
+                params.map((element:any, index:number) => 
+                        {element.label != "list" ? <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
                             <Form.Label style={{textAlign:"left"}} column sm="2" >
                             {(element.label).replace()}   
@@ -180,8 +177,9 @@ const Field = (props:any) => {
                         <Col >
                             {getFormControl(element.type, element)}
                         </Col>
-                    </Row>  
-                ))
+                    </Row>: getFormControl(element.type, element)}
+                      
+                )
             }
         </>
     )

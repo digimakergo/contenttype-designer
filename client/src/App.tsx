@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './App.css';
-import { Form, Row, Container } from 'react-bootstrap';
+import { Form, Row, Container, Button } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -12,6 +12,24 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 
 
 function App() {
+  const [fields, setFields] = useState({});
+  useEffect(()=>{
+    fetch('FieldTypeDefinition.json',{
+        headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        }
+    }).then(response => {
+        if(response.ok){
+            return response.json();
+        }
+        throw response;
+    }).then(data => {
+        setFields(data)
+    }).catch(error => {
+        console.log("error: " + error);
+    })
+}, [])
 
   const [list, setList] = useState([
     {
@@ -22,6 +40,8 @@ function App() {
       parameters: {},
     }
   ]);
+
+  
 
   const moveItem = useCallback(
     (dragIndex:number, hoverIndex:number) => {
@@ -69,16 +89,22 @@ function App() {
     console.log(identifier);
    
   }
+  const collapseAll = () => {
+    const allFields:any = document.getElementsByClassName("dropdown-field-menu");
+    for(let field of allFields) {
+      field.style = "display: None;";
+    }
+  }
   return (
     <div className="App">
       <Container>
       <Form>  
-      
+        <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
-              Remove={deleteElement}>
-                <Field field={field}/>
+              Remove={deleteElement} >
+                <Field field={field} fields={fields}/>
               </DragNDropComponent>
           ))}
         
@@ -97,15 +123,3 @@ function App() {
 }
 
 export default App;
-
-/*
-for the drag and drop
-
-
-{list.map((field:any, index:number) => (
-            <DragNDropComponent key={field.id} index={index} id={field.id} txt={field.txt} moveItem={moveItem}>
-              <Boarding />
-            </DragNDropComponent>
-          ))}
-          
-*/
