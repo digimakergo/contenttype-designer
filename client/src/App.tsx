@@ -6,18 +6,17 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
+import DropDownContentTypes from './components/DropDownContentTypes';
 
 
 
 
 function App() {
 
-  
-  
   const [list, setList] = useState([
     {
-      id: 1,
-      fieldname: "Body",
+      identifier: "body",
+      name: "Body",
       type: "",
       required: false,
       parameters: {},
@@ -52,11 +51,16 @@ function App() {
   }
   
 
-  const addContent = (values:any) => {
-    const id=
-     setList([...list, values]);
-
-
+  const addContent = (value:string) => {
+    const contentObj = {
+      identifier: value.toLowerCase().replaceAll(" ","_"),
+      type: "",
+      name: value,
+      required: false,
+      parameters: {},
+    }
+      setList([...list, contentObj]);
+      console.log(value);
   }
   const deleteElement=(index:number)=>{
     const newlist=(list.filter((any:any)=>any.index !=index))
@@ -69,14 +73,14 @@ function App() {
       
         <DndProvider backend={HTML5Backend}>
         {list.map((field:any, index:number) => (
-            
-              <DragNDropComponent key={field.id} index={index} id={field.id} fieldname={field.fieldname} moveItem={moveItem}>
+              <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}>
                 <Field field={field}/>
               </DragNDropComponent>
-            
           ))}
         
         </DndProvider>
+
+        <DropDownContentTypes onClick={addContent}/>
         
         
       </Form>
