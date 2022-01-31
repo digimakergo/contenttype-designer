@@ -52,14 +52,15 @@ function App() {
   }
   
 
-  const addContent = (values) => {
+  const addContent = (values:any) => {
     const id=
-     setList(...list, values);
+     setList([...list, values]);
 
 
   }
-  const deleteElement=(id)=>{
-    setList(list.filter((list.id)=>list.id !=id))
+  const deleteElement=(index:number)=>{
+    const newlist=(list.filter((any:any)=>any.index !=index))
+    setList(newlist);
   }
   return (
     <div className="App">

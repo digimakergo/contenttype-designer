@@ -89,13 +89,13 @@ const DragNDropComponent = (props:any) => {
                     </Row>
                 </div>
             </Col>
-            <Col xs md lg="2">
+            <Col xs md lg="1">
                 <Move  />
             
 
             </Col>
 
-            <Col xs md lg="2">
+            <Col xs md lg="1">
                 <Remove element={props.index} list={props.list} />
                 
                 
