@@ -54,7 +54,7 @@ const DragNDropComponent = (props:any) => {
     }
     );
     let index = props.index;
-    let id = props.id;
+    let id = props.identifier;
     const [{ isDragging }, drag] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
@@ -77,34 +77,27 @@ const DragNDropComponent = (props:any) => {
     return (
         <Form.Group ref={ref} data-handler-id={handlerId} className="boarding" controlId="boarding" style={{opacity: opacity}}>
             <Row>
-            <Col xs md lg="10">
-                <div  style={{border:"solid black 0.1rem", padding:"0.5rem"}}  >
-                    
+                <Col xs md lg="10">
+                    <div style={{border:"solid black 0.1rem", padding:"0.5rem"}}>
                         <Row className='identifier align-items-center'>
                             <Col xs md lg="11"><h2>{props.fieldname}</h2></Col>
                             <Col ><img onClick={dropdown} style={{width:"2rem", float:"right"}} src='./images/dropdownicon.png'/></Col>
+                        </Row>                
+                        <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
+                            {props.children}
                         </Row>
-                        
-                    <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
-                        {props.children}
-                    </Row>
-                </div>
-            </Col>
-            <Col xs md lg="1" >
-                <Move />
-            
-
-            </Col>
-
-            <Col xs md lg="1">
-                <Remove element={props.identifier}
-                 Remove={props.Remove}/>
-                
-                
-            </Col>
+                    </div>
+                </Col>
+                <Col xs md lg="1" >
+                    <Move />
+                </Col>
+                <Col xs md lg="1">
+                    <Remove element={props.identifier}
+                    Remove={props.Remove}/>
+                </Col>
             </Row>
         </Form.Group>
     )
 }
 
-export default DragNDropComponent
+export default DragNDropComponent;

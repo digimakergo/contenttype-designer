@@ -1,5 +1,5 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ParamElements {
     label:string,
@@ -7,21 +7,33 @@ interface ParamElements {
 }
 
 const Field = (props:any) => {
-
-    
+    const [fields, setFields] = useState({});
     const def:ParamElements[] = [];
     const [params, setParams] = useState(def);
-    const [list, setList] = useState(def);
-    
-    //console.log(props.field);
-    //props.field.map((fields:any) => {
-    //    setParams([...params, {label}])
-    //}
+
+    useEffect(()=>{
+        fetch('FieldTypeDefinition.json',{
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        }).then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw response;
+        }).then(data => {
+            setFields(data)
+        }).catch(error => {
+            console.log("error: " + error);
+        })
+    }, [])
 
 
     
 
     const getFormControl = (type:string, element:ParamElements) =>{
+        
         if(type === 'int'){
             props.field.parameters[element.label] = 0;
             return (
@@ -99,31 +111,26 @@ const Field = (props:any) => {
 
     const addParameter = (val:any) => {
         props.field.parameters = {};
-       let elements:ParamElements[] = [];
+        let elements:ParamElements[] = [];
         let key:any;
         let value:any;
-        for([key, value] of Object.entries(props.fields)){
+        for([key, value] of Object.entries(fields)){
             if(key === val){
-                
                 props.field.type = val;
 
                 
-                params.map((p) => {
-                    elements.push(p);
-                })
+                
                 
                 for(let [label, type] of Object.entries(value.parameters)){
+                    
                     elements.push({'label': label, 'type': type});   
                 }
                 setParams(elements);       
             }
         }
-        if(params.length != 0){
-            setParams([])
-        }
-
-        if(val === "Choose a type"){props.field.type = "";}
+        
         console.log(props.field)
+        if(val === "Choose a type"){props.field.type = "";}
     }
 
     return (
@@ -140,7 +147,7 @@ const Field = (props:any) => {
                     addParameter(event.target.value)
                 } }>
                     <option>Choose a type</option>
-                    {Object.keys(props.fields).map((element:any, index:number)=>(
+                    {Object.keys(fields).map((element:any, index:number)=>(
                         <option key={index}>{element}</option>
                     ) )}
 
@@ -168,7 +175,7 @@ const Field = (props:any) => {
 
             {
                 params.map((element:any, index:number) => 
-                        {element.label != "list" ? <Row key={index} className='justify-content-start'>
+                        <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
                             <Form.Label style={{textAlign:"left"}} column sm="2" >
                             {(element.label).replace()}   
@@ -177,7 +184,7 @@ const Field = (props:any) => {
                         <Col >
                             {getFormControl(element.type, element)}
                         </Col>
-                    </Row>: getFormControl(element.type, element)}
+                    </Row>
                       
                 )
             }

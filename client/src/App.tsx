@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import './App.css';
-import { Form, Row, Container, Button } from 'react-bootstrap';
+import { Form, Container, Button } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -12,24 +12,7 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 
 
 function App() {
-  const [fields, setFields] = useState({});
-  useEffect(()=>{
-    fetch('FieldTypeDefinition.json',{
-        headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json'
-        }
-    }).then(response => {
-        if(response.ok){
-            return response.json();
-        }
-        throw response;
-    }).then(data => {
-        setFields(data)
-    }).catch(error => {
-        console.log("error: " + error);
-    })
-}, [])
+  
 
   const [list, setList] = useState([
     {
@@ -60,17 +43,6 @@ function App() {
     [list],
   )
 
-  const onSubmit = () => {
-    console.log("submitting to the server!");
-  }
-  const onSubmitSuccess = () => {
-    console.log("submitting to the server succeded!");
-  }
-  const onSubmitFailed = () => {
-    console.log("submitting to the server failed!");
-  }
-  
-
   const addContent = (value:string) => {
     const contentObj = {
       identifier: value.toLowerCase().replaceAll(" ","_"),
@@ -83,7 +55,7 @@ function App() {
       console.log(value);
   }
   const deleteElement=(identifier:string)=>{
-    const newlist=(list.filter((any:any)=>any.identifier !=identifier))
+    const newlist=(list.filter((any:any)=>any.identifier !== identifier))
 
     setList(newlist);
     console.log(identifier);
@@ -98,26 +70,20 @@ function App() {
   return (
     <div className="App">
       <Container>
-      <Form>  
-        <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
-        <DndProvider backend={HTML5Backend}>
-        {list.map((field:any, index:number) => (
+        <Form>
+          <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
+          <DndProvider backend={HTML5Backend}>
+            {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
-              Remove={deleteElement} >
-                <Field field={field} fields={fields}/>
+                  Remove={deleteElement} >
+                <Field field={field}/>
               </DragNDropComponent>
-          ))}
-        
-        </DndProvider>
+            ))}
+          </DndProvider>
 
-        <DropDownContentTypes onClick={addContent}/>
-        
-        
-      </Form>
+          <DropDownContentTypes onClick={addContent}/>
+        </Form>
       </Container>
-      
-      
-     
     </div>
   );
 }
