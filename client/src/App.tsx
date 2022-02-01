@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import './App.css';
 import { Form, Container, Button } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
@@ -74,7 +74,7 @@ function App() {
           <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.id} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
+              <DragNDropComponent key={field.identifier} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
                   Remove={deleteElement} >
                 <Field field={field}/>
               </DragNDropComponent>

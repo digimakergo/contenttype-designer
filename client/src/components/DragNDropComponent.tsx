@@ -9,7 +9,7 @@ import Remove from './Remove';
 
 interface DragItem {
     index:number,
-    id:string,
+    identifier:string,
     type:string
 }
 
@@ -20,7 +20,7 @@ const DragNDropComponent = (props:any) => {
         accept: ItemTypes.FIELD,
         collect (monitor) {
             return {
-                handlerId: !!monitor.getHandlerId(),
+                handlerId: monitor.getHandlerId(),
             }
         },
         hover(item: DragItem, monitor: DropTargetMonitor) {
@@ -53,12 +53,13 @@ const DragNDropComponent = (props:any) => {
         },
     }
     );
-    let index = props.index;
-    let id = props.identifier;
+    const index = props.index;
+    const identifier = props.identifier;
+
     const [{ isDragging }, drag] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
-            return { id, index };
+            return { identifier, index }
         },
         collect: (monitor:any) => ({
             isDragging: monitor.isDragging(),
@@ -92,8 +93,7 @@ const DragNDropComponent = (props:any) => {
                     <Move />
                 </Col>
                 <Col xs md lg="1">
-                    <Remove element={props.identifier}
-                    Remove={props.Remove}/>
+                    <Remove element={props.identifier} Remove={props.Remove}/>
                 </Col>
             </Row>
         </Form.Group>
