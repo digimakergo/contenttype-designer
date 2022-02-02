@@ -85,11 +85,12 @@ function App() {
   return (
     <div className="App">
       <Container>
-        <Form>
-          <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
+        <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
+        <Form style={{marginTop:"1rem"}}>
+          
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.identifier} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
+              <DragNDropComponent key={field.identifier} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
                   Remove={deleteElement} >
                 <Field field={field} index={index}/>
               </DragNDropComponent>

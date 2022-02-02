@@ -14,6 +14,13 @@ interface DragItem {
 }
 
 const DragNDropComponent = (props:any) => {
+    let headerstyle = {};
+    console.log(props.headerColor)
+    if(props.headerColor != null){
+        headerstyle = {backgroundColor: props.headerColor}
+    }else{
+        headerstyle = {backgroundColor: "grey"};
+    }
 
     const ref = useRef<HTMLDivElement>(null);
     const [{ handlerId }, drop] = useDrop({
@@ -78,16 +85,16 @@ const DragNDropComponent = (props:any) => {
     return (
         <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity}}>
             <Row>
-                <Col xs="10" md="10" lg="10">
-                    <div style={{border:"solid black 0.1rem", padding:"0.5rem"}}>
-                        <Row className='identifier align-items-center'>
-                            <Col xs="11" md="11" lg="11"><h2>{props.fieldname}</h2></Col>
+                <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
+                    
+                        <Row className='align-items-center' style={headerstyle}>
+                            <Col xs="11" md="11" lg="11"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
                             <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
                             {props.children}
                         </Row>
-                    </div>
+                    
                 </Col>
                 <Col xs="1" md="1" lg="1">
                     <Move ref={ref} handlerId={handlerId} />    

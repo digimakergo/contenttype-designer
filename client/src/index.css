@@ -23,9 +23,6 @@ code {
   float: left;
 }
 
-.identifier{
-  background-color: grey;
-}
 .dropdownfield-content-hide{
   transition: 500ms;
   max-height: 0rem;
