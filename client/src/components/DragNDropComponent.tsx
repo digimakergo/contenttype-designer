@@ -56,7 +56,7 @@ const DragNDropComponent = (props:any) => {
     const index = props.index;
     const identifier = props.identifier;
 
-    const [{ isDragging }, drag] = useDrag({
+    const [{ isDragging }, drag, prev] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
             return { identifier, index }
@@ -76,7 +76,7 @@ const DragNDropComponent = (props:any) => {
 
 
     return (
-        <Form.Group ref={ref} data-handler-id={handlerId} className="boarding" controlId="boarding" style={{opacity: opacity}}>
+        <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity}}>
             <Row>
                 <Col xs md lg="10">
                     <div style={{border:"solid black 0.1rem", padding:"0.5rem"}}>
@@ -89,8 +89,8 @@ const DragNDropComponent = (props:any) => {
                         </Row>
                     </div>
                 </Col>
-                <Col xs md lg="1" >
-                    <Move />
+                <Col xs md lg="1">
+                    <Move ref={ref} handlerId={handlerId} />    
                 </Col>
                 <Col xs md lg="1">
                     <Remove element={props.identifier} Remove={props.Remove}/>
