@@ -78,21 +78,21 @@ const DragNDropComponent = (props:any) => {
     return (
         <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity}}>
             <Row>
-                <Col xs md lg="10">
+                <Col xs="10" md="10" lg="10">
                     <div style={{border:"solid black 0.1rem", padding:"0.5rem"}}>
                         <Row className='identifier align-items-center'>
-                            <Col xs md lg="11"><h2>{props.fieldname}</h2></Col>
-                            <Col ><img onClick={dropdown} style={{width:"2rem", float:"right"}} src='./images/dropdownicon.png'/></Col>
+                            <Col xs="11" md="11" lg="11"><h2>{props.fieldname}</h2></Col>
+                            <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
                             {props.children}
                         </Row>
                     </div>
                 </Col>
-                <Col xs md lg="1">
+                <Col xs="1" md="1" lg="1">
                     <Move ref={ref} handlerId={handlerId} />    
                 </Col>
-                <Col xs md lg="1">
+                <Col xs="1" md="1" lg="1">
                     <Remove element={props.identifier} Remove={props.Remove}/>
                 </Col>
             </Row>

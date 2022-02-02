@@ -13,7 +13,7 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 
 function App() {
   
-
+  const [collapse, setCollapse] = useState(false);
   const [list, setList] = useState([
     {
       identifier: "body",
@@ -52,20 +52,35 @@ function App() {
       parameters: {},
     }
       setList([...list, contentObj]);
-      console.log(value);
+      setCollapse(false);
   }
   const deleteElement=(identifier:string)=>{
     const newlist=(list.filter((any:any)=>any.identifier !== identifier))
-
     setList(newlist);
-    console.log(identifier);
-   
   }
   const collapseAll = () => {
-    const allFields:any = document.getElementsByClassName("dropdown-field-menu");
-    for(let field of allFields) {
-      field.style = "display: None;";
+    if(!collapse){
+      const allFields:any = document.getElementsByClassName("dropdown-field-menu");
+      for(let field of allFields) {
+        field.style = "display: None;";
+      }
+
+      const allIcons:any = document.getElementsByClassName("dropdown-field-img");
+      for(let icon of allIcons) {
+        icon.style = "width:2rem; float:right; transition: 500ms; transform: rotate(-90deg); cursor: pointer;";
+      }
+    }else{
+      const allFields:any = document.getElementsByClassName("dropdown-field-menu");
+      for(let field of allFields) {
+        field.style = "display: Block;";
+      }
+
+      const allIcons:any = document.getElementsByClassName("dropdown-field-img");
+      for(let icon of allIcons) {
+        icon.style = "width:2rem; float:right; transition: 500ms; cursor: pointer;";
+      }
     }
+    setCollapse(!collapse)
   }
   return (
     <div className="App">
