@@ -1,12 +1,12 @@
 {
-    "text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
-    "richtext":{ "parameters":{"mode":"radio:compact,full"}},
-    "radio":{"parameters":{"Options":"bool"}},
-    "file": {"parameters":{"max_size":"mb","format":"check:pdf,docx"}},
-    "image":{ "parameters":{"format":"check:jpg,png"}},
-    "select":{"parameters":{"list":"list"}},
-    "int": {"parameters":{}},
-    "datetime": {"parameters":{"dateonly":"bool"}},
-    "password": {"parameters":{}},
-    "checkbox": {"parameters":{}}
+    "Text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
+    "Richtext":{ "parameters":{"mode":"radio:compact,full"}},
+    "Radio":{"parameters":{"Options":"bool"}},
+    "File": {"parameters":{"max_size":"mb","format":"check:pdf,docx"}},
+    "Image":{ "parameters":{"format":"check:jpg,png"}},
+    "Select":{"parameters":{"list":"list"}},
+    "Int": {"parameters":{}},
+    "Datetime": {"parameters":{"dateonly":"bool"}},
+    "Password": {"parameters":{}},
+    "Checkbox": {"parameters":{}}
 }
