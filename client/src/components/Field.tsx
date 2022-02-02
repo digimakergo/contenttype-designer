@@ -134,8 +134,35 @@ const Field = (props:any) => {
     }
 
     return (
-        <>
-            <Row className='justify-content-start'>
+        <> 
+        <Row className='justify-content-start'>
+        <Col xs md lg="1">
+            <Form.Label style={{textAlign:"left"}} column sm="2" >
+                Name
+            </Form.Label>
+        </Col>
+        <Col >
+            <Form.Control type = "text" defaultValue={props.field.name} onChange={(e:any) => {
+            props.field.name = e.target.value;   
+            }}/>
+        </Col>          
+</Row>
+        <Row className='justify-content-start'>
+                <Col xs md lg="1">
+                    <Form.Label style={{textAlign:"left"}} column sm="2" >
+                        Identifier   
+                    </Form.Label>
+                </Col>
+                <Col >
+                    <Form.Control type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                        
+                     props.field.identifier = e.target.value;
+                    
+                    }}/>
+                </Col>          
+        </Row>
+        
+   <Row className='justify-content-start'>
                 <Col xs md lg="1">
                     <Form.Label style={{textAlign:"left"}} column sm="2" >
                         Type    
