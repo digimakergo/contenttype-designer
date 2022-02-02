@@ -91,7 +91,7 @@ function App() {
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.identifier} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
                   Remove={deleteElement} >
-                <Field field={field}/>
+                <Field field={field} index={index}/>
               </DragNDropComponent>
             ))}
           </DndProvider>

@@ -51,9 +51,10 @@ const Field = (props:any) => {
         }else if(type.indexOf("radio") != -1){
             props.field.parameters[element.label] = "";
             const radiobuttons = type.split(":")[1].split(",");
-            
+            const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
-                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'radio'} onClick={(e:any) => {
+            
+                <Form.Check inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element.label] = value;
                     }
@@ -67,7 +68,23 @@ const Field = (props:any) => {
             return radiobuttons.map((value, index) => (
                 <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} onClick={(e:any) => {
                     if(e.target.checked){
-                        props.field.parameters[element.label] = value;
+                        if(props.field.parameters[element.label] != ""){
+                            props.field.parameters[element.label] += "," + value;
+                        }else{
+                            props.field.parameters[element.label] = value;
+                        }
+                    }else{
+                        if(props.field.parameters[element.label] != ""){
+                            if(props.field.parameters[element.label].indexOf(","+value) != -1){
+                                props.field.parameters[element.label] = props.field.parameters[element.label].replace(","+value, "");
+                            }else{
+                                if(props.field.parameters[element.label].indexOf(value+",") != -1){
+                                    props.field.parameters[element.label] = props.field.parameters[element.label].replace(value+",", "");
+                                }else{
+                                    props.field.parameters[element.label] = props.field.parameters[element.label].replace(value, "");
+                                }
+                            }
+                        }
                     }
                 }}/>
             ));
@@ -128,8 +145,6 @@ const Field = (props:any) => {
                 setParams(elements);       
             }
         }
-        
-        console.log(props.field)
         if(val === "Choose a type"){props.field.type = "";}
     }
 
