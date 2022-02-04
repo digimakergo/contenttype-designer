@@ -57,9 +57,6 @@ const Field = (props:any) => {
 
             setChildren([...children, contentObj])
             props.field.children.push(contentObj)
-
-            
-            
         }
     }
     const getFormControl = (type:string, element:ParamElements) =>{    
@@ -255,7 +252,7 @@ const Field = (props:any) => {
                 
                 <>
                     {children.map((field:any, index:number) => (
-                        <Container list={children} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name}>
+                        <Container list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
                             <Field field={field} index={index}/>
                         </Container>
                         )

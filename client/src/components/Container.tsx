@@ -17,15 +17,9 @@ const Container = (props:any) => {
     }
     
     const deleteElement=(identifier:string)=>{
-
-        //console.log(children)
         const newlist=(props.list.filter((field:any)=>field.identifier !== identifier))
-        
         props.setChildren(newlist);
-        //props.list = newlist;
-
-        console.log(props.list)
-
+        props.parent.children = newlist;
     }
   return (
     <Form.Group>
@@ -33,7 +27,7 @@ const Container = (props:any) => {
             <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                 
                     <Row className='align-items-center' style={headerstyle}>
-                        <Col xs="11" md="11" lg="11"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
+                        <Col xs="11" md="11" lg="11"><h2 style={{color:"white"}}>{props.field.name}</h2></Col>
                         <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
                     </Row>                
                     <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
@@ -42,7 +36,7 @@ const Container = (props:any) => {
                 
             </Col>
             <Col xs="2" md="2" lg="2">
-                <Remove element={props.identifier} Remove={deleteElement} />
+                <Remove element={props.field.identifier} Remove={deleteElement} />
             </Col>
         </Row>
     </Form.Group>
