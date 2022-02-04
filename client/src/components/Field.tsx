@@ -1,15 +1,29 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
+import Container from './Container';
+import DropDownContentTypes from './DropDownContentTypes';
 
 interface ParamElements {
     label:string,
     type:any
 }
+interface ParamElementsC {
+    identifier: string,
+                type: string,
+                name: string,
+                required: boolean,
+                parameters: any
+}
 
 const Field = (props:any) => {
+    
     const [fields, setFields] = useState({});
     const def:ParamElements[] = [];
+
+    
+    
     const [params, setParams] = useState(def);
+    const [children, setChildren] = useState(props.field.children);
 
     useEffect(()=>{
         fetch('FieldTypeDefinition.json',{
@@ -31,9 +45,24 @@ const Field = (props:any) => {
 
 
     
+    const addContent = (value:string) => {
+        if(props.field.children != null){
+            const contentObj = {
+                identifier: value.toLowerCase().replaceAll(" ","_"),
+                type: "",
+                name: value,
+                required: false,
+                parameters: {},
+            }
 
-    const getFormControl = (type:string, element:ParamElements) =>{
-        
+            setChildren([...children, contentObj])
+            props.field.children.push(contentObj)
+
+            
+            
+        }
+    }
+    const getFormControl = (type:string, element:ParamElements) =>{    
         if(type === 'int'){
             props.field.parameters[element.label] = 0;
             return (
@@ -134,10 +163,6 @@ const Field = (props:any) => {
         for([key, value] of Object.entries(fields)){
             if(key === val){
                 props.field.type = val;
-
-                
-                
-                
                 for(let [label, type] of Object.entries(value.parameters)){
                     
                     elements.push({'label': label, 'type': type});   
@@ -183,20 +208,17 @@ const Field = (props:any) => {
                         Type    
                     </Form.Label>
                 </Col>
-                <Col >
+                <Col>
+                    <Form.Select defaultValue={props.field.type} style={{border:"solid black 3px"}} onChange={(event) => {
+                        addParameter(event.target.value)
+                    } }>
+                        <option>Choose a type</option>
+                        {Object.keys(fields).map((element:any, index:number)=>(
+                            <option key={index}>{element}</option>
+                        ) )}
 
-                <Form.Select style = {{border:"solid black 3px"}} onChange={(event) => {
-                    addParameter(event.target.value)
-                } }>
-                    <option>Choose a type</option>
-                    {Object.keys(fields).map((element:any, index:number)=>(
-                        <option key={index}>{element}</option>
-                    ) )}
-
-    </Form.Select>
-                    
+                    </Form.Select>    
                 </Col>
-                
             </Row>
             
 
@@ -216,6 +238,7 @@ const Field = (props:any) => {
             </Row>
 
             {
+                props.field.children == null ? 
                 params.map((element:any, index:number) => 
                         <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
@@ -228,7 +251,17 @@ const Field = (props:any) => {
                         </Col>
                     </Row>
                       
-                )
+                ) : 
+                
+                <>
+                    {children.map((field:any, index:number) => (
+                        <Container list={children} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name}>
+                            <Field field={field} index={index}/>
+                        </Container>
+                        )
+                    )}
+                    <DropDownContentTypes onClick={addContent}/>
+                </>
             }
         </>
     )

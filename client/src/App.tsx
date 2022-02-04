@@ -21,6 +21,20 @@ function App() {
       type: "",
       required: false,
       parameters: {},
+    },
+    {
+      identifier: "summary",
+      name: "Summary",
+      type: "Text",
+      required: true,
+      parameters: {max_length:5,is_multi_line: true},
+    },
+    {
+      identifier: "container",
+      name: "Container",
+      type: "Container",
+      required: true,
+      children: [],
     }
   ]);
 

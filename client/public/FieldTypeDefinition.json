@@ -2,11 +2,12 @@
     "Text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
     "Richtext":{ "parameters":{"mode":"radio:compact,full"}},
     "Radio":{"parameters":{"Options":"bool"}},
-    "File": {"parameters":{"max_size":"mb","format":"check:pdf,docx"}},
+    "File": {"parameters":{"max_size":"int","format":"check:pdf,docx"}},
     "Image":{ "parameters":{"format":"check:jpg,png"}},
-    "Select":{"parameters":{"list":"list"}},
+    "Select":{"parameters":{}},
     "Int": {"parameters":{}},
     "Datetime": {"parameters":{"dateonly":"bool"}},
     "Password": {"parameters":{}},
-    "Checkbox": {"parameters":{}}
+    "Checkbox": {"parameters":{}},
+    "Container": {"parameters":{}}
 }

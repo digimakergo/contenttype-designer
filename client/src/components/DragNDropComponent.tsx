@@ -15,7 +15,6 @@ interface DragItem {
 
 const DragNDropComponent = (props:any) => {
     let headerstyle = {};
-    console.log(props.headerColor)
     if(props.headerColor != null){
         headerstyle = {backgroundColor: props.headerColor}
     }else{
