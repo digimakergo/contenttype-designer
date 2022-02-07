@@ -86,19 +86,24 @@ const DragNDropComponent = (props:any) => {
             <Row>
                 <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                     
-                        <Row className='align-items-center' style={headerstyle}>
-                            <Col xs="11" md="11" lg="11"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
-                            <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
+                        <Row style={headerstyle}>
+                            <Col xs="6" md="6" lg="6"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
+                            <Col xs="2" md="2" lg="2"><Move ref={ref} handlerId={handlerId} /></Col>
+                            <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
+                                <img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? 
+                                    {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} 
+                                    :
+                                    {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}}
+                                     src='./images/dropdownicon.png'/>
+                                </Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
                             {props.children}
                         </Row>
                     
                 </Col>
-                <Col xs="1" md="1" lg="1">
-                    <Move ref={ref} handlerId={handlerId} />    
-                </Col>
-                <Col xs="1" md="1" lg="1">
+                
+                <Col xs="2" md="2" lg="2">
                     <Remove element={props.identifier} Remove={props.Remove}/>
                 </Col>
             </Row>
