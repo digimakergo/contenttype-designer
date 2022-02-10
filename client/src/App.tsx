@@ -29,6 +29,14 @@ function App() {
       required: true,
       parameters: {max_length:5,is_multi_line: true},
     }
+    ,
+    {
+      identifier: "container",
+      name: "Container",
+      type: "Container",
+      required: true,
+      children: [],
+    }
   ]);
 
   
