@@ -29,5 +29,5 @@ func contentmodellhandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func init() {
-	rest.RegisterRoute("/dmdemo/contentmodell/update", contentmodellhandler, "POST")
+	rest.RegisterRoute("/dmdemo/contentmodell/update", contentmodellhandler, "PUT")
 }
