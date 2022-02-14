@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './App.css';
 import { Form, Container, Button } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
@@ -7,41 +7,45 @@ import update from 'immutability-helper';
 import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
 import DropDownContentTypes from './components/DropDownContentTypes';
-import ModalContainer from './components/ModalContainer';
+import AddField from './components/AddField';
 
 
-
+interface listElements {
+  identifier:string,
+  name:string,
+  type:string,
+  required:boolean,
+  parameters?:any,
+  children?:any[]
+}
 
 function App() {
+
+  const [fieldtypes, setFieldtypes] = useState([])
+
+  useEffect(()=>{
+    fetch('FieldTypeDefinition.json',{
+        headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        }
+    }).then(response => {
+        if(response.ok){
+            return response.json();
+        }
+        throw response;
+    }).then(data => {
+        setFieldtypes(data)
+    }).catch(error => {
+        console.log("error: " + error);
+    })
+}, [])
   
   const [collapse, setCollapse] = useState(false);
   const [show, setShow] = useState(false);
-  const [list, setList] = useState([
-    {
-      identifier: "body",
-      name: "Body",
-      type: "",
-      required: false,
-      parameters: {},
-    },
-    {
-      identifier: "summary",
-      name: "Summary",
-      type: "Text",
-      required: true,
-      parameters: {max_length:5,is_multi_line: true},
-    }
-    ,
-    {
-      identifier: "container",
-      name: "Container",
-      type: "Container",
-      required: true,
-      children: [],
-    }
-  ]);
-
-  
+  let list:listElements[];
+  let setList:any;
+  [list, setList] = useState([]);
 
   const moveItem = useCallback(
     (dragIndex:number, hoverIndex:number) => {
@@ -60,14 +64,26 @@ function App() {
     [list],
   )
 
-  const addContent = (value:string) => {
-    const contentObj = {
-      identifier: value.toLowerCase().replaceAll(" ","_"),
-      type: "",
-      name: value,
-      required: false,
-      parameters: {},
+  const addContent = (name:string, type:string) => {
+    let contentObj = {};
+    if(type != "container"){
+      contentObj = {
+        identifier: name.toLowerCase().replaceAll(" ","_"),
+        type: type,
+        name: name,
+        required: false,
+        parameters: {},
+      }
+    }else{
+      contentObj = {
+        identifier: name.toLowerCase().replaceAll(" ","_"),
+        type: type,
+        name: name,
+        required: false,
+        children: [],
+      }
     }
+    
       setList([...list, contentObj]);
       setCollapse(false);
   }
@@ -104,22 +120,17 @@ function App() {
       <Container>
         <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
         <Form style={{marginTop:"1rem"}}>
-          
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.identifier} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
                   Remove={deleteElement} >
-                <Field field={field} index={index}/>
+                <Field field={field} index={index} fieldtypes={fieldtypes}/>
               </DragNDropComponent>
             ))}
           </DndProvider>
-
-          
         </Form>
         <Button onClick={() => setShow(true)}>+ add field</Button>
-        <ModalContainer show={show} setShow={setShow}>
-          <DropDownContentTypes onClick={addContent}/>
-        </ModalContainer>
+        <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent}/>
       </Container>
     </div>
   );

@@ -2,6 +2,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import Container from './Container';
 import DropDownContentTypes from './DropDownContentTypes';
+import AddField from './AddField';
 
 interface ParamElements {
     label:string,
@@ -17,31 +18,16 @@ interface ParamElementsC {
 
 const Field = (props:any) => {
     
-    const [fields, setFields] = useState({});
+    console.log(props.field)
     const def:ParamElements[] = [];
 
     
     
     const [params, setParams] = useState(def);
     const [children, setChildren] = useState(props.field.children);
+    const [show, setShow] = useState(false);
 
-    useEffect(()=>{
-        fetch('FieldTypeDefinition.json',{
-            headers:{
-                'Content-Type':'application/json',
-                'Accept':'application/json'
-            }
-        }).then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw response;
-        }).then(data => {
-            setFields(data)
-        }).catch(error => {
-            console.log("error: " + error);
-        })
-    }, [])
+    
 
 
     
@@ -152,7 +138,7 @@ const Field = (props:any) => {
 
     
 
-    const addParameter = (val:any) => {
+    /*const addParameter = (val:any) => {
         props.field.parameters = {};
         let elements:ParamElements[] = [];
         let key:any;
@@ -168,7 +154,7 @@ const Field = (props:any) => {
             }
         }
         if(val === "Choose a type"){props.field.type = "";}
-    }
+    }*/
 
     return (
         <> 
@@ -206,15 +192,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col>
-                    <Form.Select defaultValue={props.field.type} style={{border:"solid black 3px"}} onChange={(event) => {
-                        addParameter(event.target.value)
-                    } }>
-                        <option>Choose a type</option>
-                        {Object.keys(fields).map((element:any, index:number)=>(
-                            <option key={index}>{element}</option>
-                        ) )}
-
-                    </Form.Select>    
+                    <Form.Label>{props.field.type}</Form.Label>    
                 </Col>
             </Row>
             
@@ -257,7 +235,8 @@ const Field = (props:any) => {
                         </Container>
                         )
                     )}
-                    <DropDownContentTypes onClick={addContent}/>
+                    <Button onClick={() => setShow(true)}>+ add field</Button>
+                    <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
                 </>
             }
         </>
