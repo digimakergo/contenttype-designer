@@ -7,6 +7,7 @@ import update from 'immutability-helper';
 import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
 import DropDownContentTypes from './components/DropDownContentTypes';
+import ModalContainer from './components/ModalContainer';
 
 
 
@@ -14,6 +15,7 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 function App() {
   
   const [collapse, setCollapse] = useState(false);
+  const [show, setShow] = useState(false);
   const [list, setList] = useState([
     {
       identifier: "body",
@@ -112,8 +114,12 @@ function App() {
             ))}
           </DndProvider>
 
-          <DropDownContentTypes onClick={addContent}/>
+          
         </Form>
+        <Button onClick={() => setShow(true)}>+ add field</Button>
+        <ModalContainer show={show} setShow={setShow}>
+          <DropDownContentTypes onClick={addContent}/>
+        </ModalContainer>
       </Container>
     </div>
   );
