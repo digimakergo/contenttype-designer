@@ -35,7 +35,7 @@ function App() {
         }
         throw response;
     }).then(data => {
-        setFieldtypes(data)
+        setFieldtypes(data);
     }).catch(error => {
         console.log("error: " + error);
     })
@@ -65,7 +65,7 @@ function App() {
   )
 
   const addContent = (name:string, type:string) => {
-    let contentObj = {};
+    let contentObj:listElements;
     if(type != "container"){
       contentObj = {
         identifier: name.toLowerCase().replaceAll(" ","_"),
@@ -124,7 +124,7 @@ function App() {
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.identifier} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
                   Remove={deleteElement} >
-                <Field field={field} index={index} fieldtypes={fieldtypes}/>
+                <Field field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]}/>
               </DragNDropComponent>
             ))}
           </DndProvider>

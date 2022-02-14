@@ -1,6 +1,6 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
-import Container from './Container';
+import FieldContainer from './FieldContainer';
 import DropDownContentTypes from './DropDownContentTypes';
 import AddField from './AddField';
 
@@ -8,92 +8,93 @@ interface ParamElements {
     label:string,
     type:any
 }
-interface ParamElementsC {
-    identifier: string,
-                type: string,
-                name: string,
-                required: boolean,
-                parameters: any
-}
+
+interface listElements {
+    identifier:string,
+    name:string,
+    type:string,
+    required:boolean,
+    parameters?:any,
+    children?:any[]
+  }
 
 const Field = (props:any) => {
-    
-    console.log(props.field)
     const def:ParamElements[] = [];
-
-    
-    
     const [params, setParams] = useState(def);
     const [children, setChildren] = useState(props.field.children);
     const [show, setShow] = useState(false);
-
     
-
-
-    
-    const addContent = (value:string) => {
-        if(props.field.children != null){
-            const contentObj = {
-                identifier: value.toLowerCase().replaceAll(" ","_"),
-                type: "",
-                name: value,
+    const addContent = (name:string, type:string) => {
+        let contentObj:listElements;
+        if(type != "container"){
+            contentObj = {
+                identifier: name.toLowerCase().replaceAll(" ","_"),
+                type: type,
+                name: name,
                 required: false,
                 parameters: {},
             }
-
-            setChildren([...children, contentObj])
-            props.field.children.push(contentObj)
+        }else{
+            contentObj = {
+                identifier: name.toLowerCase().replaceAll(" ","_"),
+                type: type,
+                name: name,
+                required: false,
+                children: [],
+            }
         }
+        setChildren([...children, contentObj])
+        props.field.children.push(contentObj)
     }
-    const getFormControl = (type:string, element:ParamElements) =>{    
+    const getFormControl = (type:string, element:string) =>{
         if(type === 'int'){
-            props.field.parameters[element.label] = 0;
+            //props.field.parameters[element] = 0;
             return (
-                <Form.Control type='number' onChange={(e) => {
-                    props.field.parameters[element.label] = e.target.value; 
+                <Form.Control type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
+                    props.field.parameters[element] = e.target.value;
                 }}/>
             )
         }else if(type === 'bool'){
-            props.field.parameters[element.label] = false;
+            //props.field.parameters[element] = false;
             return (
                 <Form.Check onClick={(e:any) => {
-                    props.field.parameters[element.label] = e.target.checked;
+                    props.field.parameters[element] = e.target.checked;
                 }}/>
             )
         }else if(type.indexOf("radio") != -1){
-            props.field.parameters[element.label] = "";
+            //props.field.parameters[element] = "";
             const radiobuttons = type.split(":")[1].split(",");
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
                 <Form.Check inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} onClick={(e:any) => {
                     if(e.target.checked){
-                        props.field.parameters[element.label] = value;
+                        props.field.parameters[element] = value;
                     }
                 }}/>
             ));
 
         }else if(type.indexOf("check") != -1){
-            props.field.parameters[element.label] = "";
+            //props.field.parameters[element] = "";
             const radiobuttons = type.split(":")[1].split(",");
             
             return radiobuttons.map((value, index) => (
                 <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} onClick={(e:any) => {
                     if(e.target.checked){
-                        if(props.field.parameters[element.label] != ""){
-                            props.field.parameters[element.label] += "," + value;
+                        if(props.field.parameters[element] != ""){
+                            props.field.parameters[element] += "," + value;
                         }else{
-                            props.field.parameters[element.label] = value;
+                            props.field.parameters[element] = value;
                         }
                     }else{
-                        if(props.field.parameters[element.label] != ""){
-                            if(props.field.parameters[element.label].indexOf(","+value) != -1){
-                                props.field.parameters[element.label] = props.field.parameters[element.label].replace(","+value, "");
+                        if(props.field.parameters[element] != ""){
+                            if(props.field.parameters[element].indexOf(","+value) != -1){
+                                props.field.parameters[element] = props.field.parameters[element].replace(","+value, "");
                             }else{
-                                if(props.field.parameters[element.label].indexOf(value+",") != -1){
-                                    props.field.parameters[element.label] = props.field.parameters[element.label].replace(value+",", "");
+                                if(props.field.parameters[element].indexOf(value+",") != -1){
+                                    props.field.parameters[element] = props.field.parameters[element].replace(value+",", "");
                                 }else{
-                                    props.field.parameters[element.label] = props.field.parameters[element.label].replace(value, "");
+                                    props.field.parameters[element] = props.field.parameters[element].replace(value, "");
                                 }
                             }
                         }
@@ -199,7 +200,7 @@ const Field = (props:any) => {
 
             <Row className='justify-content-start'>
 
-            <Col xs lg="1">
+                <Col xs lg="1">
                     <Form.Label style={{textAlign:"left"}} column sm="2" >
                     Required    
                     </Form.Label>
@@ -213,26 +214,26 @@ const Field = (props:any) => {
             </Row>
 
             {
-                props.field.children == null ? 
-                params.map((element:any, index:number) => 
+                props.field.type != "container" ? 
+                Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
                         <Row key={index} className='justify-content-start'>
                         <Col xs lg="1">
                             <Form.Label style={{textAlign:"left"}} column sm="2" >
-                            {(element.label).replace()}   
+                            {element}   
                             </Form.Label>
                         </Col>
                         <Col >
-                            {getFormControl(element.type, element)}
+                            {getFormControl(props.parameters['parameters'][element], element)}
                         </Col>
-                    </Row>
+                    </Row>)
                       
                 ) : 
                 
                 <>
                     {children.map((field:any, index:number) => (
-                        <Container list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
-                            <Field field={field} index={index}/>
-                        </Container>
+                        <FieldContainer list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
+                            <Field field={field} index={index} fieldtypes={props.fieldtypes} parameters={props.fieldtypes[field.type]} />
+                        </FieldContainer>
                         )
                     )}
                     <Button onClick={() => setShow(true)}>+ add field</Button>

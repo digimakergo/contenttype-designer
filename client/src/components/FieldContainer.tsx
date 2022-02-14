@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
 import Remove from './Remove';
 
-const Container = (props:any) => {
+const FieldContainer = (props:any) => {
     let headerstyle = {};
     if(props.headerColor != null){
         headerstyle = {backgroundColor: props.headerColor}
@@ -43,4 +43,4 @@ const Container = (props:any) => {
   );
 };
 
-export default Container;
+export default FieldContainer;

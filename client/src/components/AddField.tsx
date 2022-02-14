@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 import { useState } from 'react';
 
-const ModalContainer = (props:any) => {
+const AddField = (props:any) => {
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -47,4 +47,4 @@ const ModalContainer = (props:any) => {
   )
 }
 
-export default ModalContainer
+export default AddField
