@@ -82,7 +82,7 @@ const DragNDropComponent = (props:any) => {
 
 
     return (
-        <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity}}>
+        <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
                 <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                     
@@ -91,9 +91,9 @@ const DragNDropComponent = (props:any) => {
                             <Col xs="2" md="2" lg="2"><Move ref={ref} handlerId={handlerId} /></Col>
                             <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
                                 <img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? 
-                                    {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} 
+                                    {width:"3rem", float:"right", transition: "500ms", cursor: "pointer"} 
                                     :
-                                    {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}}
+                                    {width:"3rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}}
                                      src='./images/dropdownicon.png'/>
                                 </Col>
                         </Row>                

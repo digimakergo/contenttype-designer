@@ -130,8 +130,8 @@ function App() {
   return (
     <div className="App">
       <Container>
-        <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
-        <Form style={{marginTop:"1rem"}} noValidate validated={validated}onSubmit={Submit}>
+        <Button variant='primary' style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
+        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} noValidate validated={validated}onSubmit={Submit}>
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
@@ -142,7 +142,7 @@ function App() {
             ))}
           </DndProvider>
         </Form>
-        <Button onClick={() => setShow(true)}>+ add field</Button>
+        <Button variant='success' style={{width:"50rem", height:"3rem" , marginLeft:"10rem", marginTop:"1rem"}} onClick={() => setShow(true)}>+ Add field</Button>
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent}/>
       </Container>
     </div>
