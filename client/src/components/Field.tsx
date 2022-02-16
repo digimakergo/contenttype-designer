@@ -177,8 +177,8 @@ const Field = (props:any) => {
             props.field.name = e.target.value;  
             }}/>
               <Form.Control.Feedback type="invalid">
-            Please write a name.
-          </Form.Control.Feedback>
+              Please write a name.
+             </Form.Control.Feedback>
 
         </Col>          
 </Row>
