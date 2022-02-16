@@ -42,6 +42,16 @@ function App() {
 }, [])
   
   const [collapse, setCollapse] = useState(false);
+  const[validated, setValidated] = useState(true);
+
+  const Submit = (event:any) => {                      //srkiv det igjen selv
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   const [show, setShow] = useState(false);
   let list:listElements[];
   let setList:any;
@@ -115,11 +125,14 @@ function App() {
     }
     setCollapse(!collapse)
   }
+ 
+
   return (
     <div className="App">
       <Container>
         <Button variant='primary' onClick={() => collapseAll()}>Collapse all</Button>
-        <Form style={{marginTop:"1rem"}}>
+        <Form style={{marginTop:"1rem"}} noValidate validated={validated}onSubmit={Submit}>
+          
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.identifier} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem}
@@ -134,6 +147,7 @@ function App() {
       </Container>
     </div>
   );
+
 }
 
-export default App;
+export default App

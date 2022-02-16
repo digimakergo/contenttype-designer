@@ -1,8 +1,11 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
+
 import React, { useState, useEffect } from 'react';
 import FieldContainer from './FieldContainer';
 import DropDownContentTypes from './DropDownContentTypes';
 import AddField from './AddField';
+
+
 
 interface ParamElements {
     label:string,
@@ -159,16 +162,24 @@ const Field = (props:any) => {
 
     return (
         <> 
+
         <Row className='justify-content-start'>
         <Col xs md lg="1">
+       
             <Form.Label style={{textAlign:"left"}} column sm="2" >
                 Name
             </Form.Label>
+            
         </Col>
         <Col >
-            <Form.Control type = "text" defaultValue={props.field.name} onChange={(e:any) => {
-            props.field.name = e.target.value;   
+            
+            <Form.Control required type = "text" defaultValue={props.field.name} onChange={(e:any) => {
+            props.field.name = e.target.value;  
             }}/>
+              <Form.Control.Feedback type="invalid">
+            Please write a name.
+          </Form.Control.Feedback>
+
         </Col>          
 </Row>
         <Row className='justify-content-start'>
@@ -178,13 +189,20 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                    <Form.Control required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
                         
                      props.field.identifier = e.target.value;
                     
                     }}/>
-                </Col>          
+                    <Form.Control.Feedback type="invalid">
+            Please write an identifier
+          </Form.Control.Feedback>
+                </Col> 
+                     
         </Row>
+        
+        
+    
         
    <Row className='justify-content-start'>
                 <Col xs md lg="1">
@@ -202,7 +220,7 @@ const Field = (props:any) => {
 
                 <Col xs lg="1">
                     <Form.Label style={{textAlign:"left"}} column sm="2" >
-                    Required    
+                        Required
                     </Form.Label>
                 </Col>
                 <Col >
@@ -212,6 +230,7 @@ const Field = (props:any) => {
                 </Col>
                 
             </Row>
+            
 
             {
                 props.field.type != "container" ? 
@@ -240,6 +259,12 @@ const Field = (props:any) => {
                     <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
                 </>
             }
+            <Form.Group>
+         <Button type="submit" variant="primary" size="lg">
+        Submit
+        <span></span>
+      </Button>
+      </Form.Group>
         </>
     )
 }
