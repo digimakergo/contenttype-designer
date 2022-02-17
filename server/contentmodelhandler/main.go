@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -105,8 +106,13 @@ func test(w http.ResponseWriter, router *http.Request) {
 func main() {
 	//router
 	router := mux.NewRouter()
+	router.HandleFunc("/test", test).Methods("POST")
 
-	router.HandleFunc("/test", test).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	credentials := handlers.AllowCredentials()
+	methods := handlers.AllowedMethods([]string{"POST"})
+	//ttl := handlers.MaxAge(3600)
+	origins := handlers.AllowedOrigins([]string{"*"})
+
+	log.Fatal(http.ListenAndServe(":9200", handlers.CORS(credentials, methods, origins)(router)))
 
 }

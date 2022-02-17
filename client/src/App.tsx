@@ -8,6 +8,7 @@ import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
 import DropDownContentTypes from './components/DropDownContentTypes';
 import AddField from './components/AddField';
+import { resolve } from 'node:path/win32';
 
 
 interface listElements {
@@ -127,6 +128,60 @@ function App() {
     setCollapse(!collapse)
   }
  
+  /*
+    async function asyncCall(){
+      
+      
+      const response = await fetch('http://localhost:8000/test');
+    }
+      asyncCall().catch(alert);
+    }
+    
+
+    await fetch("", {
+      method: 'POST',
+      headers: {
+
+      },
+      body: new URLSearchParams()
+    }).then(response=>{
+      if(response.ok){
+          return response.json();
+
+      }
+      throw response
+    }).then(data=> {
+      console.log(data);
+
+    }).catch(error=>{
+      
+    });*/
+
+   const getList = async ()=>{
+      const location= ('/test');
+      const settings= {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*",
+          'mode':'no-cors'
+
+        },
+        body: JSON.stringify(list) 
+      };
+     
+      
+      try{
+        const fetchResponse = await fetch(`${location}`,settings);
+        const data = await fetchResponse.json();
+        return data;
+        
+      } catch (e){
+        return e;
+      }
+    }
+  
+
 
   return (
     <div className="App">
@@ -142,6 +197,12 @@ function App() {
               </DragNDropComponent>
             ))}
           </DndProvider>
+          <Form.Group>
+         <Button onClick={getList}  variant="primary" size="lg">
+        Submit
+        <span></span>
+      </Button>
+      </Form.Group>
         </Form>
         <Button variant='success' style={{width:"50rem", height:"3rem" , marginLeft:"10rem", marginTop:"1rem"}} onClick={() => setShow(true)}>+ Add field</Button>
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent}/>
@@ -150,5 +211,6 @@ function App() {
   );
 
 }
+
 
 export default App

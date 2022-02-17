@@ -267,12 +267,7 @@ const Field = (props:any) => {
             
 
             {render}
-            <Form.Group>
-         <Button type="submit" variant="primary" size="lg">
-        Submit
-        <span></span>
-      </Button>
-      </Form.Group>
+            
         </>
     )
 }
