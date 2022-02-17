@@ -51,21 +51,21 @@ const Field = (props:any) => {
     }
     const getFormControl = (type:string, element:string) =>{
         if(type === 'int'){
-            //props.field.parameters[element] = 0;
+            props.field.parameters[element] = 0;
             return (
                 <Form.Control type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
                     props.field.parameters[element] = e.target.value;
                 }}/>
             )
         }else if(type === 'bool'){
-            //props.field.parameters[element] = false;
+            props.field.parameters[element] = false;
             return (
                 <Form.Check onClick={(e:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
         }else if(type.indexOf("radio") != -1){
-            //props.field.parameters[element] = "";
+            props.field.parameters[element] = "";
             const radiobuttons = type.split(":")[1].split(",");
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
@@ -78,7 +78,7 @@ const Field = (props:any) => {
             ));
 
         }else if(type.indexOf("check") != -1){
-            //props.field.parameters[element] = "";
+            props.field.parameters[element] = "";
             const radiobuttons = type.split(":")[1].split(",");
             
             return radiobuttons.map((value, index) => (
@@ -161,6 +161,7 @@ const Field = (props:any) => {
     }*/
 
     const render = () => {
+        
         if(props.field.type != "container" && props.parameters != null){
             return (
                     Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
@@ -192,6 +193,7 @@ const Field = (props:any) => {
                 </>
             )
         }
+        
     }
 
     return (
@@ -266,7 +268,7 @@ const Field = (props:any) => {
             </Row>
             
 
-            {render}
+            {render()}
             
         </>
     )

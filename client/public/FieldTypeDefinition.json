@@ -1,7 +1,7 @@
 {
     "text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
     "richtext":{ "parameters":{"mode":"radio:compact,full"}},
-    "radio":{"parameters":{"Options":"bool"}},
+    "radio":{"parameters":{"options":"bool"}},
     "file": {"parameters":{"max_size":"int","format":"check:pdf,docx"}},
     "image":{ "parameters":{"format":"check:jpg,png"}},
     "select":{"parameters":{}},
