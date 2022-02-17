@@ -77,7 +77,13 @@ const DragNDropComponent = (props:any) => {
 
     const [dropDownContent, setDropDownContent] = useState(true);
     const dropdown = () => {
-        setDropDownContent(!dropDownContent)
+        if(props.collapsed == dropDownContent){
+            console.log(props.collapsed)
+            setDropDownContent(props.collapsed)
+        }else { 
+            setDropDownContent(!dropDownContent)
+
+        }
     }
 
 
