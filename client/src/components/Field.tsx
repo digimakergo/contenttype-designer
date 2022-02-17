@@ -160,6 +160,40 @@ const Field = (props:any) => {
         if(val === "Choose a type"){props.field.type = "";}
     }*/
 
+    const render = () => {
+        if(props.field.type != "container" && props.parameters != null){
+            return (
+                    Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
+                        <Row key={index} className='justify-content-start'>
+                        <Col xs lg="1">
+                            <Form.Label style={{textAlign:"left"}} column sm="2" >
+                            {element}   
+                            </Form.Label>
+                        </Col>
+                        <Col >
+                            {getFormControl(props.parameters['parameters'][element], element)}
+                        </Col>
+                    </Row>
+                    )
+                  
+                )
+            )
+        }else if(props.field.type === "container"){
+            return (
+                <>
+                    {children.map((field:any, index:number) => (
+                        <FieldContainer list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
+                            <Field field={field} index={index} fieldtypes={props.fieldtypes} parameters={props.fieldtypes[field.type]} />
+                        </FieldContainer>
+                        )
+                    )}
+                    <Button onClick={() => setShow(true)}>+ add field</Button>
+                    <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
+                </>
+            )
+        }
+    }
+
     return (
         <> 
 
@@ -232,33 +266,7 @@ const Field = (props:any) => {
             </Row>
             
 
-            {
-                props.field.type != "container" ? 
-                Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
-                        <Row key={index} className='justify-content-start'>
-                        <Col xs lg="1">
-                            <Form.Label style={{textAlign:"left"}} column sm="2" >
-                            {element}   
-                            </Form.Label>
-                        </Col>
-                        <Col >
-                            {getFormControl(props.parameters['parameters'][element], element)}
-                        </Col>
-                    </Row>)
-                      
-                ) : 
-                
-                <>
-                    {children.map((field:any, index:number) => (
-                        <FieldContainer list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
-                            <Field field={field} index={index} fieldtypes={props.fieldtypes} parameters={props.fieldtypes[field.type]} />
-                        </FieldContainer>
-                        )
-                    )}
-                    <Button onClick={() => setShow(true)}>+ add field</Button>
-                    <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
-                </>
-            }
+            {render}
             <Form.Group>
          <Button type="submit" variant="primary" size="lg">
         Submit

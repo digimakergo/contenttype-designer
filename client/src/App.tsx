@@ -96,6 +96,7 @@ function App() {
     
       setList([...list, contentObj]);
       setCollapse(false);
+      console.log(list)
   }
   const deleteElement=(identifier:string)=>{
     const newlist=(list.filter((any:any)=>any.identifier !== identifier))
