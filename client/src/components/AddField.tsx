@@ -23,7 +23,7 @@ const AddField = (props:any) => {
         <Form noValidate  validated={validated}>
           <Row style={{margin:"0.5rem"}}>
 
-            <Form.Control required type='text' placeholder='Write a field name'  onChange={(e) => {
+            <Form.Control required type='text' placeholder='Write a field name' onChange={(e) => {
                 setName(e.target.value.charAt(0).toUpperCase()+e.target.value.slice(1));
             }}/>
           <Form.Control.Feedback type="invalid">

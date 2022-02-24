@@ -78,7 +78,6 @@ const DragNDropComponent = (props:any) => {
     const [dropDownContent, setDropDownContent] = useState(true);
     const dropdown = () => {
         if(props.collapsed == dropDownContent){
-            console.log(props.collapsed)
             setDropDownContent(props.collapsed)
         }else { 
             setDropDownContent(!dropDownContent)
@@ -86,9 +85,8 @@ const DragNDropComponent = (props:any) => {
         }
     }
 
-
     return (
-        <Form.Group className="boarding" controlId="boarding" ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
+        <Form.Group controlId={props.identifier} id={props.identifier+"-form"} ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
                 <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                     

@@ -9,6 +9,7 @@ import DragNDropComponent from './components/DragNDropComponent';
 import DropDownContentTypes from './components/DropDownContentTypes';
 import AddField from './components/AddField';
 import { resolve } from 'node:path/win32';
+import ListOfErrors from './components/ListOfErrors';
 
 
 interface listElements {
@@ -54,6 +55,8 @@ function App() {
   }
 
   const [show, setShow] = useState(false);
+  const [showErr, setShowErr] = useState(false);
+  const [errors, setErrors] = useState([])
   let list:listElements[];
   let setList:any;
   [list, setList] = useState([]);
@@ -198,14 +201,25 @@ function App() {
             ))}
           </DndProvider>
           <Form.Group>
-         <Button onClick={getList}  variant="primary" size="lg">
+         <Button id="submitdata" onClick={ () => {
+           const errors = [];
+            getList().then(data => {
+              if(data.type == "error"){
+                setErrors(data.response)
+                setShowErr(true)
+              }
+            }
+          )
+         }
+           
+           }  variant="primary" size="lg">
         Submit
-        <span></span>
       </Button>
       </Form.Group>
         </Form>
         <Button variant='success' style={{width:"50rem", height:"3rem" , marginLeft:"10rem", marginTop:"1rem"}} onClick={() => setShow(true)}>+ Add field</Button>
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent}/>
+        <ListOfErrors show={showErr} setShow={setShowErr} errors={errors}/>
       </Container>
     </div>
   );

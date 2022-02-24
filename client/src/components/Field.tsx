@@ -53,14 +53,14 @@ const Field = (props:any) => {
         if(type === 'int'){
             props.field.parameters[element] = 0;
             return (
-                <Form.Control type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
+                <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
                     props.field.parameters[element] = e.target.value;
                 }}/>
             )
         }else if(type === 'bool'){
             props.field.parameters[element] = false;
             return (
-                <Form.Check onClick={(e:any) => {
+                <Form.Check className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
@@ -70,7 +70,7 @@ const Field = (props:any) => {
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
-                <Form.Check inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} onClick={(e:any) => {
+                <Form.Check inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element] = value;
                     }
@@ -82,7 +82,7 @@ const Field = (props:any) => {
             const radiobuttons = type.split(":")[1].split(",");
             
             return radiobuttons.map((value, index) => (
-                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} onClick={(e:any) => {
+                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         if(props.field.parameters[element] != ""){
                             props.field.parameters[element] += "," + value;
@@ -209,7 +209,7 @@ const Field = (props:any) => {
         </Col>
         <Col >
             
-            <Form.Control required type = "text" defaultValue={props.field.name} onChange={(e:any) => {
+            <Form.Control className={props.field.identifier + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
             props.field.name = e.target.value;  
             }}/>
               <Form.Control.Feedback type="invalid">
@@ -225,7 +225,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                    <Form.Control className={props.field.identifier + "-identifier"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
                         
                      props.field.identifier = e.target.value;
                     
@@ -242,12 +242,12 @@ const Field = (props:any) => {
         
    <Row className='justify-content-start'>
                 <Col xs md lg="1">
-                    <Form.Label style={{textAlign:"left"}} column sm="2" >
+                    <Form.Label className={props.field.identifier + "-type"} style={{textAlign:"left"}} column sm="2" >
                         Type    
                     </Form.Label>
                 </Col>
                 <Col>
-                    <Form.Label>{props.field.type}</Form.Label>    
+                    <Form.Label >{props.field.type}</Form.Label>    
                 </Col>
             </Row>
             
@@ -260,7 +260,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check type="checkbox" value={props.field.required} onClick={(e:any) => {
+                <Form.Check className={props.field.identifier + "-required"} type="checkbox" value={props.field.required} onClick={(e:any) => {
                     props.field.required = e.target.checked;
                 }}/>
                 </Col>
