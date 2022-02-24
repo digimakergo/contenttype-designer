@@ -166,9 +166,9 @@ const Field = (props:any) => {
             return (
                     Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
                         <Row key={index} className='justify-content-start'>
-                        <Col xs lg="1">
-                            <Form.Label style={{textAlign:"left"}} column sm="2" >
-                            {element}   
+                        <Col xs={2} md={2} lg={2}>
+                            <Form.Label style={{textAlign:"left"}} column>
+                            {element.replaceAll("_", " ")}   
                             </Form.Label>
                         </Col>
                         <Col >
@@ -200,7 +200,7 @@ const Field = (props:any) => {
         <> 
 
         <Row className='justify-content-start'>
-        <Col xs md lg="1">
+        <Col xs={2} md={2} lg={2}>
        
             <Form.Label style={{textAlign:"left"}} column sm="2" >
                 Name
@@ -219,8 +219,8 @@ const Field = (props:any) => {
         </Col>          
 </Row>
         <Row className='justify-content-start'>
-                <Col xs md lg="1">
-                    <Form.Label style={{textAlign:"left"}} column sm="2" >
+                <Col xs={2} md={2} lg={2}>
+                    <Form.Label style={{textAlign:"left"}} column >
                         Identifier   
                     </Form.Label>
                 </Col>
@@ -241,8 +241,8 @@ const Field = (props:any) => {
     
         
    <Row className='justify-content-start'>
-                <Col xs md lg="1">
-                    <Form.Label className={props.field.identifier + "-type"} style={{textAlign:"left"}} column sm="2" >
+                <Col xs={2} md={2} lg={2}>
+                    <Form.Label className={props.field.identifier + "-type"} style={{textAlign:"left"}}>
                         Type    
                     </Form.Label>
                 </Col>
@@ -254,8 +254,8 @@ const Field = (props:any) => {
 
             <Row className='justify-content-start'>
 
-                <Col xs lg="1">
-                    <Form.Label style={{textAlign:"left"}} column sm="2" >
+                <Col xs={2} md={2} lg={2}>
+                    <Form.Label style={{textAlign:"left"}} >
                         Required
                     </Form.Label>
                 </Col>
