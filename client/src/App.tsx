@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import './App.css';
-import { Form, Container, Button } from 'react-bootstrap';
+import { Form, Container, Button, Row, Col } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -8,8 +8,8 @@ import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
 import DropDownContentTypes from './components/DropDownContentTypes';
 import AddField from './components/AddField';
-import { resolve } from 'node:path/win32';
 import ListOfErrors from './components/ListOfErrors';
+import ToastMessage from './components/ToastMessage';
 
 
 interface listElements {
@@ -56,6 +56,7 @@ function App() {
 
   const [show, setShow] = useState(false);
   const [showErr, setShowErr] = useState(false);
+  const [showToast, setShowToast] = useState(false)
   const [errors, setErrors] = useState([])
   let list:listElements[];
   let setList:any;
@@ -100,7 +101,6 @@ function App() {
     
       setList([...list, contentObj]);
       setCollapse(false);
-      console.log(list)
   }
   const deleteElement=(identifier:string)=>{
     const newlist=(list.filter((any:any)=>any.identifier !== identifier))
@@ -189,7 +189,17 @@ function App() {
   return (
     <div className="App">
       <Container>
-        <Button variant='primary' style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
+        <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
+          <Col xs={3} md={3} lg={3}>
+            <Button variant='primary' style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
+          </Col>
+
+          <Col xs={6} md={6} lg={6}>
+            <ToastMessage text="Successfully updated the contentmodel" delay={5000} show={showToast} setShow={setShowToast}/>
+          </Col>
+          
+        </Row>
+        
         <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} noValidate validated={validated}onSubmit={Submit}>
           
           <DndProvider backend={HTML5Backend}>
@@ -208,7 +218,7 @@ function App() {
                 setErrors(data.response)
                 setShowErr(true)
               }else{
-                
+                setShowToast(true)
               }
             }
           )
