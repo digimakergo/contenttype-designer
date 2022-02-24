@@ -54,7 +54,7 @@ const Field = (props:any) => {
             props.field.parameters[element] = 0;
             return (
                 <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
-                    props.field.parameters[element] = e.target.value;
+                    props.field.parameters[element] = Number(e.target.value);
                 }}/>
             )
         }else if(type === 'bool'){

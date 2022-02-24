@@ -161,7 +161,7 @@ function App() {
     });*/
 
    const getList = async ()=>{
-      const location= ('/test');
+      const location= ('/api/contentmodelhandler/');
       const settings= {
         method: 'POST',
         headers: {
@@ -202,11 +202,13 @@ function App() {
           </DndProvider>
           <Form.Group>
          <Button id="submitdata" onClick={ () => {
-           const errors = [];
+           
             getList().then(data => {
               if(data.type == "error"){
                 setErrors(data.response)
                 setShowErr(true)
+              }else{
+                
               }
             }
           )
