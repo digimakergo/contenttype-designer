@@ -210,11 +210,15 @@ const Field = (props:any) => {
         <Col >
             
             <Form.Control className={props.field.identifier + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
+            if(e.target.value== ""){
+                e.target.style= "border: solid red 2px;"
+            }
             props.field.name = e.target.value;  
+            
             }}/>
-              <Form.Control.Feedback type="invalid">
-              Please write a name.
-             </Form.Control.Feedback>
+              
+              
+              
 
         </Col>          
 </Row>
@@ -226,8 +230,10 @@ const Field = (props:any) => {
                 </Col>
                 <Col >
                     <Form.Control className={props.field.identifier + "-identifier"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
-                        
-                     props.field.identifier = e.target.value;
+                         if(e.target.value== ""){
+                            e.target.style= "border: solid red 2px;"
+                        }
+                        props.field.identifier = e.target.value;  
                     
                     }}/>
                     <Form.Control.Feedback type="invalid">

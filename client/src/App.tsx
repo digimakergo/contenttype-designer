@@ -200,7 +200,9 @@ function App() {
           
         </Row>
         
-        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} noValidate validated={validated}onSubmit={Submit}>
+        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} //noValidate
+       
+       onSubmit={Submit}>
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
