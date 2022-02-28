@@ -24,32 +24,79 @@ const AddField = (props:any) => {
           <Row style={{margin:"0.5rem"}}>
 
             <Form.Control required type='text' placeholder='Write a field name'  onChange={(e:any) => {
-                setName(e.target.value.charAt(0).toUpperCase()+e.target.value.slice(1));
-
+               
+              
                 if(e.target.value== ""){
+                  setName("");
                   e.target.style= "border: solid red 2px;"
+                  const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
+                  element.style="display:block;"
+  
+              }else{
+                   setName(e.target.value.charAt(0).toUpperCase()+e.target.value.slice(1));
+                  setName(e.target.value);
+                  const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
+                 
+        
+                  e.target.style="border:none;"
+                  element.style="display:none;"
+                  console.log(element);
+                  
+                    
+                 
+                  
               }
-              props.field.identifier = e.target.value;  
+             
+              
+              }}/>
+                <Form.Label className="feilmelding_addfieldname" style={{display:"none"}}>
+                    Error i addfieldname
+                </Form.Label>
                 
-            }}/>
+          
           
          
           </Row>
           <Row style={{margin:"0.5rem"}}>
+            
             <Form.Control required as="select" type="select" style={{border:"solid black 3px"}} onChange={(event:any) => {
-              setType(event.target.value)
-
+             
+             
               if(event.target.value== ""){
+                setType("");
                 event.target.style= "border: solid red 2px;"
+                const element:any =document.getElementsByClassName("feilmelding_select")[0];
+                element.style="display:block;"
+
+            }else{
+                const element:any =document.getElementsByClassName("feilmelding_select")[0];
+                setType(event.target.value);
+                console.log(element);
+                event.target.style="border:none;"
+                element.style="display:none;"
+                  
+               
+                
             }
-            props.field.identifier = event.target.value;  
-            }}>
+          }}>
+            
+            
+          
+    
+
+             
               <option key={'empty'} value={''}>Choose a type</option>
               {Object.keys(props.fieldtypes).map((element:any, index:number)=>(
                 <option key={index}>{element}</option>
               ))}
             </Form.Control>
            
+
+            <Form.Label className="feilmelding_select" style={{display:"none"}}>
+                  Error velg en type, prøv igjen
+              </Form.Label>
+
+
           </Row>
           </Form>
     
@@ -62,6 +109,8 @@ const AddField = (props:any) => {
               if(name!="" && type!=""){
                 props.onClick(name, type);
                 props.setShow(false);
+                console.log(name);
+                console.log(type);
               }
              
           }

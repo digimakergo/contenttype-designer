@@ -212,11 +212,24 @@ const Field = (props:any) => {
             <Form.Control className={props.field.identifier + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
             if(e.target.value== ""){
                 e.target.style= "border: solid red 2px;"
+                const element:any =document.getElementsByClassName("feilmelding")[0];
+                element.style="display:block;"
+
+            }else{
+                const element:any =document.getElementsByClassName("feilmelding")[0];
+                props.field.name = e.target.value;
+                e.target.style="border:none;"
+                element.style="display:none;"
+                  
+               
+                
             }
-            props.field.name = e.target.value;  
+           
             
             }}/>
-              
+              <Form.Label className="feilmelding" style={{display:"none"}}>
+                  Error i name, prøv igjen
+              </Form.Label>
               
               
 
@@ -230,12 +243,33 @@ const Field = (props:any) => {
                 </Col>
                 <Col >
                     <Form.Control className={props.field.identifier + "-identifier"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
-                         if(e.target.value== ""){
-                            e.target.style= "border: solid red 2px;"
-                        }
-                        props.field.identifier = e.target.value;  
+                       if(e.target.value== ""){
+                        e.target.style= "border: solid red 2px;"
+                        const element:any =document.getElementsByClassName("feilmelding identifier")[0];
+                        element.style="display:block;"
+        
+                    }else{
+                        const element:any =document.getElementsByClassName("feilmelding identifier")[0];
+                        props.field.identifier = e.target.value;
+                        e.target.style="border:none;"
+                        element.style="display:none;"
+                          
+                       
+                        
+                    }
+                   
                     
                     }}/>
+                      <Form.Label className="feilmelding identifier" style={{display:"none"}}>
+                          Error i identifier, prøv igjen
+                      </Form.Label>
+                      
+
+
+
+
+
+
                     <Form.Control.Feedback type="invalid">
             Please write an identifier
           </Form.Control.Feedback>
