@@ -155,6 +155,7 @@ func validation(fields []Field) []ErrorResponse {
 }
 
 func input(fieldFile []Field, fieldsInput []Field) []Field {
+
 	for _, inpField := range fieldsInput {
 		exist := false
 		for i, field := range fieldFile {
@@ -182,7 +183,13 @@ func input(fieldFile []Field, fieldsInput []Field) []Field {
 func test(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var fields []Field
-	contenttype := "article"
+
+	contenttype := mux.Vars(router)["entity"]
+	if contenttype == "" {
+		m2 := Response{Type: "error", Response: "Please choose a entity name"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
 
 	error := json.NewDecoder(router.Body).Decode(&fields)
 	if error != nil {
@@ -259,13 +266,13 @@ func test(w http.ResponseWriter, router *http.Request) {
 			con.Fields = append(con.Fields, inpField)
 		}
 	}*/
-	con.Fields = input(con.Fields, fields) // = fields
+	con.Fields = fields //input(con.Fields, fields)
 	contentmodel[contenttype] = con
 
 	//m3 := MessageI{Response: contentmodel}
 	//json.NewEncoder(w).Encode(m3)
 
-	data, _ = json.Marshal(contentmodel)
+	data, _ = json.MarshalIndent(contentmodel, "", " ")
 	error = ioutil.WriteFile("./configs/contenttype.temp.json", data, 0664) //should this stay
 
 	if error != nil {
@@ -279,10 +286,17 @@ func test(w http.ResponseWriter, router *http.Request) {
 
 }
 
+func testerr(w http.ResponseWriter, router *http.Request) {
+	m2 := Response{Type: "error", Response: "Please choose a entity name"}
+	json.NewEncoder(w).Encode(m2)
+	return
+}
+
 func main() {
 	//router
 	router := mux.NewRouter()
-	router.HandleFunc("/api/contentmodelhandler/", test).Methods("POST")
+	router.HandleFunc("/api/contentmodelhandler/{entity}/", test).Methods("POST")
+	router.HandleFunc("/api/contentmodelhandler/", testerr).Methods("POST")
 
 	credentials := handlers.AllowCredentials()
 	methods := handlers.AllowedMethods([]string{"POST"})

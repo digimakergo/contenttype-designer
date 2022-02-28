@@ -159,9 +159,9 @@ function App() {
     }).catch(error=>{
       
     });*/
-
+    const contenttype = "article"
    const getList = async ()=>{
-      const location= ('/api/contentmodelhandler/');
+      const location= ("/api/contentmodelhandler/" + contenttype + "/");
       const settings= {
         method: 'POST',
         headers: {
