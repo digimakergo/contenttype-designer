@@ -8,15 +8,15 @@ const ListOfErrors = (props:any) => {
   return (
     <Modal show={props.show} onHide={() => {
         props.setShow(false)
-        setTimeout(() => {
-            document.getElementById(focused)?.focus()
-        },200)
+        
 
         
     }
     
     
-    }>
+    } 
+    
+    restoreFocus={false}>
     <Modal.Header><Modal.Title>List of errors</Modal.Title></Modal.Header>
 
     <Modal.Body>
@@ -34,11 +34,7 @@ const ListOfErrors = (props:any) => {
     <Modal.Footer>
         <Button variant='primary' onClick={() => {
             props.setShow(false)
-            setTimeout(() => {
-                document.getElementById(focused)?.focus()
-            },200)
-            
-            }}>Cancel</Button>
+        }}>Cancel</Button>
     </Modal.Footer>
 </Modal>
   )
