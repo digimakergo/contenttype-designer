@@ -245,11 +245,11 @@ const Field = (props:any) => {
                     <Form.Control className={props.field.identifier + "-identifier"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
                        if(e.target.value== ""){
                         e.target.style= "border: solid red 2px;"
-                        const element:any =document.getElementsByClassName("feilmelding identifier")[0];
+                        const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
                         element.style="display:block;"
         
                     }else{
-                        const element:any =document.getElementsByClassName("feilmelding identifier")[0];
+                        const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
                         props.field.identifier = e.target.value;
                         e.target.style="border:none;"
                         element.style="display:none;"
@@ -260,7 +260,7 @@ const Field = (props:any) => {
                    
                     
                     }}/>
-                      <Form.Label className="feilmelding identifier" style={{display:"none"}}>
+                      <Form.Label className="feilmelding_identifier" style={{display:"none"}}>
                           Error i identifier, prøv igjen
                       </Form.Label>
                       

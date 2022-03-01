@@ -4,12 +4,15 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
 const ListOfErrors = (props:any) => {
-    const [s, ss] = useState("");
+    const [focused, setFocused] = useState("");
   return (
-    <Modal show={props.show} onHide={() => {props.setShow(false)
-        const element = document.getElementById(s);
-        document.getElementById("submitdata")?.blur()
-        element?.focus()
+    <Modal show={props.show} onHide={() => {
+        props.setShow(false)
+        setTimeout(() => {
+            document.getElementById(focused)?.focus()
+        },200)
+
+        
     }
     
     
@@ -19,28 +22,21 @@ const ListOfErrors = (props:any) => {
     <Modal.Body>
         {props.errors.map((error:any, index:number) => (
             <Row key={"error-"+index}>
-                <a href="#" style={{color:"red", textDecoration:"underline"}} onClick={() => {
-                    //document.getElementById("submitdata")?.blur()
-                    //const element:any = document.querySelectorAll('.'+error.from + "-" + error.field)[0]
-                    const element = document.getElementById(error.from+"-form");
-                    element?.focus()
-                    console.log(element)
-                    ss(error.from+"-form")
+                <Button style={{color:"red", textDecoration:"underline"}} onClick={() => {
                     
-                   
-
-                    //element.scrollTo();
-                    
-                    //window.scrollTo(0 ,element.getBoundingClientRect().top) 
-                    
-
-                }}>{error.message}</a>
+                    setFocused(error.from)
+                    const element = document.getElementById(error.from);
+                    element?.scrollIntoView();
+                }} variant="default">{error.message}</Button>
             </Row>
         ))}
     </Modal.Body>
     <Modal.Footer>
         <Button variant='primary' onClick={() => {
             props.setShow(false)
+            setTimeout(() => {
+                document.getElementById(focused)?.focus()
+            },200)
             
             }}>Cancel</Button>
     </Modal.Footer>

@@ -98,9 +98,8 @@ function App() {
         children: [],
       }
     }
-    
-      setList([...list, contentObj]);
-      setCollapse(false);
+    setList([...list, contentObj]);
+    setCollapse(false);
   }
   const deleteElement=(identifier:string)=>{
     const newlist=(list.filter((any:any)=>any.identifier !== identifier))
@@ -191,7 +190,7 @@ function App() {
       <Container>
         <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
           <Col xs={3} md={3} lg={3}>
-            <Button variant='primary' style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
+            <Button variant='primary' id="collapse" style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
           </Col>
 
           <Col xs={6} md={6} lg={6}>
@@ -214,7 +213,6 @@ function App() {
           </DndProvider>
           <Form.Group>
          <Button id="submitdata" onClick={ () => {
-           
             getList().then(data => {
               if(data.type == "error"){
                 setErrors(data.response)
@@ -222,11 +220,7 @@ function App() {
               }else{
                 setShowToast(true)
               }
-            }
-          )
-         }
-           
-           }  variant="primary" size="lg">
+            })}}  variant="primary" size="lg">
         Submit
       </Button>
       </Form.Group>
