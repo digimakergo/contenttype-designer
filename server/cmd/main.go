@@ -292,11 +292,41 @@ func testerr(w http.ResponseWriter, router *http.Request) {
 	return
 }
 
+func GetContentModel(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+	m := MessageI{Response: contentmodel}
+	json.NewEncoder(w).Encode(m)
+}
+
 func main() {
 	//router
 	router := mux.NewRouter()
 	router.HandleFunc("/api/contentmodelhandler/{entity}/", test).Methods("POST")
 	router.HandleFunc("/api/contentmodelhandler/", testerr).Methods("POST")
+	router.HandleFunc("/api/contentmodelhandler/", GetContentModel).Methods("GET")
 
 	credentials := handlers.AllowCredentials()
 	methods := handlers.AllowedMethods([]string{"POST"})

@@ -4,27 +4,16 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
 const ListOfErrors = (props:any) => {
-    const [focused, setFocused] = useState("");
   return (
     <Modal show={props.show} onHide={() => {
         props.setShow(false)
-        
-
-        
-    }
-    
-    
-    } 
-    
-    restoreFocus={false}>
+    }} restoreFocus={false}>
     <Modal.Header><Modal.Title>List of errors</Modal.Title></Modal.Header>
 
     <Modal.Body>
         {props.errors.map((error:any, index:number) => (
             <Row key={"error-"+index}>
                 <Button style={{color:"red", textDecoration:"underline"}} onClick={() => {
-                    
-                    setFocused(error.from)
                     const element = document.getElementById(error.from);
                     element?.scrollIntoView();
                 }} variant="default">{error.message}</Button>
