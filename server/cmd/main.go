@@ -15,7 +15,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/api/contentmodelhandler/{entity}/", contentmodelhandler.UpdateContentmodel).Methods("POST")
 	router.HandleFunc("/api/contentmodelhandler/", contentmodelhandler.UpdateContentmodelNoTypeChosen).Methods("POST")
-	router.HandleFunc("/api/contentmodelhandler/", contentmodelhandler.GetContentModel).Methods("GET")
+	router.HandleFunc("/api/contentmodelhandler/{entity}/", contentmodelhandler.GetContentModel).Methods("GET")
 
 	credentials := handlers.AllowCredentials()
 	methods := handlers.AllowedMethods([]string{"POST"})

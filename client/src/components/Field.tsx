@@ -51,21 +51,30 @@ const Field = (props:any) => {
     }
     const getFormControl = (type:string, element:string) =>{
         if(type === 'int'){
-            props.field.parameters[element] = 0;
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = 0;
+            }
+            
             return (
                 <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
                     props.field.parameters[element] = Number(e.target.value);
                 }}/>
             )
         }else if(type === 'bool'){
-            props.field.parameters[element] = false;
-            return (
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = false;
+            }
+            //use indexOf in defaultvaluie field to check if it should be checked
+            return (    
                 <Form.Check className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
         }else if(type.indexOf("radio") != -1){
-            props.field.parameters[element] = "";
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = "";
+            }
+
             const radiobuttons = type.split(":")[1].split(",");
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
@@ -78,9 +87,12 @@ const Field = (props:any) => {
             ));
 
         }else if(type.indexOf("check") != -1){
-            props.field.parameters[element] = "";
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = "";
+            }
+
             const radiobuttons = type.split(":")[1].split(",");
-            
+            //also use IndexOf here OR split but indexOf is simpler
             return radiobuttons.map((value, index) => (
                 <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){

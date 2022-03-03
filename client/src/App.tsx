@@ -23,9 +23,30 @@ interface listElements {
 
 function App() {
 
+  let list:listElements[];
+  let setList:any;
+  [list, setList] = useState([]);
   const [fieldtypes, setFieldtypes] = useState([])
 
   useEffect(()=>{
+    fetch('/api/contentmodelhandler/POSSS/',{
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      }
+    }).then(response => {
+      if(response.ok){
+        return response.json();
+      }throw response;
+    }).then(data => {
+      console.log(data)
+      if(data.type == 'success'){
+        setList(data.response.fields)
+      }
+    }).catch(error => {
+      console.log("error: " + error);
+    })
+
     fetch('FieldTypeDefinition.json',{
         headers:{
             'Content-Type':'application/json',
@@ -44,6 +65,7 @@ function App() {
 }, [])
   
   const [collapse, setCollapse] = useState(false);
+  const [hasCollapsed, setHasCollapsed] = useState(false);
   const[validated, setValidated] = useState(true);
 
   const Submit = (event:any) => {                      //srkiv det igjen selv
@@ -58,9 +80,6 @@ function App() {
   const [showErr, setShowErr] = useState(false);
   const [showToast, setShowToast] = useState(false)
   const [errors, setErrors] = useState([])
-  let list:listElements[];
-  let setList:any;
-  [list, setList] = useState([]);
 
   const moveItem = useCallback(
     (dragIndex:number, hoverIndex:number) => {
@@ -128,6 +147,7 @@ function App() {
       }
     }
     setCollapse(!collapse)
+    setHasCollapsed(collapse)
   }
  
   /*
@@ -205,9 +225,9 @@ function App() {
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.identifier} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem} collapsed={collapse}
+              <DragNDropComponent key={field.identifier+"-drag"} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem} collapsed={collapse} hasCollapsed={hasCollapsed}
                   Remove={deleteElement} >
-                <Field field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]}/>
+                <Field  field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]}/>
               </DragNDropComponent>
             ))}
           </DndProvider>

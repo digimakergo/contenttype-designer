@@ -21,19 +21,20 @@ const AddField = (props:any) => {
     
         <Modal.Body>
        <Form noValidate>
+         <Form.Group>
           <Row style={{margin:"0.5rem"}}>
 
             <Form.Control required type='text' placeholder='Write a field name'  onChange={(e:any) => {      
               if(e.target.value== ""){
                 setName("");
-                e.target.style= "border: solid red 2px;"
+                e.target.style= "border: solid red 1px;"
                 const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
                 element.style="display:block;"
   
               }else{
                 setName(e.target.value.charAt(0).toUpperCase()+e.target.value.slice(1));
                 const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
-                e.target.style="border:none;"
+                e.target.style="border:1px solid #ced4da;"
                 element.style="display:none;"                 
               }}}/>
                 <Form.Label className="feilmelding_addfieldname" style={{display:"none"}}>
@@ -45,16 +46,16 @@ const AddField = (props:any) => {
          
           </Row>
           <Row style={{margin:"0.5rem"}}>
-            <Form.Control required as="select" type="select" style={{border:"solid black 3px"}} onChange={(event:any) => {
+            <Form.Select required style={{border:"1px solid #ced4da"}} onChange={(event:any) => {
               if(event.target.value== ""){
                 setType("");
-                event.target.style= "border: solid red 2px;"
+                event.target.style= "border: solid red 1px;"
                 const element:any =document.getElementsByClassName("feilmelding_select")[0];
-                element.style="display:block;"
+                element.style="display:block;";
               }else{
                 const element:any =document.getElementsByClassName("feilmelding_select")[0];
                 setType(event.target.value);
-                event.target.style="border:none;"
+                event.target.style="border: 1px solid #ced4da;"
                 element.style="display:none;"  
               }
           }}>
@@ -63,7 +64,7 @@ const AddField = (props:any) => {
               {Object.keys(props.fieldtypes).map((element:any, index:number)=>(
                 <option key={index}>{element}</option>
               ))}
-            </Form.Control>
+            </Form.Select>
            
 
             <Form.Label className="feilmelding_select" style={{display:"none"}}>
@@ -71,7 +72,7 @@ const AddField = (props:any) => {
               </Form.Label>
 
 
-          </Row>
+          </Row></Form.Group>
           </Form>
     
         </Modal.Body>

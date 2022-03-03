@@ -293,8 +293,9 @@ func UpdateContentmodelNoTypeChosen(w http.ResponseWriter, router *http.Request)
 
 func GetContentModel(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	contenttype := mux.Vars(router)["entity"]
 	contentmodel := make(map[string]interface{})
-	file, error := os.Open("./configs/contenttype.json")
+	file, error := os.Open("./configs/contenttype.temp.json")
 	if error != nil {
 		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
 		json.NewEncoder(w).Encode(m2)
@@ -316,6 +317,6 @@ func GetContentModel(w http.ResponseWriter, router *http.Request) {
 		json.NewEncoder(w).Encode(m2)
 		return
 	}
-	m := MessageI{Type: "success", Response: contentmodel}
+	m := MessageI{Type: "success", Response: contentmodel[contenttype]}
 	json.NewEncoder(w).Encode(m)
 }

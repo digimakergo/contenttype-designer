@@ -1,4 +1,102 @@
 {
+
+    "POSSS":{
+      "fields":[
+        {
+            "identifier": "text",
+            "type": "text",
+            "name": "Text",
+            "required": true,
+            "parameters": {
+                "max_length": 100,
+                "is_multi_line": false
+            }
+        },
+        {
+            "identifier": "richtext",
+            "type": "richtext",
+            "name": "Richtext",
+            "required": false,
+            "parameters": {
+                "mode": "compact"
+            }
+        },
+        {
+            "identifier": "radio",
+            "type": "radio",
+            "name": "Radio",
+            "required": false,
+            "parameters": {
+                "options": false
+            }
+        },
+        {
+            "identifier": "file",
+            "type": "file",
+            "name": "File",
+            "required": false,
+            "parameters": {
+                "max_size": 1,
+                "format": "docx,pdf"
+            }
+        },
+        {
+            "identifier": "image",
+            "type": "image",
+            "name": "Image",
+            "required": false,
+            "parameters": {
+                "format": "jpg"
+            }
+        },
+        {
+            "identifier": "select",
+            "type": "select",
+            "name": "Select",
+            "required": false,
+            "parameters": {}
+        },
+        {
+            "identifier": "int",
+            "type": "int",
+            "name": "Int",
+            "required": false,
+            "parameters": {}
+        },
+        {
+            "identifier": "datetime",
+            "type": "datetime",
+            "name": "Datetime",
+            "required": false,
+            "parameters": {
+                "dateonly": false
+            }
+        },
+        {
+            "identifier": "password",
+            "type": "password",
+            "name": "Password",
+            "required": false,
+            "parameters": {}
+        },
+        {
+            "identifier": "checkbox",
+            "type": "checkbox",
+            "name": "Checkbox",
+            "required": false,
+            "parameters": {}
+        },
+        {
+            "identifier": "container",
+            "type": "container",
+            "name": "Container",
+            "required": false,
+            "children": [
+                
+            ]
+        }
+    ]  
+    },
  "article": {
   "name": "Article",
   "table_name": "dm_article",
