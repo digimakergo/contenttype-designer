@@ -94,7 +94,7 @@ const Field = (props:any) => {
             const radiobuttons = type.split(":")[1].split(",");
             //also use IndexOf here OR split but indexOf is simpler
             return radiobuttons.map((value, index) => (
-                <Form.Check defaultChecked={props.field.parameters[element] != type} inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         if(props.field.parameters[element] != ""){
                             props.field.parameters[element] += "," + value;
