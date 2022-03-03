@@ -66,7 +66,7 @@ const Field = (props:any) => {
             }
             //use indexOf in defaultvaluie field to check if it should be checked
             return (    
-                <Form.Check className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element]} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
@@ -79,7 +79,7 @@ const Field = (props:any) => {
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
-                <Form.Check inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element] != type} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element] = value;
                     }
@@ -94,7 +94,7 @@ const Field = (props:any) => {
             const radiobuttons = type.split(":")[1].split(",");
             //also use IndexOf here OR split but indexOf is simpler
             return radiobuttons.map((value, index) => (
-                <Form.Check inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element] != type} inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         if(props.field.parameters[element] != ""){
                             props.field.parameters[element] += "," + value;
@@ -312,7 +312,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check className={props.field.identifier + "-required"} type="checkbox" value={props.field.required} onClick={(e:any) => {
+                <Form.Check className={props.field.identifier + "-required"} type="checkbox" defaultChecked={props.field.required} onClick={(e:any) => {
                     props.field.required = e.target.checked;
                 }}/>
                 </Col>
