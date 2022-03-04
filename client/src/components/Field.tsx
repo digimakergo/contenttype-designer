@@ -223,6 +223,7 @@ const Field = (props:any) => {
             
             <Form.Control className={props.field.identifier + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
             if(e.target.value== ""){
+                props.field.name = "";
                 e.target.style= "border: solid red 2px;"
                 const element:any =document.getElementsByClassName("feilmelding")[0];
                 element.style="display:block;"
@@ -254,8 +255,10 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control className={props.field.identifier + "-identifier"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                    <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                       
                        if(e.target.value== ""){
+                        props.field.identifier = "";
                         e.target.style= "border: solid red 2px;"
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
                         element.style="display:block;"
@@ -275,16 +278,7 @@ const Field = (props:any) => {
                       <Form.Label className="feilmelding_identifier" style={{display:"none"}}>
                           Error i identifier, prøv igjen
                       </Form.Label>
-                      
 
-
-
-
-
-
-                    <Form.Control.Feedback type="invalid">
-            Please write an identifier
-          </Form.Control.Feedback>
                 </Col> 
                      
         </Row>

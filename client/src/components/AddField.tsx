@@ -35,7 +35,8 @@ const AddField = (props:any) => {
                 setName(e.target.value.charAt(0).toUpperCase()+e.target.value.slice(1));
                 const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
                 e.target.style="border:1px solid #ced4da;"
-                element.style="display:none;"                 
+                element.style="display:none;" 
+                                
               }}}/>
                 <Form.Label className="feilmelding_addfieldname" style={{display:"none"}}>
                     Error i addfieldname

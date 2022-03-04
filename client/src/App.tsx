@@ -75,11 +75,11 @@ function App() {
       event.stopPropagation();
     }
   }
-
+  const def:any[] = []
   const [show, setShow] = useState(false);
   const [showErr, setShowErr] = useState(false);
   const [showToast, setShowToast] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState(def)
 
   const moveItem = useCallback(
     (dragIndex:number, hoverIndex:number) => {
@@ -179,8 +179,59 @@ function App() {
       
     });*/
     const contenttype = "article"
+
+    const valid = (items:any[]) => {
+      const listErr = [];
+      let counter:number = 0;
+      for (var i=0;i<items.length;i++){
+        console.log(items[i])
+
+          if(items[i].name==""){
+            listErr[counter] = {
+              from:items[i].identifier,
+              message: "name cannot be empty",
+              field:"name",
+            }
+            counter++;
+          }
+          if(items[i].identifier==""){
+            listErr[counter] = {
+              from:items[i].identifier,
+              message: "identifier cannot be empty",
+              field:"identifier",
+            }
+            counter++;
+          }
+
+          
+
+      }
+
+     /* const elemenets= document.getElementsByClassName("identifiers");
+      console.log(elemenets)
+          for(let i = 0; i < elemenets.length; i++ ){
+            if(elemenets[i].value != ""){
+              console.log("sdass")
+            }else{
+              console.log(elemenets[i].value)
+            }
+          }
+
+          */
+      return listErr;
+    }
+
    const getList = async ()=>{
-      const location= ("/api/contentmodelhandler/" + contenttype + "/");
+
+      const errs = valid(list);
+      console.log(errs)
+      if (errs.length >  0) {
+        setErrors(errs);
+        setShowErr(true)
+    
+      
+      }else {
+        const location= ("/api/contentmodelhandler/" + contenttype + "/");
       const settings= {
         method: 'POST',
         headers: {
@@ -195,12 +246,21 @@ function App() {
       
       try{
         const fetchResponse = await fetch(`${location}`,settings);
-        const data = await fetchResponse.json();
-        return data;
+        await fetchResponse.json().then(data => {
+          if(data.type == "error"){
+            setErrors(data.response)
+            setShowErr(true)
+          }else{
+            setShowToast(true)
+          }
+        });
         
       } catch (e){
         return e;
       }
+      } 
+      
+      
     }
   
 
@@ -232,16 +292,9 @@ function App() {
             ))}
           </DndProvider>
           <Form.Group>
-         <Button id="submitdata" onClick={ () => {
-            getList().then(data => {
-              if(data.type == "error"){
-                setErrors(data.response)
-                setShowErr(true)
-              }else{
-                setShowToast(true)
-              }
-            })}}  variant="primary" size="lg">
+         <Button id="submitdata" onClick={getList}  variant="primary" size="lg">
         Submit
+
       </Button>
       </Form.Group>
         </Form>
