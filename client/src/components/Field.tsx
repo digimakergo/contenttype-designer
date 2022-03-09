@@ -27,11 +27,11 @@ const Field = (props:any) => {
     const [children, setChildren] = useState(props.field.children);
     const [show, setShow] = useState(false);
     
-    const addContent = (name:string, type:string) => {
+    const addContent = (name:string, type:string, identifier:string) => {
         let contentObj:listElements;
         if(type != "container"){
             contentObj = {
-                identifier: name.toLowerCase().replaceAll(" ","_"),
+                identifier: identifier,
                 type: type,
                 name: name,
                 required: false,
@@ -39,7 +39,7 @@ const Field = (props:any) => {
             }
         }else{
             contentObj = {
-                identifier: name.toLowerCase().replaceAll(" ","_"),
+                identifier: identifier,
                 type: type,
                 name: name,
                 required: false,
@@ -79,7 +79,7 @@ const Field = (props:any) => {
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
-                <Form.Check defaultChecked={props.field.parameters[element] != type} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element] = value;
                     }
@@ -255,7 +255,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
+                    <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" defaultValue={props.field.identifier} onChange={(e:any) => {
                        
                        if(e.target.value== ""){
                         props.field.identifier = "";

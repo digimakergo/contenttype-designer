@@ -6,12 +6,31 @@
   "has_location": true,
   "fields": [
    {
-    "identifier": "d",
-    "name": "D",
-    "type": "radio",
+    "identifier": "t",
+    "name": "t",
+    "type": "text",
     "required": false,
     "parameters": {
-     "options": false
+     "max_length": 4,
+     "is_multi_line": false
+    }
+   },
+   {
+    "identifier": "r",
+    "name": "e",
+    "type": "richtext",
+    "required": false,
+    "parameters": {
+     "mode": "compact"
+    }
+   },
+   {
+    "identifier": "i",
+    "name": "i",
+    "type": "image",
+    "required": false,
+    "parameters": {
+     "format": "jpg,png"
     }
    }
   ],

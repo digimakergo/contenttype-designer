@@ -29,7 +29,7 @@ function App() {
   const [fieldtypes, setFieldtypes] = useState([])
 
   useEffect(()=>{
-    fetch('/api/contentmodelhandler/POSSS/',{
+    fetch('/api/contentmodelhandler/article/',{
       headers:{
         'Content-Type':'application/json',
         'Accept':'application/json'
@@ -98,11 +98,11 @@ function App() {
     [list],
   )
 
-  const addContent = (name:string, type:string) => {
+  const addContent = (name:string, type:string, identifier:string) => {
     let contentObj:listElements;
     if(type != "container"){
       contentObj = {
-        identifier: name.toLowerCase().replaceAll(" ","_"),
+        identifier: identifier,
         type: type,
         name: name,
         required: false,
@@ -110,7 +110,7 @@ function App() {
       }
     }else{
       contentObj = {
-        identifier: name.toLowerCase().replaceAll(" ","_"),
+        identifier: identifier,
         type: type,
         name: name,
         required: false,
@@ -206,18 +206,21 @@ function App() {
           
 
       }
-
-     /* const elemenets= document.getElementsByClassName("identifiers");
+/*
+     const elemenets:any= document.getElementsByClassName("identifiers");
       console.log(elemenets)
           for(let i = 0; i < elemenets.length; i++ ){
-            if(elemenets[i].value != ""){
-              console.log("sdass")
-            }else{
-              console.log(elemenets[i].value)
+            if(elemenets[i].value==""){
+              listErr[counter] = {
+                from:items[i].identifier,
+                message: "identifier cannot be empty",
+                field:"identifier",
+              }
+              counter++;
             }
           }
-
-          */
+*/
+          
       return listErr;
     }
 
