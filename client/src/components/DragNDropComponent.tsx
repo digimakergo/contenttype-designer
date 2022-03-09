@@ -14,6 +14,7 @@ interface DragItem {
 }
 
 const DragNDropComponent = (props:any) => {
+    
     let headerstyle = {};
     if(props.headerColor != null){
         headerstyle = {backgroundColor: props.headerColor}
@@ -75,24 +76,21 @@ const DragNDropComponent = (props:any) => {
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref))
 
-    const [dropDownContent, setDropDownContent] = useState(true);
     const dropdown = () => {
-        
-            console.log("has collapsed: "+props.hasCollapsed)
-            console.log("collapsed: "+props.collapsed)
-            console.log("dropdowncontent: "+dropDownContent)
             
+        const col:any = document.getElementById("dropdown-field-menu-"+props.identifier);
+        const img:any = document.getElementById("dropdown-field-img-"+props.identifier);
 
-            if(props.hasCollapsed != props.collapsed && props.hasCollapsed != dropDownContent){
-                console.log("sd")
-                setDropDownContent(dropDownContent)
-                return
-            }
-
-            setDropDownContent(!dropDownContent)
+        console.log(col.style.display)
+        if(col.style.display == "block"){
+            col.style = "display: none;"
+            img.style = "width:3rem; float: right; transition: 500ms; transform: rotate(-90deg); cursor: pointer;"
+        }else{
+            col.style = "display: block;"
+            img.style = "width: 3rem; float:right; transition: 500ms; cursor: pointer;"
             
-            console.log("----------------------")
-        
+        }
+            
     }
 
     return (
@@ -104,14 +102,11 @@ const DragNDropComponent = (props:any) => {
                             <Col xs="6" md="6" lg="6"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
                             <Col xs="2" md="2" lg="2"><Move ref={ref} handlerId={handlerId} /></Col>
                             <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
-                                <img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? 
-                                    {width:"3rem", float:"right", transition: "500ms", cursor: "pointer"} 
-                                    :
-                                    {width:"3rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}}
+                                <img onClick={dropdown} className='dropdown-field-img' id={"dropdown-field-img-"+props.identifier} style={{width:"3rem", float:"right", transition: "500ms", cursor: "pointer"}}
                                      src='./images/dropdownicon.png'/>
                                 </Col>
                         </Row>                
-                        <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
+                        <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.identifier} style={{display:"block"}}>
                             {props.children}
                         </Row>
                     

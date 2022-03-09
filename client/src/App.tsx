@@ -128,7 +128,7 @@ function App() {
     if(!collapse){
       const allFields:any = document.getElementsByClassName("dropdown-field-menu");
       for(let field of allFields) {
-        field.style = "display: None;";
+        field.style = "display: none;";
       }
 
       const allIcons:any = document.getElementsByClassName("dropdown-field-img");
@@ -138,7 +138,7 @@ function App() {
     }else{
       const allFields:any = document.getElementsByClassName("dropdown-field-menu");
       for(let field of allFields) {
-        field.style = "display: Block;";
+        field.style = "display: block;";
       }
 
       const allIcons:any = document.getElementsByClassName("dropdown-field-img");
