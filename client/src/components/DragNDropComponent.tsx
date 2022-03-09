@@ -81,7 +81,6 @@ const DragNDropComponent = (props:any) => {
         const col:any = document.getElementById("dropdown-field-menu-"+props.identifier);
         const img:any = document.getElementById("dropdown-field-img-"+props.identifier);
 
-        console.log(col.style.display)
         if(col.style.display == "block"){
             col.style = "display: none;"
             img.style = "width:3rem; float: right; transition: 500ms; transform: rotate(-90deg); cursor: pointer;"
