@@ -231,7 +231,7 @@ const Field = (props:any) => {
             }else{
                 const element:any =document.getElementsByClassName("feilmelding")[0];
                 props.field.name = e.target.value;
-                e.target.style="border:none;"
+                e.target.style="border:1px solid #ced4da;"
                 element.style="display:none;"
                   
                
@@ -269,7 +269,7 @@ const Field = (props:any) => {
                     }else{
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
                         props.field.identifier = e.target.value;
-                        e.target.style="border:none;"
+                        e.target.style="border:1px solid #ced4da;"
                         element.style="display:none;"
                           
                        
