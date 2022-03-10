@@ -49,7 +49,7 @@ const AddField = (props:any) => {
                 </Form.Label>
                 
           
-                <Form.Control required type='text' placeholder='Write a field identifier' id="addField-identifier" onChange={(e:any) => {      
+                <Form.Control required type='text' placeholder='Choose an id name. E.g., product_id' id="addField-identifier" onChange={(e:any) => {      
               if(e.target.value== ""){
                 setIdentifier("");
                 e.target.style= "border: solid red 1px;"
