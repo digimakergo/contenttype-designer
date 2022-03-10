@@ -98,8 +98,7 @@ const DragNDropComponent = (props:any) => {
                 <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                     
                         <Row style={headerstyle}>
-                            <Col xs="6" md="6" lg="6"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
-                            <Col xs="2" md="2" lg="2"><Move ref={ref} handlerId={handlerId} /></Col>
+                            <Col xs="8" md="8" lg="8"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
                             <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
                                 <img onClick={dropdown} className='dropdown-field-img' id={"dropdown-field-img-"+props.identifier} style={{width:"3rem", float:"right", transition: "500ms", cursor: "pointer"}}
                                      src='./images/dropdownicon.png'/>
@@ -110,8 +109,9 @@ const DragNDropComponent = (props:any) => {
                         </Row>
                     
                 </Col>
+                <Col xs="1" md="1" lg="1"><Move ref={ref} handlerId={handlerId} /></Col>
                 
-                <Col xs="2" md="2" lg="2">
+                <Col xs="1" md="1" lg="1">
                     <Remove element={props.identifier} Remove={props.Remove}/>
                 </Col>
             </Row>
