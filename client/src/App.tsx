@@ -290,7 +290,7 @@ function App() {
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={field.identifier+"-drag"} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem} collapsed={collapse} hasCollapsed={hasCollapsed}
                   Remove={deleteElement} >
-                <Field  field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]}/>
+                <Field  field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]} list={list}/>
               </DragNDropComponent>
             ))}
           </DndProvider>
@@ -302,7 +302,7 @@ function App() {
       </Form.Group>
         </Form>
         <Button variant='success' style={{width:"50rem", height:"3rem" , marginLeft:"10rem", marginTop:"1rem"}} onClick={() => setShow(true)}>+ Add field</Button>
-        <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent}/>
+        <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent} list={list}/>
         <ListOfErrors show={showErr} setShow={setShowErr} errors={errors}/>
       </Container>
     </div>

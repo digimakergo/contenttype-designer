@@ -256,30 +256,60 @@ const Field = (props:any) => {
                 </Col>
                 <Col >
                     <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" defaultValue={props.field.identifier} onChange={(e:any) => {
-                        
-                        
-                       if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
+                        let index = props.index;
+                        function checkIdentifier(list:any[]){
+                            let index = props.index;
+                            for(let i = 0; i < list.length; i++){
+                                
+                                if(e.target.value==list[index%list.length].identifier){
+                                    return false
+                                   
+                                }
+                                index++;
+                            }
+                            return true
+                        }
+
+                        if(!checkIdentifier(props.list)){
+                            const error:any =document.getElementsByClassName("feilmelding_likidentifier")[index];
+                            error.style="display:block;"
+
+                            const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
+                        element.style="display:none;"
+                            return
+                        }
+                       else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
                     
                         props.field.identifier = "";
                         e.target.style= "border: solid red 2px;"
-                        const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
+                        const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         element.style="display:block;"
+
+                        const error:any =document.getElementsByClassName("feilmelding_likidentifier")[index];
+                                    error.style="display:none;"
                         
         
                     }else{
-                        const element:any =document.getElementsByClassName("feilmelding_identifier")[0];
+                        const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         props.field.identifier = e.target.value;
                         e.target.style="border:1px solid #ced4da;"
                         element.style="display:none;"
+
+                        const error:any =document.getElementsByClassName("feilmelding_likidentifier")[index];
+                                    error.style="display:none;"
                           
                        
                         
                     }
-                   console.log(/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value));
+                   
                     
                     }}/>
                       <Form.Label className="feilmelding_identifier" style={{display:"none"}}>
-                          Error i identifier, prøv igjen
+                          Error in identifier, try again
+                      </Form.Label>
+
+                      <Form.Label className="feilmelding_likidentifier" style={{display:"none"}}>
+                         identifier is a duplicate, try again
                       </Form.Label>
 
                 </Col> 
