@@ -258,7 +258,7 @@ const Field = (props:any) => {
                     <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" defaultValue={props.field.identifier} onChange={(e:any) => {
                         
                         
-                       if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{5,}/gm.test(e.target.value )){
+                       if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
                     
                         props.field.identifier = "";
                         e.target.style= "border: solid red 2px;"
@@ -275,7 +275,7 @@ const Field = (props:any) => {
                        
                         
                     }
-                   console.log(/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{5,}/gm.test(e.target.value));
+                   console.log(/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value));
                     
                     }}/>
                       <Form.Label className="feilmelding_identifier" style={{display:"none"}}>
