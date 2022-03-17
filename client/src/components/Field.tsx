@@ -60,6 +60,16 @@ const Field = (props:any) => {
                     props.field.parameters[element] = Number(e.target.value);
                 }}/>
             )
+        }else if(type === 'string'){
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = "";
+            }
+            
+            return (
+                <Form.Control className={props.field.identifier + "-" + element} type='text' defaultValue={props.field.parameters[element]} onChange={(e) => {
+                    props.field.parameters[element] = (e.target.value);
+                }}/>
+            )
         }else if(type === 'bool'){
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = false;

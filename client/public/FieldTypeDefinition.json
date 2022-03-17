@@ -9,5 +9,7 @@
     "datetime": {"parameters":{"dateonly":"bool"}},
     "password": {"parameters":{}},
     "checkbox": {"parameters":{}},
-    "container": {"parameters":{}}
+    "container": {"parameters":{}},
+    "relation": {"parameters":{"type":"string","value":"string", "editmode":"radio:browse,select"}},
+    "relationlist": {"parameters":{"type":"string","value":"string", "editmode":"radio:browse,select"}}
 }
