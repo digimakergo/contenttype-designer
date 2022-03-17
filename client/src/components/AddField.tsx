@@ -50,26 +50,51 @@ const AddField = (props:any) => {
                 
           
                 <Form.Control required type='text' placeholder='Choose an id name. E.g., product_id' id="addField-identifier" onChange={(e:any) => {      
+                  function checkIdentifier(list:any[]){
+                    for(let i = 0; i < list.length; i++){    
+                        if(e.target.value==list[i].identifier){
+                            return false
+                           
+                        }
+                    }
+                    return true;
+                }
+                if(!checkIdentifier(props.list)){
+                  e.target.style= "border: solid red 2px;"
+                  const error:any =document.getElementsByClassName("feilmelding_likidentifieras")[0];
+                  error.style="display:block; "
+                  
 
+                  const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
+                  element.style="display:none;"
+                  return
+              }
 
-                if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
+               else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
                 setIdentifier("");
-                e.target.style= "border: solid red 1px;"
+                e.target.style= "border: solid red 2px;"
                 const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
                 element.style="display:block;"
   
+                const error:any =document.getElementsByClassName("feilmelding_likidentifieras")[0];
+                error.style="display:none;"
               }else{
                 setIdentifier(e.target.value);
                 const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
                 e.target.style="border:1px solid #ced4da;"
                 element.style="display:none;" 
-                                
+                 
+                const error:any =document.getElementsByClassName("feilmelding_likidentifieras")[0];
+                       error.style="display:none;"
               }}}/>
 
                 <Form.Label className="feilmelding_addfieldIdentifier" style={{display:"none"}}>
                     Error i addfieldIdentifier
                 </Form.Label>
          
+                <Form.Label className="feilmelding_likidentifieras" style={{display:"none"}}>
+                  Identifier is a duplicate, try again
+                </Form.Label>
           </Row>
           <Row style={{margin:"0.5rem"}}>
             <Form.Select required style={{border:"1px solid #ced4da"}} id= "addField_select" onChange={(event:any) => {
@@ -96,7 +121,7 @@ const AddField = (props:any) => {
                     choose a type
                 </Form.Label>
   
-
+               
               
 
           </Row></Form.Group>
@@ -116,11 +141,11 @@ const AddField = (props:any) => {
               
               const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
               const er:any = document.getElementById("addField-identifier");
-              er.style = "border:1px solid red;"
+              er.style = "border:1px solid green;"
               element.style="display:block;" 
 
 
-            }
+            } 
             if(name==""){
               const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
               const er:any = document.getElementById("addField_name");
