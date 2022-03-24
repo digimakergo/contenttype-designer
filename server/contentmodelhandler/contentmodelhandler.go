@@ -1,6 +1,7 @@
 package controller
 
 import (
+	deployment "dmdemo/pkg/controller/deployment"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"regexp"
 
+	"github.com/digimakergo/digimaker/rest"
 	"github.com/gorilla/mux"
 )
 
@@ -153,32 +155,6 @@ func validation(fields []Field) []ErrorResponse {
 	return messages
 }
 
-func input(fieldFile []Field, fieldsInput []Field) []Field {
-
-	for _, inpField := range fieldsInput {
-		exist := false
-		for i, field := range fieldFile {
-			if field.Identifier == inpField.Identifier {
-				exist = true
-
-				fieldFile[i].setName(inpField.Name)
-				//con.Fields[i].setType(inpField.Type)
-				fieldFile[i].setRequired(inpField.Required)
-				if fieldFile[i].Type != "container" && inpField.Type != "container" {
-					fieldFile[i].setParameters(inpField.Parameters)
-				} else if fieldFile[i].Type == "container" && inpField.Type == "container" {
-					fieldFile[i].Children = input(fieldFile[i].Children, inpField.Children)
-				}
-				break
-			}
-		}
-		if exist == false {
-			fieldFile = append(fieldFile, inpField)
-		}
-
-	}
-	return fieldFile
-}
 func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var fields []Field
@@ -272,7 +248,7 @@ func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
 	//json.NewEncoder(w).Encode(m3)
 
 	data, _ = json.MarshalIndent(contentmodel, "", " ")
-	error = ioutil.WriteFile("./configs/contenttype.temp.json", data, 0664) //should this stay
+	error = ioutil.WriteFile("./configs/contenttype.json", data, 0770) //should this stay
 
 	if error != nil {
 		m2 := Response{Type: "error", Response: "Unable to save to contenttype.temp.json"}
@@ -280,6 +256,7 @@ func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
+	deployment.GenerateEntities()
 	m := Response{Type: "Success", Response: "Successfully saved the new contenttype"}
 	json.NewEncoder(w).Encode(m)
 
@@ -319,4 +296,10 @@ func GetContentModel(w http.ResponseWriter, router *http.Request) {
 	}
 	m := MessageI{Type: "success", Response: contentmodel[contenttype]}
 	json.NewEncoder(w).Encode(m)
+}
+
+func init() {
+	rest.RegisterRoute("/dmdemo/contentmodel/", GetContentModel, "GET")
+	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", UpdateContentmodel, "POST")
+	rest.RegisterRoute("/dmdemo/contentmodel/", UpdateContentmodelNoTypeChosen, "POST")
 }

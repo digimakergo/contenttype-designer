@@ -1,6 +1,6 @@
 module server
 
-go 1.17
+go 1.16
 
 require (
 	github.com/digimakergo/digimaker v0.1.0-beta.3
