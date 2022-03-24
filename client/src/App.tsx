@@ -26,6 +26,10 @@ function App() {
   let list:listElements[];
   let setList:any;
   [list, setList] = useState([]);
+
+  let listids:number[];
+  let setListids:any;
+  [listids, setListids] = useState([]) 
   const [fieldtypes, setFieldtypes] = useState([])
 
   useEffect(()=>{
@@ -81,7 +85,8 @@ function App() {
   const [showToast, setShowToast] = useState(false)
   const [errors, setErrors] = useState(def)
 
-  const moveItem = useCallback(
+  const moveItem = 
+    useCallback(
     (dragIndex:number, hoverIndex:number) => {
       const dragField = list[dragIndex];
       setList(
@@ -92,11 +97,30 @@ function App() {
           ],
         })
       );
-      
-      
     },
-    [list],
-  )
+    [list],)
+
+    const moveId = useCallback(
+    (dragIndex:number, hoverIndex:number) => {
+      const dragField = listids[dragIndex];
+      setListids(
+        update(listids, {
+          $splice:[
+            [dragIndex, 1],
+            [hoverIndex, 0, dragField]
+          ],
+        })
+      );
+    },
+    [listids],
+    )
+  
+
+    
+    
+  
+      
+  
 
   const addContent = (name:string, type:string, identifier:string) => {
     let contentObj:listElements;
@@ -118,11 +142,16 @@ function App() {
       }
     }
     setList([...list, contentObj]);
+    setListids([...listids, listids.length])
     setCollapse(false);
   }
-  const deleteElement=(identifier:string)=>{
-    const newlist=(list.filter((any:any)=>any.identifier !== identifier))
+  const deleteElement=(identifier:string,index:number)=>{
+    console.log(list)
+    console.log(identifier)
+    const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
     setList(newlist);
+    const newlistids=(listids.filter((any:any)=>any !== listids[index]))
+    setListids(newlistids);
   }
   const collapseAll = () => {
     if(!collapse){
@@ -340,10 +369,8 @@ function App() {
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.identifier+"-drag"} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} identifier={field.identifier} fieldname={field.name} moveItem={moveItem} collapsed={collapse} hasCollapsed={hasCollapsed}
-                  Remove={deleteElement} >
-                <Field  field={field} index={index} fieldtypes={fieldtypes} parameters={fieldtypes[field.type]} list={list}/>
-              </DragNDropComponent>
+              <DragNDropComponent key={field.identifier+"-drag"} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} fieldname={field.name} moveItem={moveItem} moveId={moveId} collapsed={collapse} hasCollapsed={hasCollapsed}
+                  Remove={deleteElement} parameters={fieldtypes[field.type]} list={list} fieldtypes={fieldtypes}></DragNDropComponent>
             ))}
           </DndProvider>
           <Form.Group>

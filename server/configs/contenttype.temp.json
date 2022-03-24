@@ -6,22 +6,22 @@
   "has_location": true,
   "fields": [
    {
-    "identifier": "t",
-    "name": "t",
-    "type": "text",
-    "required": false,
-    "parameters": {
-     "max_length": 4,
-     "is_multi_line": false
-    }
-   },
-   {
     "identifier": "r",
     "name": "e",
     "type": "richtext",
     "required": false,
     "parameters": {
      "mode": "compact"
+    }
+   },
+   {
+    "identifier": "t",
+    "name": "t",
+    "type": "text",
+    "required": false,
+    "parameters": {
+     "max_length": 1,
+     "is_multi_line": false
     }
    },
    {

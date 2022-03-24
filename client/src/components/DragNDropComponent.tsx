@@ -5,6 +5,7 @@ import { useDrag, useDrop, DropTargetMonitor } from "react-dnd";
 import { XYCoord } from 'dnd-core';
 import { ItemTypes } from './ItemTypes';
 import Remove from './Remove';
+import Field from './Field';
 
 
 interface DragItem {
@@ -14,14 +15,14 @@ interface DragItem {
 }
 
 const DragNDropComponent = (props:any) => {
-    
+    const [identifier, setIdentifier] = useState(props.field.identifier)
     let headerstyle = {};
     if(props.headerColor != null){
         headerstyle = {backgroundColor: props.headerColor}
     }else{
         headerstyle = {backgroundColor: "grey"};
     }
-
+    
     const ref = useRef<HTMLDivElement>(null);
     const [{ handlerId }, drop] = useDrop({
         accept: ItemTypes.FIELD,
@@ -35,6 +36,8 @@ const DragNDropComponent = (props:any) => {
             if(!ref.current){
                 return
             }
+
+            console.log(props.field.identifier);
 
             const dragIndex = item.index;
             const hoverIndex = props.index;
@@ -54,19 +57,21 @@ const DragNDropComponent = (props:any) => {
             if(dragIndex > hoverIndex && hoverClientY > hoverMiddelY){
                 return
             }
+            props.moveId(dragIndex, hoverIndex);
             props.moveItem(dragIndex, hoverIndex);
+            
 
             item.index = hoverIndex;
         },
     }
     );
     const index = props.index;
-    const identifier = props.identifier;
+    const fieldid = props.fieldid;
 
     const [{ isDragging }, drag, prev] = useDrag({
         type:ItemTypes.FIELD,
         item: () => {
-            return { identifier, index }
+            return {  index }
         },
         collect: (monitor:any) => ({
             isDragging: monitor.isDragging(),
@@ -78,8 +83,8 @@ const DragNDropComponent = (props:any) => {
 
     const dropdown = () => {
             
-        const col:any = document.getElementById("dropdown-field-menu-"+props.identifier);
-        const img:any = document.getElementById("dropdown-field-img-"+props.identifier);
+        const col:any = document.getElementById("dropdown-field-menu-"+props.index);
+        const img:any = document.getElementById("dropdown-field-img-"+props.index);
 
         if(col.style.display == "block"){
             col.style = "display: none;"
@@ -93,26 +98,26 @@ const DragNDropComponent = (props:any) => {
     }
 
     return (
-        <Form.Group key={props.identifier} controlId={props.identifier} id={props.identifier+"-form"} ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
+        <Form.Group key={identifier} controlId={identifier} id={"form-"+identifier} ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
                 <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                     
                         <Row style={headerstyle}>
                             <Col xs="8" md="8" lg="8"><h2 style={{color:"white"}}>{props.fieldname}</h2></Col>
                             <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
-                                <img onClick={dropdown} className='dropdown-field-img' id={"dropdown-field-img-"+props.identifier} style={{width:"3rem", float:"right", transition: "500ms", cursor: "pointer"}}
+                                <img onClick={dropdown} className='dropdown-field-img' id={"dropdown-field-img-"+props.index} style={{width:"3rem", float:"right", transition: "500ms", cursor: "pointer"}}
                                      src='./images/dropdownicon.png'/>
                                 </Col>
                         </Row>                
-                        <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.identifier} style={{display:"block"}}>
-                            {props.children}
+                        <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.index} style={{display:"block"}}>
+                        <Field  field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={identifier} setIdentifier={setIdentifier}/>
                         </Row>
                     
                 </Col>
                 <Col xs="1" md="1" lg="1"><Move ref={ref} handlerId={handlerId} /></Col>
                 
                 <Col xs="1" md="1" lg="1">
-                    <Remove element={props.identifier} Remove={props.Remove}/>
+                    <Remove element={props.field.identifier} index={props.index} Remove={props.Remove}/>
                 </Col>
             </Row>
         </Form.Group>

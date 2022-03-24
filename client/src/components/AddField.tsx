@@ -138,11 +138,14 @@ const AddField = (props:any) => {
             setIdentifier("")
           }else{
             if(identifier==""){
+              const e:any = document.getElementsByClassName("feilmelding_likidentifieras")[0];
+              if(e.style.display != "block"){
+                const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
+                const er:any = document.getElementById("addField-identifier");
+                er.style = "border:2px solid red;"
+                element.style="display:block;" 
+              }
               
-              const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
-              const er:any = document.getElementById("addField-identifier");
-              er.style = "border:1px solid green;"
-              element.style="display:block;" 
 
 
             } 

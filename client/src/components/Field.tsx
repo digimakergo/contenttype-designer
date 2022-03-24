@@ -20,7 +20,7 @@ interface listElements {
     parameters?:any,
     children?:any[]
   }
-
+  
 const Field = (props:any) => {
     const def:ParamElements[] = [];
     const [params, setParams] = useState(def);
@@ -290,7 +290,7 @@ const Field = (props:any) => {
                         }
                        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
                     
-                        props.field.identifier = "";
+                        props.field.identifier = ""; // ikke la identiifer være tom
                         e.target.style= "border: solid red 2px;"
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         element.style="display:block;"
@@ -302,14 +302,24 @@ const Field = (props:any) => {
                     }else{
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         props.field.identifier = e.target.value;
+                        props.setIdentifier(e.target.value)
                         e.target.style="border:1px solid #ced4da;"
                         element.style="display:none;"
 
                         const error:any =document.getElementsByClassName("feilmelding_likidentifier")[index];
                                     error.style="display:none;"
-                          
-                       
+
+                       /* console.log("serrr")
+                        const l = []
+                        for(let i = 0; i < props.list.length; i++){
+                            l[i] = props.list[i];
+                        }
+                        props.settList(l);
+                        //Reload()
                         
+                        */
+
+                        console.log(props.list)
                     }
                    
                     
@@ -331,7 +341,7 @@ const Field = (props:any) => {
         
    <Row className='justify-content-start'>
                 <Col xs={2} md={2} lg={2}>
-                    <Form.Label className={props.field.identifier + "-type"} style={{textAlign:"left"}}>
+                    <Form.Label style={{textAlign:"left"}}>
                         Type    
                     </Form.Label>
                 </Col>
@@ -349,7 +359,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check className={props.field.identifier + "-required"} type="checkbox" defaultChecked={props.field.required} onClick={(e:any) => {
+                <Form.Check type="checkbox" defaultChecked={props.field.required} onClick={(e:any) => {
                     props.field.required = e.target.checked;
                 }}/>
                 </Col>
