@@ -48,7 +48,7 @@ function App() {
         setList(data.response.fields)
       }
     }).catch(error => {
-      console.log("error: " + error);
+      console.log("Unable to get contenttype");
     })
 
     fetch('FieldTypeDefinition.json',{
@@ -146,8 +146,6 @@ function App() {
     setCollapse(false);
   }
   const deleteElement=(identifier:string,index:number)=>{
-    console.log(list)
-    console.log(identifier)
     const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
     setList(newlist);
     const newlistids=(listids.filter((any:any)=>any !== listids[index]))
@@ -214,7 +212,6 @@ function App() {
       let counter:number = 0;
       for (var i=0;i<items.length;i++){
 
-        console.log(items[i])
 
           if(items[i].name==""){
             listErr[counter] = {
@@ -369,7 +366,7 @@ function App() {
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={field.identifier+"-drag"} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} fieldname={field.name} moveItem={moveItem} moveId={moveId} collapsed={collapse} hasCollapsed={hasCollapsed}
+              <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse} hasCollapsed={hasCollapsed}
                   Remove={deleteElement} parameters={fieldtypes[field.type]} list={list} fieldtypes={fieldtypes}></DragNDropComponent>
             ))}
           </DndProvider>

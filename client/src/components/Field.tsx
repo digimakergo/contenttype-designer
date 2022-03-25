@@ -1,8 +1,6 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
-
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FieldContainer from './FieldContainer';
-import DropDownContentTypes from './DropDownContentTypes';
 import AddField from './AddField';
 
 
@@ -241,15 +239,13 @@ const Field = (props:any) => {
             }else{
                 const element:any =document.getElementsByClassName("feilmelding")[0];
                 props.field.name = e.target.value;
+                props.setFieldname(e.target.value);
                 e.target.style="border:1px solid #ced4da;"
                 element.style="display:none;"
                   
                
                 
-            }
-           
-            
-            }}/>
+            }}}/>
               <Form.Label className="feilmelding" style={{display:"none"}}>
                   Error i name, prøv igjen
               </Form.Label>
@@ -302,7 +298,9 @@ const Field = (props:any) => {
                     }else{
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         props.field.identifier = e.target.value;
-                        props.setIdentifier(e.target.value)
+                        //props.setIdentifier(e.target.value)
+                        //props.setIdentifierUpdated()
+                        //console.log(e)   
                         e.target.style="border:1px solid #ced4da;"
                         element.style="display:none;"
 
@@ -319,7 +317,7 @@ const Field = (props:any) => {
                         
                         */
 
-                        console.log(props.list)
+                        //console.log(props.list)
                     }
                    
                     
