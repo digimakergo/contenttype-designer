@@ -2,6 +2,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import FieldContainer from './FieldContainer';
 import AddField from './AddField';
+import { maxHeaderSize } from 'http';
 
 
 
@@ -48,14 +49,23 @@ const Field = (props:any) => {
         props.field.children.push(contentObj)
     }
     const getFormControl = (type:string, element:string) =>{
+      
         if(type === 'int'){
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = 0;
+                
             }
             
             return (
-                <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e) => {
-                    props.field.parameters[element] = Number(e.target.value);
+                <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e:any) => {
+                    const val = Number(e.target.value);
+                    
+                    if(val > 0){
+                        props.field.parameters[element] = val;
+                        e.target.style= "border: solid red 2px;border:none;"
+                    }else {
+                        e.target.style="border: solid red 2px;"
+                    }
                 }}/>
             )
         }else if(type === 'string'){
