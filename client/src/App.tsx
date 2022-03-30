@@ -10,6 +10,7 @@ import DropDownContentTypes from './components/DropDownContentTypes';
 import AddField from './components/AddField';
 import ListOfErrors from './components/ListOfErrors';
 import ToastMessage from './components/ToastMessage';
+import ManageContentTypes from './components/ManageContentTypes';
 
 
 interface listElements {
@@ -31,6 +32,7 @@ function App() {
   let setListids:any;
   [listids, setListids] = useState([]) 
   const [fieldtypes, setFieldtypes] = useState([])
+  const [showContentManager, setShowContentManager] = useState(true)
 
   useEffect(()=>{
     fetch('/api/contentmodelhandler/article/',{
@@ -349,6 +351,7 @@ function App() {
   return (
     <div className="App">
       <Container>
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} />
         <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
           <Col xs={3} md={3} lg={3}>
             <Button variant='primary' id="collapse" style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
