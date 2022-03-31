@@ -350,14 +350,14 @@ function App() {
 
   return (
     <div className="App">
-      <Container>
+      <Container fluid>
         <ManageContentTypes show={showContentManager} setShow={setShowContentManager} />
         <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
-          <Col xs={3} md={3} lg={3}>
-            <Button variant='primary' id="collapse" style={{marginLeft:"-7.5rem"}} onClick={() => collapseAll()}>Collapse all</Button>
+          <Col sm={1} md={1} lg={1} className="d-grid">
+            <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
           </Col>
 
-          <Col xs={6} md={6} lg={6}>
+          <Col sm={10} md={10} lg={10}>
             <ToastMessage text="Successfully updated the contentmodel" delay={5000} show={showToast} setShow={setShowToast}/>
           </Col>
           
@@ -374,14 +374,26 @@ function App() {
             ))}
           </DndProvider>
           <Form.Group>
-         <Button id="submitdata" onClick={getList}  variant="primary" size="lg">
-        Submit
-
-      </Button>
+         
       </Form.Group>
         </Form>
-        <Button variant='success' style={{width:"50rem", height:"3rem" , marginLeft:"10rem", marginTop:"1rem"}} onClick={() => setShow(true)}>+ Add field</Button>
+
+        <Row style={{marginBottom:"0.5rem"}}>
+          <Col lg={{span:8, offset:2}} md={{span:8, offset:2}}  sm={{span:8, offset:2}} className="d-grid">
+          <Button variant='success' size="lg" onClick={() => setShow(true)}>+ Add field</Button>
+          </Col>
+        </Row>
+        
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent} list={list}/>
+        <Row >
+          <Col className="d-grid" lg={{span:1, offset:9}} md={{span:1, offset:9}} sm={{span:1, offset:9}}>
+          <Button id="submitdata" onClick={getList}  variant="primary">
+        Submit
+      </Button>
+          </Col>
+        
+        </Row>
+        
         <ListOfErrors show={showErr} setShow={setShowErr} errors={errors}/>
       </Container>
     </div>
