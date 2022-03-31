@@ -59,6 +59,12 @@ const ManageContentTypes = (props:any) => {
                                 if(e.target.value != ""){
                                     const index = Number(e.target.value)
                                     setSelected(contenttypes[index])
+
+                                    let element:any = document.getElementById("ManageContentTypes_select");
+                                   element.style = "border: solid #ced4da 1px;"
+                                   
+                                    element =document.getElementsByClassName("feilmelding_select")[0];
+                                    element.style="display:none;"
                                 }else{
                                     setSelected({identifier: "", name: ""})
                                 }
@@ -73,15 +79,29 @@ const ManageContentTypes = (props:any) => {
 
 
                             </Form.Select>
+                            <Form.Label className="feilmelding_select" style={{display:"none"}}>
+                    choose a contenttype
+                </Form.Label>
                             </Col>
                             <Col lg={2}>
                             <Button variant="primary" onClick={() => {
+                                if(selected.identifier !=''){
                                let element:any = document.getElementsByClassName("mainmenu")[0]
                                element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                element = document.getElementsByClassName("editmenu")[0]
                                element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-40%);"; //let element:any = 
+                               element =document.getElementsByClassName("feilmelding_select")[0];
+                                element.style="display:none;"
+                                }
+                                else{
+                                    const event:any =document.getElementsByClassName("feilmelding_select")[0];
+                                    event.style="display:block;"
+                                    let element:any = document.getElementById("ManageContentTypes_select");
+                                   element.style = "border: solid red 1px;"
+                                }
                             }} >Edit</Button>
-
+                 
+  
                             </Col>
                             <Col lg={2}>
                             <Button variant="danger" onClick={handleRemove} >Delete</Button>
