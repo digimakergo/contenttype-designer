@@ -153,6 +153,7 @@ function App() {
     const newlistids=(listids.filter((any:any)=>any !== listids[index]))
     setListids(newlistids);
   }
+  
   const collapseAll = () => {
     if(!collapse){
       const allFields:any = document.getElementsByClassName("dropdown-field-menu");

@@ -1,9 +1,10 @@
 import { Form, Row, Col } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 const EditContenttype = (props:any) => {
   return (
-    <Form>
-        <Form.Group>
+    
+        <Form.Group className="editmenu">
             <Row>
                 <Col>
                     <Form.Label>Identifier</Form.Label>
@@ -39,13 +40,27 @@ const EditContenttype = (props:any) => {
                 <Col>
                     <Form.Label>Has version</Form.Label>
                 </Col>
+                
                 <Col>
-                    <Form.Control />
+
+                
+
                 </Col>
+
+                
             </Row>
-            
+            <Col>
+            <Button variant="primary" onClick={(
+
+            ) => {
+                let element:any = document.getElementsByClassName("mainmenu")[0]
+                               element.style = "transform: translateX(0%); transition: 0.5s;"; //let element:any = 
+                               element = document.getElementsByClassName("editmenu")[0]
+                               element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
+                    }} >Previous</Button>
+            </Col>
         </Form.Group>
-    </Form>
+    
   )
 }
 
