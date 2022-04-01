@@ -14,15 +14,32 @@ const ManageContentTypes = (props:any) => {
             {
                 identifier: "mine",
                 name: "Mine2",
-
+                table_name: "dm_mine",
+                has_version: true,
+                has_location: false,
+                has_location_id: true,
+                name_pattern: "{title}",
+                fields: []
             },
             {
                 identifier: "has",
                 name: "Has",
+                table_name: "dm_has",
+                has_version: true,
+                has_location: false,
+                has_location_id: false,
+                name_pattern: "{title}",
+                fields: []
             },
             {
-                identifier: "contenttyp",
+                identifier: "contenttype",
                 name: "Contenttype",
+                table_name: "dm_contenttype",
+                has_version: true,
+                has_location: false,
+                has_location_id: false,
+                name_pattern: "{title}",
+                fields: []
             }
         ]
     );
@@ -34,17 +51,17 @@ const ManageContentTypes = (props:any) => {
             const contenttypestemp = contenttypes.filter((contenttype) => contenttype.identifier !== selected.identifier);
             setContenttypes(contenttypestemp);
 
-            setSelected({identifier: "", name: ""})
+            setSelected({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
         }
     }
 
 
-    const [selected, setSelected] = useState({identifier: "", name: ""})
+    const [selected, setSelected] = useState({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
 
     
     return (
 
-        <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Modal show={props.show} >
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
             <Modal.Body>
@@ -66,7 +83,7 @@ const ManageContentTypes = (props:any) => {
                                     element =document.getElementsByClassName("feilmelding_select")[0];
                                     element.style="display:none;"
                                 }else{
-                                    setSelected({identifier: "", name: ""})
+                                    setSelected({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
                                 }
                             }}>
                                 
@@ -113,7 +130,7 @@ const ManageContentTypes = (props:any) => {
 
                     
                     <div style={{transform: "translateX(110%)"}} className="editmenu">
-                    <EditContenttype contenttype={selected}/>
+                    <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow}/>
                     </div>
                 </Form>
                 </Container>

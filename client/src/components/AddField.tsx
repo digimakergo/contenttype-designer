@@ -89,7 +89,7 @@ const AddField = (props:any) => {
               }}}/>
 
                 <Form.Label className="feilmelding_addfieldIdentifier" style={{display:"none"}}>
-                    Error i addfieldIdentifier
+                    Invalid identifier
                 </Form.Label>
          
                 <Form.Label className="feilmelding_likidentifieras" style={{display:"none"}}>
