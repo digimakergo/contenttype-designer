@@ -64,7 +64,7 @@ const ManageContentTypes = (props:any) => {
         <Modal show={props.show} >
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
-            <Modal.Body style={{height: "25rem"}}>
+            <Modal.Body style={{height: "30rem"}}>
                 <Container style={{overflow:"hidden"}}>
                 <Form>
                     <Form.Group className="mainmenu">
@@ -106,7 +106,7 @@ const ManageContentTypes = (props:any) => {
                                let element:any = document.getElementsByClassName("mainmenu")[0]
                                element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                element = document.getElementsByClassName("editmenu")[0]
-                               element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-20%);"; //let element:any = 
+                               element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
                                element =document.getElementsByClassName("feilmelding_select")[0];
                                 element.style="display:none;"
                                 setEdit(true)
@@ -124,14 +124,19 @@ const ManageContentTypes = (props:any) => {
                             <Col lg={2}>
                             <Button variant="danger" onClick={handleRemove} >Delete</Button>
                             </Col>
-                        </Row>  
-                        <Button variant="primary" onClick={() => {
-                    }} >Add contenttype</Button>
+                        </Row>
+                        <Row style={{marginTop:"1rem"}}>
+                            <Col lg={{span:10, offset:1}} className="d-grid">
+                                <Button variant="primary" onClick={() => {
+                                    
+                                }} >Add contenttype</Button>
+                            </Col>
+                        </Row>
                     </Form.Group>
 
                     
-                    <div style={{transform: "translate(110%,-20%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow} setEdit={setEdit}/> : "" }
+                    <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
+                    {edit ? <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow} setEdit={setEdit} list={contenttypes}/> : "" }
                     </div>
                 </Form>
                 </Container>

@@ -2,19 +2,21 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useRef } from 'react';
 
 const EditContenttype = (props:any) => {
-
+    const originalIdentifier = props.contenttype.identifier;
 
     const validation = () => {
         
         function checkIdentifier(list:any[]){
-            for(let i = 0; i < list.length; i++){    
-                if(props.contenttype.identifier==list[i].identifier){
+            for(let i = 0; i < list.length; i++){ 
+                   
+                if(props.contenttype.identifier==list[i].identifier && originalIdentifier != list[i].identifier){
                     return false
                 }
             }
             return true;
         }
         let valid = true; 
+        
         if(!checkIdentifier(props.list)){
             const element:any = document.getElementsByClassName("contenttype-identifier")[0];
             element.style= "border: solid red 2px;"
@@ -23,10 +25,10 @@ const EditContenttype = (props:any) => {
             error.style="display:block; "
             
             error = document.getElementsByClassName("contenttype-error-identifier")[0];
-            element.style="display:none;"
+            error.style="display:none;"
             valid = false;
         }
-        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(props.contenttype.identifier )){
+        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(props.contenttype.identifier)){
           //props.contenttype.identifier = "";
           const element:any = document.getElementsByClassName("contenttype-identifier")[0];
           element.style= "border: solid red 2px;"
@@ -38,8 +40,7 @@ const EditContenttype = (props:any) => {
           error.style="display:none;"
           valid = false;
         }
-
-        if(props.contenttype.name != ""){
+        if(props.contenttype.name == ""){
             let element:any = document.getElementsByClassName("contenttype-name")[0];
             element.style= "border: solid red 1px;"
             element = document.getElementsByClassName("contenttype-error-name")[0];
@@ -47,7 +48,7 @@ const EditContenttype = (props:any) => {
             valid = false;
         }
 
-        if(props.contenttype.name_pattern != ""){
+        if(props.contenttype.name_pattern == ""){
             let element:any = document.getElementsByClassName("contenttype-namepattern")[0];
             element.style= "border: solid red 1px;"
             element = document.getElementsByClassName("contenttype-error-namepattern")[0];
@@ -66,12 +67,13 @@ const EditContenttype = (props:any) => {
                         <Form.Label>Identifier</Form.Label>
                     </Col>
                     <Col>
-                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.contenttype.identifier} onClick={(e:any) => {
+                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.contenttype.identifier} onChange={(e:any) => {
                             
 
                             function checkIdentifier(list:any[]){
-                                for(let i = 0; i < list.length; i++){    
-                                    if(e.target.value==list[i].identifier){
+                                for(let i = 0; i < list.length; i++){ 
+                                    
+                                    if(e.target.value==list[i].identifier && originalIdentifier != list[i].identifier){
                                         return false
                                     }
                                 }
@@ -122,7 +124,7 @@ const EditContenttype = (props:any) => {
                         <Form.Label>Name</Form.Label>
                     </Col>
                     <Col>
-                        <Form.Control type="text" className="contenttype-name" defaultValue={props.contenttype.name} onClick={(e:any) => {
+                        <Form.Control type="text" className="contenttype-name" defaultValue={props.contenttype.name} onChange={(e:any) => {
                             
 
                             if(e.target.value== ""){
@@ -188,7 +190,7 @@ const EditContenttype = (props:any) => {
                         <Form.Label>Name pattern</Form.Label>
                     </Col>
                     <Col>
-                        <Form.Control type="text" className="contenttype-namepattern" defaultValue={props.contenttype.name_pattern} onClick={(e:any) => {
+                        <Form.Control type="text" className="contenttype-namepattern" defaultValue={props.contenttype.name_pattern} onChange={(e:any) => {
                             if(e.target.value== ""){
                                 props.contenttype.name_pattern = "";
                                 e.target.style= "border: solid red 1px;"
@@ -215,7 +217,7 @@ const EditContenttype = (props:any) => {
                             let element:any = document.getElementsByClassName("mainmenu")[0]
                             element.style = "transform: translateX(0%); transition: 0.5s;";
                             element = document.getElementsByClassName("editmenu")[0]
-                            element.style = "transform: translate(-110%,-20%); transition: 0.5s;";
+                            element.style = "transform: translate(-110%,-16%); transition: 0.5s;";
                             props.setEdit(false)
                         }} >Go back</Button>
                     </Col>
@@ -237,6 +239,8 @@ const EditContenttype = (props:any) => {
                     <Button variant='success' onClick={() => {
                         if(validation()){
                             console.log("valid")
+                        }else{
+                            console.log("invalid")
                         }
                     }}>Save</Button>
                 </Col>
