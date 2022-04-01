@@ -8,7 +8,7 @@ import { useState, useRef } from 'react'
 import EditContenttype from './EditContenttype';
 
 const ManageContentTypes = (props:any) => {
-
+    const [edit, setEdit] = useState(false)
     const[contenttypes, setContenttypes] = useState(
         [
             {
@@ -64,7 +64,7 @@ const ManageContentTypes = (props:any) => {
         <Modal show={props.show} >
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
-            <Modal.Body>
+            <Modal.Body style={{height: "25rem"}}>
                 <Container style={{overflow:"hidden"}}>
                 <Form>
                     <Form.Group className="mainmenu">
@@ -106,9 +106,10 @@ const ManageContentTypes = (props:any) => {
                                let element:any = document.getElementsByClassName("mainmenu")[0]
                                element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                element = document.getElementsByClassName("editmenu")[0]
-                               element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-40%);"; //let element:any = 
+                               element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-20%);"; //let element:any = 
                                element =document.getElementsByClassName("feilmelding_select")[0];
                                 element.style="display:none;"
+                                setEdit(true)
                                 }
                                 else{
                                     const event:any =document.getElementsByClassName("feilmelding_select")[0];
@@ -129,8 +130,8 @@ const ManageContentTypes = (props:any) => {
                     </Form.Group>
 
                     
-                    <div style={{transform: "translateX(110%)"}} className="editmenu">
-                    <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow}/>
+                    <div style={{transform: "translate(110%,-20%)"}} className="editmenu">
+                    {edit ? <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow} setEdit={setEdit}/> : "" }
                     </div>
                 </Form>
                 </Container>

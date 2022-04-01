@@ -146,7 +146,7 @@ const EditContenttype = (props:any) => {
                 </Row>
 
                 
-                    {props.contenttype.identifier != "" ? <Row>
+                <Row>
                     <Col>
                         <Form.Label>Has version</Form.Label>
                     </Col>
@@ -155,9 +155,9 @@ const EditContenttype = (props:any) => {
                             props.contenttype.has_version = e.target.checked;
                         }}/>
                     </Col>
-                </Row> : ""}
+                </Row>
 
-                {props.contenttype.identifier != "" ? <Row>
+                <Row>
                     <Col>
                         <Form.Label>Has location</Form.Label>
                     </Col>
@@ -166,9 +166,9 @@ const EditContenttype = (props:any) => {
                             props.contenttype.has_location = e.target.checked;
                         }}/>
                     </Col>
-                </Row> : ""}
+                </Row>
 
-                {props.contenttype.identifier != "" ? <Row>
+                <Row>
                     <Col>
                         <Form.Label>Has location id</Form.Label>
                     </Col>
@@ -177,7 +177,7 @@ const EditContenttype = (props:any) => {
                             props.contenttype.has_location_id = e.target.checked;
                         }}/>
                     </Col>
-                </Row> : ""}
+                </Row>
 
 
 
@@ -215,7 +215,8 @@ const EditContenttype = (props:any) => {
                             let element:any = document.getElementsByClassName("mainmenu")[0]
                             element.style = "transform: translateX(0%); transition: 0.5s;";
                             element = document.getElementsByClassName("editmenu")[0]
-                            element.style = "transform: translateX(-110%); transition: 0.5s;";
+                            element.style = "transform: translate(-110%,-20%); transition: 0.5s;";
+                            props.setEdit(false)
                         }} >Go back</Button>
                     </Col>
     
@@ -232,11 +233,13 @@ const EditContenttype = (props:any) => {
             </Row>
 
             <Row>
-            <Col className='d-grid'><Button variant='success' onClick={() => {
-                if(validation()){
-                    
-                }
-            }}>Save</Button></Col>
+                <Col className='d-grid'>
+                    <Button variant='success' onClick={() => {
+                        if(validation()){
+                            console.log("valid")
+                        }
+                    }}>Save</Button>
+                </Col>
             </Row>
 
             </Form.Group>
