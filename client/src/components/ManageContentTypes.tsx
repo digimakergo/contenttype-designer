@@ -18,20 +18,14 @@ const ManageContentTypes = (props:any) => {
             'Method':'GET'
           }
         }).then(response => {
+          
           if(response.ok){
             return response.json();
           }throw response;
         }).then(data => {
-          
-          if(data.type == 'success'){
+          if(data.type == 'Success'){
             console.log(data)
-            setContenttypes(
-              {
-                "asd":{
-                  name: "ASD",table_name: "dm_asd",has_version: false,has_location: false,has_location_id: false,name_pattern: "{title}",fields: []
-                }
-              }
-              )
+            setContenttypes(data.response)
             
           }
         }).catch(error => {
