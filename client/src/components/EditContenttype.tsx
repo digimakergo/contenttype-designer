@@ -1,15 +1,16 @@
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 const EditContenttype = (props:any) => {
-    const originalIdentifier = props.contenttype.identifier;
-
+    const [identifier, setIdentifier] = useState(props.identifier);
+    console.log(props.contenttype)
+    console.log(props.identifier)
     const validation = () => {
         
         function checkIdentifier(list:any[]){
-            for(let i = 0; i < list.length; i++){ 
-                   
-                if(props.contenttype.identifier==list[i].identifier && originalIdentifier != list[i].identifier){
+            for(let item of Object.keys(list)){ 
+                
+                if(identifier==item && props.identifier != item){
                     return false
                 }
             }
@@ -28,7 +29,7 @@ const EditContenttype = (props:any) => {
             error.style="display:none;"
             valid = false;
         }
-        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(props.contenttype.identifier)){
+        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(identifier)){
           //props.contenttype.identifier = "";
           const element:any = document.getElementsByClassName("contenttype-identifier")[0];
           element.style= "border: solid red 2px;"
@@ -67,13 +68,13 @@ const EditContenttype = (props:any) => {
                         <Form.Label>Identifier</Form.Label>
                     </Col>
                     <Col>
-                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.contenttype.identifier} onChange={(e:any) => {
+                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.identifier} onChange={(e:any) => {
                             
 
                             function checkIdentifier(list:any[]){
-                                for(let i = 0; i < list.length; i++){ 
+                                for(let item of Object.keys(list)){ 
                                     
-                                    if(e.target.value==list[i].identifier && originalIdentifier != list[i].identifier){
+                                    if(e.target.value==item && props.identifier != item){
                                         return false
                                     }
                                 }
@@ -99,7 +100,12 @@ const EditContenttype = (props:any) => {
                             const error:any =document.getElementsByClassName("contenttype-error-identifier-equal")[0];
                             error.style="display:none;"
                           }else{
-                            props.contenttype.identifier = e.target.value;
+                            //props.contenttype.identifier = e.target.value;
+                            //Object.defineProperty(props.contenttype, e.target.value, Object.getOwnPropertyDescriptor(props.contenttype, props.identifier));
+                            //delete props.contenttype
+                            setIdentifier(e.target.value);
+
+
                             const element:any =document.getElementsByClassName("contenttype-error-identifier")[0];
                             e.target.style="border:1px solid #ced4da;"
                             element.style="display:none;" 
@@ -238,9 +244,49 @@ const EditContenttype = (props:any) => {
                 <Col className='d-grid'>
                     <Button variant='success' onClick={() => {
                         if(validation()){
-                            console.log("valid")
-                        }else{
-                            console.log("invalid")
+                            
+                            let tmp:any = {
+                                identifier: identifier,
+                                name: props.contenttype.name,
+                                table_name: props.contenttype.table_name,
+                                has_version: props.contenttype.has_version,
+                                has_location: props.contenttype.has_location,
+                                has_location_id: props.contenttype.has_location_id,
+                                name_pattern: props.contenttype.name_pattern,
+                                fields: props.contenttype.fields
+                            }
+                            fetch("/api/contenttypes/"+props.identifier+"/",{
+                                headers:{
+                                  'Content-Type':'application/json',
+                                  'Accept':'application/json',
+                                  'method':"PUT"
+                                }
+                              }).then(response => {
+                                if(response.ok){
+                                  return response.json();
+                                }throw response;
+                              }).then(data => {
+                                
+                                if(data.type == 'success'){
+                                    console.log(data)
+
+                                    //update identifier
+                                    tmp = {};
+                                    for(let c of Object.keys(props.list)){
+                                        if(c != props.identifier){
+                                            tmp[c] = props.list[c]
+                                        }else{
+                                            tmp[identifier] = props.contenttype
+                                        }
+                                    }
+                                    props.setIdentifier(identifier)
+                                    props.setList(tmp)
+                                  
+                                  
+                                }
+                              }).catch(error => {
+                                console.log("Unable to get contenttype");
+                              })
                         }
                     }}>Save</Button>
                 </Col>

@@ -4,64 +4,93 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import EditContenttype from './EditContenttype';
 
 const ManageContentTypes = (props:any) => {
+    const def:any= {}
+    const[contenttypes, setContenttypes] = useState(def)
+    useEffect(()=>{
+        fetch('/api/contentmodel/',{
+          headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json',
+            'Method':'GET'
+          }
+        }).then(response => {
+          if(response.ok){
+            return response.json();
+          }throw response;
+        }).then(data => {
+          
+          if(data.type == 'success'){
+            console.log(data)
+            setContenttypes(
+              {
+                "asd":{
+                  name: "ASD",table_name: "dm_asd",has_version: false,has_location: false,has_location_id: false,name_pattern: "{title}",fields: []
+                }
+              }
+              )
+            
+          }
+        }).catch(error => {
+          console.log("Unable to get contenttypes");
+        })
+    }, []);
+
     const [edit, setEdit] = useState(false)
-    const[contenttypes, setContenttypes] = useState(
-        [
-            {
-                identifier: "mine",
-                name: "Mine2",
-                table_name: "dm_mine",
-                has_version: true,
-                has_location: false,
-                has_location_id: true,
-                name_pattern: "{title}",
-                fields: []
-            },
-            {
-                identifier: "has",
-                name: "Has",
-                table_name: "dm_has",
-                has_version: true,
-                has_location: false,
-                has_location_id: false,
-                name_pattern: "{title}",
-                fields: []
-            },
-            {
-                identifier: "contenttype",
-                name: "Contenttype",
-                table_name: "dm_contenttype",
-                has_version: true,
-                has_location: false,
-                has_location_id: false,
-                name_pattern: "{title}",
-                fields: []
-            }
-        ]
-    );
-
+    
     function handleRemove(){
-        console.log(selected)
-        if(selected.identifier != ""){
-            console.log(selected.identifier)
-            const contenttypestemp = contenttypes.filter((contenttype) => contenttype.identifier !== selected.identifier);
-            setContenttypes(contenttypestemp);
+       
+        if(selectedKey != ""){
+            
+            fetch("/api/contentmodel/"+selectedKey+"/",{
+                headers:{
+                  'Content-Type':'application/json',
+                  'Accept':'application/json',
+                  'method':"DELETE"
+                }
 
-            setSelected({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
+              }).then(response => {
+                if(response.ok){
+                  return response.json();
+                }throw response;
+              }).then(data => {
+                
+                if(data.type == 'success'){
+                    console.log(data)
+                    const contenttypestemp:any[] = [];
+                    const keys:any = Object.keys(contenttypes)
+                    for (let contenttype of keys){
+                        if(contenttype !== selectedKey) {
+                            contenttypestemp[contenttype] = contenttypes[contenttype]
+                        }
+                    }
+
+                    setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
+                    setSelectedKey("")
+                    setContenttypes(contenttypestemp);
+                  
+                }
+              }).catch(error => {
+                console.log("Unable to get contenttype");
+              })
+
+            
         }
     }
 
 
-    const [selected, setSelected] = useState({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
+    const [selected, setSelected] = useState({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
+    const [selectedKey, setSelectedKey] = useState("")
 
     
     return (
 
-        <Modal show={props.show} >
+        <Modal show={props.show} onHide={() => {
+          props.setShow(false)
+      }} >
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
             <Modal.Body style={{height: "30rem"}}>
@@ -74,8 +103,9 @@ const ManageContentTypes = (props:any) => {
                             <Form.Select required style={{border:"1px solid #ced4da"}} id= "ManageContentTypes_select"  onChange={(e:any) => {
                                 
                                 if(e.target.value != ""){
-                                    const index = Number(e.target.value)
-                                    setSelected(contenttypes[index])
+                                    
+                                    setSelected(contenttypes[e.target.value])
+                                    setSelectedKey(e.target.value)
 
                                     let element:any = document.getElementById("ManageContentTypes_select");
                                    element.style = "border: solid #ced4da 1px;"
@@ -83,14 +113,15 @@ const ManageContentTypes = (props:any) => {
                                     element =document.getElementsByClassName("feilmelding_select")[0];
                                     element.style="display:none;"
                                 }else{
-                                    setSelected({identifier: "",name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []})
+                                    setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
+                                    setSelectedKey("")
                                 }
                             }}>
                                 
                             
                                 <option key={"contenttype-0"} value={''}>Choose a contenttype</option>
-                                {contenttypes.map((contenttype:any, index:number)=>(
-                                <option key={'contenttype-'+(index+1)} value={index}>{contenttype.name}</option>
+                                {Object.keys(contenttypes).map((contenttype:any, index:number)=>(
+                                <option key={'contenttype-'+(index+1)} value={contenttype}>{contenttypes[contenttype].name}</option>
                                 ))}
 
 
@@ -102,7 +133,7 @@ const ManageContentTypes = (props:any) => {
                             </Col>
                             <Col lg={2}>
                             <Button variant="primary" onClick={() => {
-                                if(selected.identifier !=''){
+                                if(selectedKey !=''){
                                let element:any = document.getElementsByClassName("mainmenu")[0]
                                element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                element = document.getElementsByClassName("editmenu")[0]
@@ -136,7 +167,7 @@ const ManageContentTypes = (props:any) => {
 
                     
                     <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} show={props.show} setShow={props.setShow} setEdit={setEdit} list={contenttypes}/> : "" }
+                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} list={contenttypes} setList={setContenttypes}/> : "" }
                     </div>
                 </Form>
                 </Container>

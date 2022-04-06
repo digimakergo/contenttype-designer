@@ -22,7 +22,7 @@ const AddField = (props:any) => {
   return (
 
     <Modal show={props.show} onHide={() => props.setShow(false)}>
-        <Modal.Header><Modal.Title>Add fieldtype</Modal.Title></Modal.Header>
+        <Modal.Header><Modal.Title>Add field</Modal.Title></Modal.Header>
     
         <Modal.Body>
        <Form noValidate>
@@ -45,7 +45,7 @@ const AddField = (props:any) => {
                                 
               }}}/>
                 <Form.Label className="feilmelding_addfieldname" style={{display:"none"}}>
-                    Error i addfieldname
+                    Invalid name
                 </Form.Label>
                 
           
@@ -118,7 +118,7 @@ const AddField = (props:any) => {
             </Form.Select>
            
             <Form.Label className="feilmelding_select" style={{display:"none"}}>
-                    choose a type
+                    Choose a type
                 </Form.Label>
   
                

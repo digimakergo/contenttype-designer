@@ -99,7 +99,7 @@ const DragNDropComponent = (props:any) => {
     return (
         <Form.Group key={identifier} controlId={identifier} id={identifier}  ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
-                <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
+                <Col xs={{span:8, offset:1}} md={{span:8, offset:1}} lg={{span:8, offset:1}} style={{border:"solid black 0.1rem"}}>
                     
                         <Row style={headerstyle}>
                             <Col xs="8" md="8" lg="8"><h2 style={{color:"white"}}>{fieldname}</h2></Col>

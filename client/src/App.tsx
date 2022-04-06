@@ -315,9 +315,9 @@ function App() {
     
       
       }else {
-        const location= ("/api/contentmodelhandler/" + contenttype + "/");
+        const location= ("/api/contentmodel/" + contenttype + "/");
       const settings= {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': "*",
@@ -332,6 +332,7 @@ function App() {
         const fetchResponse = await fetch(`${location}`,settings);
         await fetchResponse.json().then(data => {
           if(data.type == "error"){
+            console.log(data)
             setErrors(data.response)
             setShowErr(true)
           }else{
@@ -379,7 +380,7 @@ function App() {
       </Form.Group>
         </Form>
 
-        <Row style={{marginBottom:"0.5rem"}}>
+        <Row style={{marginBottom:"0.5rem", marginTop:"0.5rem"}}>
           <Col lg={{span:8, offset:2}} md={{span:8, offset:2}}  sm={{span:8, offset:2}} className="d-grid">
           <Button variant='success' size="lg" onClick={() => setShow(true)}>+ Add field</Button>
           </Col>

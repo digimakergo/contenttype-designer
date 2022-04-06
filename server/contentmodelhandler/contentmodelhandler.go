@@ -1,7 +1,6 @@
 package controller
 
 import (
-	deployment "dmdemo/pkg/controller/deployment"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -9,17 +8,40 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/digimakergo/digimaker/rest"
+	//"github.com/digimakergo/digimaker/rest"
 	"github.com/gorilla/mux"
+	//deployment "dmdemo/pkg/controller/deployment"
 )
 
 type Contenttype struct {
-	Name        string  `json:"name"`
-	TableName   string  `json:"table_name"`
-	HasVersion  *bool   `json:"has_version"`
-	HasLocation *bool   `json:"has_location"`
-	Fields      []Field `json:"fields"`
-	NamePattern string  `json:"name_pattern"`
+	Name          string  `json:"name"`
+	TableName     string  `json:"table_name"`
+	HasVersion    bool    `json:"has_version"`
+	HasLocation   bool    `json:"has_location"`
+	HasLocationId bool    `json:"has_location_id"`
+	Fields        []Field `json:"fields"`
+	NamePattern   string  `json:"name_pattern"`
+}
+
+type ContenttypeFocus struct {
+	Identifier    string  `json:"identifier,omitempty"`
+	Name          string  `json:"name"`
+	TableName     string  `json:"table_name"`
+	HasVersion    bool    `json:"has_version"`
+	HasLocation   bool    `json:"has_location"`
+	HasLocationId bool    `json:"has_location_id"`
+	Fields        []Field `json:"fields"`
+	NamePattern   string  `json:"name_pattern"`
+}
+type ContenttypeFocuss struct {
+	Identifier    string        `json:"identifier,omitempty"`
+	Name          string        `json:"name"`
+	TableName     string        `json:"table_name"`
+	HasVersion    bool          `json:"has_version"`
+	HasLocation   bool          `json:"has_location"`
+	HasLocationId bool          `json:"has_location_id"`
+	Fields        []interface{} `json:"fields"`
+	NamePattern   string        `json:"name_pattern"`
 }
 
 type Parameters struct {
@@ -59,7 +81,7 @@ func (field *Field) setChildren(newFields []Field) {
 }
 
 type Response struct {
-	Type     string `json: "type"`
+	Type     string `json:"type"`
 	Response string `json:"response"`
 }
 type MessageError struct {
@@ -155,10 +177,9 @@ func validation(fields []Field) []ErrorResponse {
 	return messages
 }
 
-func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
+func UpdateContenttypeFields(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var fields []Field
-
 	contenttype := mux.Vars(router)["entity"]
 	if contenttype == "" {
 		m2 := Response{Type: "error", Response: "Please choose a entity name"}
@@ -174,13 +195,12 @@ func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
 	}
 
 	errors := validation(fields)
+
 	if len(errors) > 0 {
 		message := MessageError{Type: "error", Response: &errors}
 		json.NewEncoder(w).Encode(message)
 		return
 	}
-	//m := MessageF{Response: fields}
-	//json.NewEncoder(w).Encode(m)
 
 	contentmodel := make(map[string]interface{})
 	file, error := os.Open("./configs/contenttype.json")
@@ -220,59 +240,30 @@ func UpdateContentmodel(w http.ResponseWriter, router *http.Request) {
 		json.NewEncoder(w).Encode(m2)
 		return
 	}
-	/*for _, inpField := range fields {
-		exist := false
-		for i, field := range con.Fields {
-			if field.Identifier == inpField.Identifier {
-				exist = true
 
-				con.Fields[i].setName(inpField.Name)
-				//con.Fields[i].setType(inpField.Type)
-				con.Fields[i].setRequired(inpField.Required)
-				if con.Fields[i].Type != "container" {
-					con.Fields[i].setParameters(inpField.Parameters)
-				}else{
-
-				}
-				break
-			}
-		}
-		if exist == false {
-			con.Fields = append(con.Fields, inpField)
-		}
-	}*/
-	con.Fields = fields //input(con.Fields, fields)
+	con.Fields = fields
 	contentmodel[contenttype] = con
-
-	//m3 := MessageI{Response: contentmodel}
-	//json.NewEncoder(w).Encode(m3)
 
 	data, _ = json.MarshalIndent(contentmodel, "", " ")
 	error = ioutil.WriteFile("./configs/contenttype.json", data, 0770) //should this stay
 
 	if error != nil {
-		m2 := Response{Type: "error", Response: "Unable to save to contenttype.temp.json"}
+		m2 := Response{Type: "error", Response: "Unable to save to contenttype.json"}
 		json.NewEncoder(w).Encode(m2)
 		return
 	}
 
-	deployment.GenerateEntities()
+	//deployment.GenerateEntities()
 	m := Response{Type: "Success", Response: "Successfully saved the new contenttype"}
 	json.NewEncoder(w).Encode(m)
 
 }
 
-func UpdateContentmodelNoTypeChosen(w http.ResponseWriter, router *http.Request) {
-	m2 := Response{Type: "error", Response: "Please choose a entity name"}
-	json.NewEncoder(w).Encode(m2)
-	return
-}
-
-func GetContentModel(w http.ResponseWriter, router *http.Request) {
+func GetContenttype(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	contenttype := mux.Vars(router)["entity"]
 	contentmodel := make(map[string]interface{})
-	file, error := os.Open("./configs/contenttype.temp.json")
+	file, error := os.Open("./configs/contenttype.json")
 	if error != nil {
 		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
 		json.NewEncoder(w).Encode(m2)
@@ -294,12 +285,343 @@ func GetContentModel(w http.ResponseWriter, router *http.Request) {
 		json.NewEncoder(w).Encode(m2)
 		return
 	}
-	m := MessageI{Type: "success", Response: contentmodel[contenttype]}
+
+	if contentmodel[contenttype] == nil {
+		m2 := Response{Type: "error", Response: "'" + contenttype + "' doesn't exist"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+	m := MessageI{Type: "Success", Response: contentmodel[contenttype]}
 	json.NewEncoder(w).Encode(m)
 }
 
+func GetContenttypes(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	var contenttypes []string
+	for key, _ := range contentmodel {
+		contenttypes = append(contenttypes, key)
+	}
+	m := MessageI{Type: "Success", Response: contenttypes}
+	json.NewEncoder(w).Encode(m)
+}
+
+func GetContentmodel(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+	/*var contenttypes []ContenttypeFocus
+	for key, value := range contentmodel {
+
+		data, error3 := json.Marshal(value)
+		if error3 != nil {
+			m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+			json.NewEncoder(w).Encode(m2)
+			return
+		}
+
+		var con Contenttype
+		error2 = json.Unmarshal([]byte(data), &con)
+
+		if error2 != nil {
+			m2 := Response{Type: "error", Response: "Unable to load contenttype.json into a variable"}
+			json.NewEncoder(w).Encode(m2)
+			return
+		}
+		c := ContenttypeFocus{Identifier: key, Name: con.Name, TableName: con.TableName, HasVersion: con.HasVersion, HasLocation: con.HasLocation, HasLocationId: con.HasLocationId, Fields: con.Fields, NamePattern: con.NamePattern}
+		contenttypes = append(contenttypes, c)
+	}*/
+
+	m := MessageI{Type: "Success", Response: contentmodel}
+	json.NewEncoder(w).Encode(m)
+}
+
+func RemoveContenttype(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contenttype := mux.Vars(router)["entity"]
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+	if contentmodel[contenttype] == nil {
+		m2 := Response{Type: "error", Response: "Contenttype '" + contenttype + "' doesn't exist"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	delete(contentmodel, contenttype)
+
+	data, _ = json.MarshalIndent(contentmodel, "", " ")
+	error = ioutil.WriteFile("./configs/contenttype.json", data, 0770) //should this stay
+
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to save to contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	//deployment.GenerateEntities()
+
+	m := MessageI{Type: "Success", Response: "Successfully removed \"" + contenttype + "\""}
+	json.NewEncoder(w).Encode(m)
+}
+
+func CreateContenttype(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contenttypeStr := mux.Vars(router)["entity"]
+	var contenttype Contenttype
+	error := json.NewDecoder(router.Body).Decode(&contenttype)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load request body"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	if contentmodel[contenttypeStr] != nil {
+		m2 := Response{Type: "error", Response: "Contenttype '" + contenttypeStr + "' already exist."}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	//validate
+	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttypeStr)
+	var messages []ErrorResponse
+	if match == true {
+		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttypeStr, Field: "identifier"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.Name) == 0 {
+		m := ErrorResponse{Message: "Name does not have a valid value", From: contenttypeStr, Field: "name"}
+		messages = append(messages, m)
+	}
+
+	if len(messages) > 0 {
+		json.NewEncoder(w).Encode(messages)
+		return
+	}
+
+	if len(contenttype.Fields) > 0 {
+		errors := validation(contenttype.Fields)
+		if len(errors) > 0 {
+			message := MessageError{Type: "error", Response: &errors}
+			json.NewEncoder(w).Encode(message)
+			return
+		}
+	}
+
+	contentmodel[contenttypeStr] = contenttype
+	//save contentmodel
+	data, _ = json.MarshalIndent(contentmodel, "", " ")
+	error = ioutil.WriteFile("./configs/contenttype.json", data, 0770) //should this stay
+
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to save to contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	m := MessageI{Type: "Success", Response: "Successfully created '" + contenttypeStr + "'"}
+	json.NewEncoder(w).Encode(m)
+
+}
+
+func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	contenttypeStr := mux.Vars(router)["entity"]
+	var contenttype ContenttypeFocus
+	error := json.NewDecoder(router.Body).Decode(&contenttype)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load request body"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	contentmodel := make(map[string]interface{})
+	file, error := os.Open("./configs/contenttype.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &contentmodel)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	if contentmodel[contenttypeStr] == nil {
+		m2 := Response{Type: "error", Response: "Contenttype '" + contenttypeStr + "' doesn't exist."}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	data, error3 := json.Marshal(contentmodel[contenttypeStr])
+	if error3 != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	var con ContenttypeFocus
+	error2 = json.Unmarshal([]byte(data), &con)
+
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to load contenttype.json into a variable"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	//validate
+	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttype.Identifier)
+	var messages []ErrorResponse
+	if match == true {
+		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttype.Identifier, Field: "identifier"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.Name) == 0 {
+		m := ErrorResponse{Message: "Name does not have a valid value", From: contenttype.Identifier, Field: "name"}
+		messages = append(messages, m)
+	}
+
+	if len(messages) > 0 {
+		json.NewEncoder(w).Encode(messages)
+		return
+	}
+	if contenttypeStr != contenttype.Identifier {
+		delete(contentmodel, contenttypeStr)
+	}
+
+	con.Name = contenttype.Name
+	con.TableName = contenttype.TableName
+	con.HasVersion = contenttype.HasVersion
+	con.HasLocation = contenttype.HasLocation
+	con.HasLocationId = contenttype.HasLocationId
+	con.NamePattern = contenttype.NamePattern
+
+	contentmodel[contenttype.Identifier] = con
+
+	//save contentmodel
+	data, _ = json.MarshalIndent(contentmodel, "", " ")
+	error = ioutil.WriteFile("./configs/contenttype.json", data, 0770) //should this stay
+
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to save to contenttype.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	//deployment.GenerateEntities()
+
+	m := MessageI{Type: "Success", Response: "Successfully Updated '" + contenttypeStr + "'"}
+	json.NewEncoder(w).Encode(m)
+
+}
+
 func init() {
-	rest.RegisterRoute("/dmdemo/contentmodel/", GetContentModel, "GET")
-	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", UpdateContentmodel, "POST")
-	rest.RegisterRoute("/dmdemo/contentmodel/", UpdateContentmodelNoTypeChosen, "POST")
+	/*rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", GetContenttype, "GET")
+	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", UpdateContentmodel, "PUT")
+	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", RemoveContenttype, "DELETE")
+	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", CreateContenttype, "POST")
+	rest.RegisterRoute("/dmdemo/contenttypes/", GetContenttypes, "GET")
+	rest.RegisterRoute("/dmdemo/contentmodel/", GetContentmodel, "GET")
+	rest.RegisterRoute("/dmdemo/contenttypes/{entity}/", UpdateContenttype, "PUT")*/
+
 }
