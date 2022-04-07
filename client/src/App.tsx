@@ -35,25 +35,9 @@ function App() {
   const [showContentManager, setShowContentManager] = useState(true)
 
   useEffect(()=>{
-    fetch('/api/contentmodelhandler/article/',{
-      headers:{
-        'Content-Type':'application/json',
-        'Accept':'application/json'
-      }
-    }).then(response => {
-      if(response.ok){
-        return response.json();
-      }throw response;
-    }).then(data => {
-      console.log(data)
-      if(data.type == 'success'){
-        setList(data.response.fields)
-      }
-    }).catch(error => {
-      console.log("Unable to get contenttype");
-    })
+    
 
-    fetch('FieldTypeDefinition.json',{
+    fetch('FieldTypeDefinition.json',{///api/contenttypes/fieldtypes/
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json'
@@ -64,7 +48,8 @@ function App() {
         }
         throw response;
     }).then(data => {
-        setFieldtypes(data);
+      if(data.response == "Success")
+        setFieldtypes(data.response);
     }).catch(error => {
         console.log("error: " + error);
     })
@@ -353,7 +338,7 @@ function App() {
   return (
     <div className="App">
       <Container fluid>
-        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} />
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} setList={setList} setListids={setListids} />
         <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
           <Col sm={1} md={1} lg={1} className="d-grid">
             <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
+import Field from './Field';
 import Remove from './Remove';
 
 const FieldContainer = (props:any) => {
@@ -31,7 +32,7 @@ const FieldContainer = (props:any) => {
                         <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
                     </Row>                
                     <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
-                        {props.children}
+                        <Field field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={props.identifier} setFieldname={props.setFieldname} />
                     </Row>
                 
             </Col>

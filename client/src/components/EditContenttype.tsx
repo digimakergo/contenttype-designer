@@ -3,8 +3,7 @@ import { useState } from 'react';
 
 const EditContenttype = (props:any) => {
     const [identifier, setIdentifier] = useState(props.identifier);
-    console.log(props.contenttype)
-    console.log(props.identifier)
+    
     const validation = () => {
         
         function checkIdentifier(list:any[]){
@@ -18,7 +17,7 @@ const EditContenttype = (props:any) => {
         }
         let valid = true; 
         
-        if(!checkIdentifier(props.list)){
+        if(!checkIdentifier(props.contenttypes)){
             const element:any = document.getElementsByClassName("contenttype-identifier")[0];
             element.style= "border: solid red 2px;"
 
@@ -80,7 +79,7 @@ const EditContenttype = (props:any) => {
                                 }
                                 return true;
                             }
-                            if(!checkIdentifier(props.list)){
+                            if(!checkIdentifier(props.contenttypes)){
                               e.target.style= "border: solid red 2px;"
                               const error:any =document.getElementsByClassName("contenttype-error-identifier-equal")[0];
                               error.style="display:block; "
@@ -230,7 +229,16 @@ const EditContenttype = (props:any) => {
     
                     <Col lg={{span:4}} className='d-grid'>
                         <Button variant='primary' onClick={() => {
+                            
+                            const listids = []
+                            for(let i = 0; i < props.contenttype.fields.length; i++){
+                                listids[i] = i;
+                            }
+                            props.setListids(listids)
+                            props.setList(props.contenttype.fields)
+
                             props.setShow(false);
+                            
                         }}>Edit fields</Button>
                     </Col>
 
@@ -272,15 +280,15 @@ const EditContenttype = (props:any) => {
 
                                     //update identifier
                                     tmp = {};
-                                    for(let c of Object.keys(props.list)){
+                                    for(let c of Object.keys(props.contenttypes)){
                                         if(c != props.identifier){
-                                            tmp[c] = props.list[c]
+                                            tmp[c] = props.contenttypes[c]
                                         }else{
                                             tmp[identifier] = props.contenttype
                                         }
                                     }
                                     props.setIdentifier(identifier)
-                                    props.setList(tmp)
+                                    props.setContenttypes(tmp)
                                   
                                   
                                 }

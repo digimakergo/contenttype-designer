@@ -213,9 +213,8 @@ const Field = (props:any) => {
             return (
                 <>
                     {children.map((field:any, index:number) => (
-                        <FieldContainer list={children} parent={props.field} field={field} setChildren={setChildren} key={index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index}>
-                            <Field field={field} index={index} fieldtypes={props.fieldtypes} parameters={props.fieldtypes[field.type]} />
-                        </FieldContainer>
+                        <FieldContainer key={"drag-"+props.fieldid+"-"+index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={props.fieldid}  collapsed={props.collapse} hasCollapsed={props.hasCollapsed}
+                        parameters={props.parameters} list={children} setChildren={setChildren} fieldtypes={props.fieldtypes} parent={props.field}/>
                         )
                     )}
                     <Button onClick={() => setShow(true)}>+ add field</Button>

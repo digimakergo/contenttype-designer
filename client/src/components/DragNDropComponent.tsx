@@ -109,7 +109,7 @@ const DragNDropComponent = (props:any) => {
                                 </Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.index} style={{display:"block"}}>
-                        <Field  field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={identifier} setFieldname={setFieldname}/>
+                        <Field field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={identifier} setFieldname={setFieldname}/>
                         </Row>
                     
                 </Col>
