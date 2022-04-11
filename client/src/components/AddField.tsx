@@ -4,20 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 const AddField = (props:any) => {
 
     const [name, setName] = useState("");
     const [identifier,setIdentifier]= useState("");
     const [type, setType] = useState("");
-
-    const refName = useRef(null);
-    const refId = useRef(null);
-    const refType = useRef(null);
-    
-
-
 
   return (
 
@@ -30,7 +23,6 @@ const AddField = (props:any) => {
           <Row style={{margin:"0.5rem"}}>
 
             <Form.Control required type='text' placeholder='Write a field name' id="addField_name" onChange={(e:any) => {      
-              
               if(e.target.value== ""){
                 setName("");
                 e.target.style= "border: solid red 1px;"

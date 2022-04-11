@@ -4,9 +4,7 @@ import { Form, Container, Button, Row, Col } from 'react-bootstrap';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import Field from './components/Field';
 import DragNDropComponent from './components/DragNDropComponent';
-import DropDownContentTypes from './components/DropDownContentTypes';
 import AddField from './components/AddField';
 import ListOfErrors from './components/ListOfErrors';
 import ToastMessage from './components/ToastMessage';
@@ -31,34 +29,33 @@ function App() {
   let listids:number[];
   let setListids:any;
   [listids, setListids] = useState([]) 
+  const [accesstoken, setAccesstoken] = useState("") 
   const [fieldtypes, setFieldtypes] = useState([])
   const [showContentManager, setShowContentManager] = useState(true)
 
   useEffect(()=>{
-    
-
-    fetch('FieldTypeDefinition.json',{///api/contenttypes/fieldtypes/
+    fetch('/api/contenttypes/fieldtypes/',{
         headers:{
             'Content-Type':'application/json',
-            'Accept':'application/json'
-        }
+            'Accept':'application/json',
+        },
+        method: 'GET'
     }).then(response => {
         if(response.ok){
             return response.json();
         }
         throw response;
     }).then(data => {
-      //if(data.response == "Success")
-      //console.log(da)
-        setFieldtypes(data);
+      if(data.type == "Success"){
+        setFieldtypes(data.response);
+        console.log("hi") 
+      }
     }).catch(error => {
-        console.log("error: " + error);
+        console.log("Unable to get field types");
     })
 }, [])
   
   const [collapse, setCollapse] = useState(false);
-  const [hasCollapsed, setHasCollapsed] = useState(false);
-  const[validated, setValidated] = useState(true);
 
   const Submit = (event:any) => {                      //srkiv det igjen selv
     const form = event.currentTarget;
@@ -163,7 +160,6 @@ function App() {
       }
     }
     setCollapse(!collapse)
-    setHasCollapsed(collapse)
   }
  
   /*
@@ -363,7 +359,7 @@ function App() {
           
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse} hasCollapsed={hasCollapsed}
+              <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}
                   Remove={deleteElement} parameters={fieldtypes[field.type]} list={list} fieldtypes={fieldtypes}></DragNDropComponent>
             ))}
           </DndProvider>

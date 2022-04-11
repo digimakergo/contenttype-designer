@@ -4,6 +4,7 @@ import { useState } from 'react';
 const EditContenttype = (props:any) => {
     const [identifier, setIdentifier] = useState(props.identifier);
     
+    
     const validation = () => {
         
         function checkIdentifier(list:any[]){
@@ -228,8 +229,8 @@ const EditContenttype = (props:any) => {
                     </Col>
     
                     <Col lg={{span:4}} className='d-grid'>
-                        <Button variant='primary' onClick={() => {
-                            
+                        <Button disabled={props.adding} variant='primary' onClick={(e) => {
+                            e.preventDefault()
                             const listids = []
                             for(let i = 0; i < props.contenttype.fields.length; i++){
                                 listids[i] = i;
@@ -253,44 +254,70 @@ const EditContenttype = (props:any) => {
                     <Button variant='success' onClick={() => {
                         if(validation()){
                             
-                            let tmp:any = {
-                                identifier: identifier,
-                                name: props.contenttype.name,
-                                table_name: props.contenttype.table_name,
-                                has_version: props.contenttype.has_version,
-                                has_location: props.contenttype.has_location,
-                                has_location_id: props.contenttype.has_location_id,
-                                name_pattern: props.contenttype.name_pattern,
-                                fields: props.contenttype.fields
+                            let tmp:any = {}
+                            let url = "";
+                            let method = "";
+                            if(props.adding){
+                                props.contenttype.table_name = "dm_"+identifier;
+                                props.contenttype.fields = [];
+                                tmp = {
+                                    name: props.contenttype.name,
+                                    table_name: props.contenttype.table_name,
+                                    has_version: props.contenttype.has_version,
+                                    has_location: props.contenttype.has_location,
+                                    has_location_id: props.contenttype.has_location_id,
+                                    fields: props.contenttype.fields,
+                                    name_pattern: props.contenttype.name_pattern,
+                                    
+                                }
+                                url = "/api/contentmodel/"+identifier+"/";
+                                method = "POST";
+                            }else{
+                                tmp = {
+                                    identifier: identifier,
+                                    name: props.contenttype.name,
+                                    table_name: props.contenttype.table_name,
+                                    has_version: props.contenttype.has_version,
+                                    has_location: props.contenttype.has_location,
+                                    has_location_id: props.contenttype.has_location_id,
+                                    name_pattern: props.contenttype.name_pattern,
+                                    fields: props.contenttype.fields
+                                } 
+                                url = "/api/contenttypes/"+props.identifier+"/";
+                                method = "PUT";
                             }
-                            fetch("/api/contenttypes/"+props.identifier+"/",{
+                            fetch(url,{
+                                method:method,
                                 headers:{
                                   'Content-Type':'application/json',
                                   'Accept':'application/json',
-                                  'method':"PUT"
-                                }
+                                },
+                                body: JSON.stringify(tmp)
                               }).then(response => {
                                 if(response.ok){
                                   return response.json();
                                 }throw response;
                               }).then(data => {
                                 
-                                if(data.type == 'success'){
-                                    console.log(data)
+                                if(data.type == 'Success'){
+                                    
 
                                     //update identifier
                                     tmp = {};
+                                    console.log(props.contenttype)
                                     for(let c of Object.keys(props.contenttypes)){
                                         if(c != props.identifier){
-                                            tmp[c] = props.contenttypes[c]
+                                            tmp[c] = props.contenttypes[c];
                                         }else{
-                                            tmp[identifier] = props.contenttype
+                                            tmp[identifier] = props.contenttype;
                                         }
                                     }
-                                    props.setIdentifier(identifier)
-                                    props.setContenttypes(tmp)
+                                    props.setIdentifier(identifier);
+                                    props.setContenttypes(tmp);
                                   
-                                  
+                                  if(props.adding){
+                                      props.setAdding(false);
+                                  }
                                 }
                               }).catch(error => {
                                 console.log("Unable to get contenttype");

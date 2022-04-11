@@ -24,9 +24,7 @@ const ManageContentTypes = (props:any) => {
           }throw response;
         }).then(data => {
           if(data.type == 'Success'){
-            console.log(data)
-            setContenttypes(data.response)
-            
+            setContenttypes(data.response) 
           }
         }).catch(error => {
             setContenttypes({"test":{name: "Test",table_name: "dm_test",has_version: false,has_location: false,has_location_id: false,name_pattern: "{title}",fields: [{identifier:"testtext", name:"Testtext", type:"text", required:true, parameters: {max_length: 10, is_multi_line:true}}]}})
@@ -36,6 +34,7 @@ const ManageContentTypes = (props:any) => {
     }, []);
 
     const [edit, setEdit] = useState(false)
+    const [adding, setAdding] = useState(false);
     
     function handleRemove(){
        
@@ -45,8 +44,9 @@ const ManageContentTypes = (props:any) => {
                 headers:{
                   'Content-Type':'application/json',
                   'Accept':'application/json',
-                  'method':"DELETE"
-                }
+                  
+                },
+                method:"DELETE"
 
               }).then(response => {
                 if(response.ok){
@@ -54,8 +54,7 @@ const ManageContentTypes = (props:any) => {
                 }throw response;
               }).then(data => {
                 
-                if(data.type == 'success'){
-                    console.log(data)
+                if(data.type == 'Success'){
                     const contenttypestemp:any[] = [];
                     const keys:any = Object.keys(contenttypes)
                     for (let contenttype of keys){
@@ -95,7 +94,7 @@ const ManageContentTypes = (props:any) => {
                         <Row>
                             <Col lg={8}>
                             <Form.Select required style={{border:"1px solid #ced4da"}} id= "ManageContentTypes_select"  onChange={(e:any) => {
-                                
+                                e.preventDefault()
                                 if(e.target.value != ""){
                                     
                                     setSelected(contenttypes[e.target.value])
@@ -126,15 +125,16 @@ const ManageContentTypes = (props:any) => {
                 </Form.Label>
                             </Col>
                             <Col lg={2}>
-                            <Button variant="primary" onClick={() => {
+                            <Button variant="primary" onClick={(e) => {
+                              e.preventDefault()
                                 if(selectedKey !=''){
-                               let element:any = document.getElementsByClassName("mainmenu")[0]
-                               element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
-                               element = document.getElementsByClassName("editmenu")[0]
-                               element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
-                               element =document.getElementsByClassName("feilmelding_select")[0];
-                                element.style="display:none;"
-                                setEdit(true)
+                                  let element:any = document.getElementsByClassName("mainmenu")[0]
+                                  element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
+                                  element = document.getElementsByClassName("editmenu")[0]
+                                  element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
+                                  element =document.getElementsByClassName("feilmelding_select")[0];
+                                  element.style="display:none;"
+                                  setEdit(true)
                                 }
                                 else{
                                     const event:any =document.getElementsByClassName("feilmelding_select")[0];
@@ -153,7 +153,17 @@ const ManageContentTypes = (props:any) => {
                         <Row style={{marginTop:"1rem"}}>
                             <Col lg={{span:10, offset:1}} className="d-grid">
                                 <Button variant="primary" onClick={() => {
-                                    
+                                    setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
+                                    setSelectedKey("")
+                                    setEdit(true)
+                                    setAdding(true)
+
+                                    let element:any = document.getElementsByClassName("mainmenu")[0]
+                                    element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
+                                    element = document.getElementsByClassName("editmenu")[0]
+                                    element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
+                                    element =document.getElementsByClassName("feilmelding_select")[0];
+                                    element.style="display:none;"
                                 }} >Add contenttype</Button>
                             </Col>
                         </Row>
@@ -161,7 +171,7 @@ const ManageContentTypes = (props:any) => {
 
                     
                     <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={props.setList} setListids={props.setListids}/> : "" }
+                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={props.setList} setListids={props.setListids}/> : "" }
                     </div>
                 </Form>
                 </Container>

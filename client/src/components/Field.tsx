@@ -2,7 +2,6 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import FieldContainer from './FieldContainer';
 import AddField from './AddField';
-import { maxHeaderSize } from 'http';
 
 
 
@@ -216,14 +215,14 @@ const Field = (props:any) => {
             return (
                 <>
                 
-                    {children.map((field:any, index:number) => (
-                        <FieldContainer key={"drag-"+props.fieldid+"-"+index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={props.fieldid}  collapsed={props.collapse} hasCollapsed={props.hasCollapsed}
+                    {children ? children.map((field:any, index:number) => (
+                        <FieldContainer key={"drag-"+props.fieldid+"-"+index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={props.fieldid}  collapsed={props.collapse}
                         parameters={props.parameters} list={children} setChildren={setChildren} fieldtypes={props.fieldtypes} parent={props.field}/>
                         )
-                    )}
+                    ): null}
                     
                     <Button onClick={() => setShow(true)}>+ add field</Button>
-                    <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
+                    <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} list={props.list} onClick={addContent}/>
                     
                 </>
             )

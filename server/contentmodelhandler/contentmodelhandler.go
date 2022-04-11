@@ -8,9 +8,11 @@ import (
 	"os"
 	"regexp"
 
-	//"github.com/digimakergo/digimaker/rest"
+	_ "dmdemo/pkg/controller/deployment" // bruker bare init metoden for å åpne entity0.so
+
+	"github.com/digimakergo/digimaker/core/definition"
+	"github.com/digimakergo/digimaker/rest"
 	"github.com/gorilla/mux"
-	//deployment "dmdemo/pkg/controller/deployment"
 )
 
 type Contenttype struct {
@@ -194,14 +196,6 @@ func UpdateContenttypeFields(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
-	errors := validation(fields)
-
-	if len(errors) > 0 {
-		message := MessageError{Type: "error", Response: &errors}
-		json.NewEncoder(w).Encode(message)
-		return
-	}
-
 	contentmodel := make(map[string]interface{})
 	file, error := os.Open("./configs/contenttype.json")
 	if error != nil {
@@ -225,6 +219,21 @@ func UpdateContenttypeFields(w http.ResponseWriter, router *http.Request) {
 		json.NewEncoder(w).Encode(m2)
 		return
 	}
+
+	if contentmodel[contenttype] == nil {
+		m2 := Response{Type: "error", Response: "Contenttype '" + contenttype + "' doesn't exist"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	errors := validation(fields)
+
+	if len(errors) > 0 {
+		message := MessageError{Type: "error", Response: &errors}
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
 	data, error3 := json.Marshal(contentmodel[contenttype])
 	if error3 != nil {
 		m2 := Response{Type: "error", Response: "Unable to load contenttype.json"}
@@ -253,8 +262,8 @@ func UpdateContenttypeFields(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
-	//deployment.GenerateEntities()
-	m := Response{Type: "Success", Response: "Successfully saved the new contenttype"}
+	definition.LoadDefinition() //deployment.GenerateEntities()
+	m := Response{Type: "Success", Response: "Successfully updated the fields of '" + contenttype + "'"}
 	json.NewEncoder(w).Encode(m)
 
 }
@@ -295,7 +304,7 @@ func GetContenttype(w http.ResponseWriter, router *http.Request) {
 	json.NewEncoder(w).Encode(m)
 }
 
-func GetContenttypes(w http.ResponseWriter, router *http.Request) {
+/*func GetContenttypes(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	contentmodel := make(map[string]interface{})
 	file, error := os.Open("./configs/contenttype.json")
@@ -327,7 +336,7 @@ func GetContenttypes(w http.ResponseWriter, router *http.Request) {
 	}
 	m := MessageI{Type: "Success", Response: contenttypes}
 	json.NewEncoder(w).Encode(m)
-}
+}*/
 
 func GetContentmodel(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -423,9 +432,9 @@ func RemoveContenttype(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
-	//deployment.GenerateEntities()
+	definition.LoadDefinition() //deployment.GenerateEntities()
 
-	m := MessageI{Type: "Success", Response: "Successfully removed \"" + contenttype + "\""}
+	m := MessageI{Type: "Success", Response: "Successfully removed '" + contenttype + "'"}
 	json.NewEncoder(w).Encode(m)
 }
 
@@ -478,7 +487,15 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 		messages = append(messages, m)
 	}
 	if len(contenttype.Name) == 0 {
-		m := ErrorResponse{Message: "Name does not have a valid value", From: contenttypeStr, Field: "name"}
+		m := ErrorResponse{Message: "Name cannot be empty", From: contenttypeStr, Field: "name"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.TableName) == 0 {
+		m := ErrorResponse{Message: "Table name cannot be empty", From: contenttypeStr, Field: "table_name"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.NamePattern) == 0 {
+		m := ErrorResponse{Message: "Name pattern cannot be empty", From: contenttypeStr, Field: "name_pattern"}
 		messages = append(messages, m)
 	}
 
@@ -505,6 +522,8 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 		m2 := Response{Type: "error", Response: "Unable to save to contenttype.json"}
 		json.NewEncoder(w).Encode(m2)
 		return
+	} else {
+		definition.LoadDefinition() //deployment.GenerateEntities()
 	}
 
 	m := MessageI{Type: "Success", Response: "Successfully created '" + contenttypeStr + "'"}
@@ -577,7 +596,15 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 		messages = append(messages, m)
 	}
 	if len(contenttype.Name) == 0 {
-		m := ErrorResponse{Message: "Name does not have a valid value", From: contenttype.Identifier, Field: "name"}
+		m := ErrorResponse{Message: "Name cannot be empty", From: contenttype.Identifier, Field: "name"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.TableName) == 0 {
+		m := ErrorResponse{Message: "Table name cannot be empty", From: contenttypeStr, Field: "table_name"}
+		messages = append(messages, m)
+	}
+	if len(contenttype.NamePattern) == 0 {
+		m := ErrorResponse{Message: "Name pattern cannot be empty", From: contenttypeStr, Field: "name_pattern"}
 		messages = append(messages, m)
 	}
 
@@ -608,20 +635,51 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
-	//deployment.GenerateEntities()
+	definition.LoadDefinition() //deployment.GenerateEntities()
 
 	m := MessageI{Type: "Success", Response: "Successfully Updated '" + contenttypeStr + "'"}
 	json.NewEncoder(w).Encode(m)
 
 }
 
+func GetFieldTypes(w http.ResponseWriter, router *http.Request) {
+	fieldtypes := make(map[string]interface{})
+	file, error := os.Open("./configs/FieldTypeDefinition.json")
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load FieldTypeDefinition.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	defer file.Close()
+	data, error := ioutil.ReadAll(file)
+	if error != nil {
+		m2 := Response{Type: "error", Response: "Unable to load FieldTypeDefinition.json"}
+		json.NewEncoder(w).Encode(m2)
+		fmt.Println(error)
+		return
+	}
+	//var res map[string]interface{}
+	error2 := json.Unmarshal([]byte(data), &fieldtypes)
+	if error2 != nil {
+		m2 := Response{Type: "error", Response: "Unable to byte FieldTypeDefinition.json"}
+		json.NewEncoder(w).Encode(m2)
+		return
+	}
+
+	m := MessageI{Type: "Success", Response: fieldtypes}
+	json.NewEncoder(w).Encode(m)
+}
+
 func init() {
-	/*rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", GetContenttype, "GET")
-	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", UpdateContentmodel, "PUT")
-	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", RemoveContenttype, "DELETE")
-	rest.RegisterRoute("/dmdemo/contentmodel/{entity}/", CreateContenttype, "POST")
-	rest.RegisterRoute("/dmdemo/contenttypes/", GetContenttypes, "GET")
-	rest.RegisterRoute("/dmdemo/contentmodel/", GetContentmodel, "GET")
-	rest.RegisterRoute("/dmdemo/contenttypes/{entity}/", UpdateContenttype, "PUT")*/
+
+	rest.RegisterRoute("/contentmodel/{entity}/", GetContenttype, "GET")
+	rest.RegisterRoute("/contentmodel/{entity}/", UpdateContenttypeFields, "PUT")
+	rest.RegisterRoute("/contentmodel/{entity}/", RemoveContenttype, "DELETE")
+	rest.RegisterRoute("/contentmodel/{entity}/", CreateContenttype, "POST")
+	//rest.RegisterRoute("/contenttypes/", GetContenttypes,"GET")
+	rest.RegisterRoute("/contentmodel/", GetContentmodel, "GET")
+	rest.RegisterRoute("/contenttypes/{entity}/", UpdateContenttype, "PUT")
+	rest.RegisterRoute("/contenttypes/fieldtypes/", GetFieldTypes, "GET")
 
 }
