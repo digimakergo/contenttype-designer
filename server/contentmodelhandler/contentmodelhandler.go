@@ -25,7 +25,7 @@ type Contenttype struct {
 	NamePattern   string  `json:"name_pattern"`
 }
 
-type ContenttypeFocus struct {
+type ContenttypeUpdate struct {
 	Identifier    string  `json:"identifier,omitempty"`
 	Name          string  `json:"name"`
 	TableName     string  `json:"table_name"`
@@ -34,16 +34,6 @@ type ContenttypeFocus struct {
 	HasLocationId bool    `json:"has_location_id"`
 	Fields        []Field `json:"fields"`
 	NamePattern   string  `json:"name_pattern"`
-}
-type ContenttypeFocuss struct {
-	Identifier    string        `json:"identifier,omitempty"`
-	Name          string        `json:"name"`
-	TableName     string        `json:"table_name"`
-	HasVersion    bool          `json:"has_version"`
-	HasLocation   bool          `json:"has_location"`
-	HasLocationId bool          `json:"has_location_id"`
-	Fields        []interface{} `json:"fields"`
-	NamePattern   string        `json:"name_pattern"`
 }
 
 type Parameters struct {
@@ -500,7 +490,8 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 	}
 
 	if len(messages) > 0 {
-		json.NewEncoder(w).Encode(messages)
+		message := MessageError{Type: "error", Response: &messages}
+		json.NewEncoder(w).Encode(message)
 		return
 	}
 
@@ -534,7 +525,7 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	contenttypeStr := mux.Vars(router)["entity"]
-	var contenttype ContenttypeFocus
+	var contenttype ContenttypeUpdate
 	error := json.NewDecoder(router.Body).Decode(&contenttype)
 	if error != nil {
 		m2 := Response{Type: "error", Response: "Unable to load request body"}
@@ -579,7 +570,7 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 		return
 	}
 
-	var con ContenttypeFocus
+	var con Contenttype
 	error2 = json.Unmarshal([]byte(data), &con)
 
 	if error2 != nil {
@@ -591,12 +582,16 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 	//validate
 	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttype.Identifier)
 	var messages []ErrorResponse
+	if contenttype.Identifier == "" {
+		m := ErrorResponse{Message: "Identifier cannot be empty", From: contenttypeStr, Field: "identifier"}
+		messages = append(messages, m)
+	}
 	if match == true {
-		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttype.Identifier, Field: "identifier"}
+		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttypeStr, Field: "identifier"}
 		messages = append(messages, m)
 	}
 	if len(contenttype.Name) == 0 {
-		m := ErrorResponse{Message: "Name cannot be empty", From: contenttype.Identifier, Field: "name"}
+		m := ErrorResponse{Message: "Name cannot be empty", From: contenttypeStr, Field: "name"}
 		messages = append(messages, m)
 	}
 	if len(contenttype.TableName) == 0 {
@@ -609,7 +604,8 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 	}
 
 	if len(messages) > 0 {
-		json.NewEncoder(w).Encode(messages)
+		message := MessageError{Type: "error", Response: &messages}
+		json.NewEncoder(w).Encode(message)
 		return
 	}
 	if contenttypeStr != contenttype.Identifier {
