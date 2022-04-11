@@ -28,7 +28,7 @@ const EditContenttype = (props:any) => {
             error.style="display:none;"
             valid = false;
         }
-        else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(identifier)){
+        else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(identifier)){
           //props.contenttype.identifier = "";
           const element:any = document.getElementsByClassName("contenttype-identifier")[0];
           element.style= "border: solid red 2px;"
@@ -90,7 +90,7 @@ const EditContenttype = (props:any) => {
                               return
                           }
             
-                           else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
+                           else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(e.target.value )){
                             //props.contenttype.identifier = "";
                             e.target.style= "border: solid red 2px;"
                             const element:any =document.getElementsByClassName("contenttype-error-identifier")[0];
@@ -236,7 +236,7 @@ const EditContenttype = (props:any) => {
                             }
                             props.setListids(listids)
                             props.setList(props.contenttype.fields)
-
+                            
                             props.setShow(false);
                             
                         }}>Edit fields</Button>

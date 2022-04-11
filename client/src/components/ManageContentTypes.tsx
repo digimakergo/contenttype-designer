@@ -29,6 +29,8 @@ const ManageContentTypes = (props:any) => {
             
           }
         }).catch(error => {
+            setContenttypes({"test":{name: "Test",table_name: "dm_test",has_version: false,has_location: false,has_location_id: false,name_pattern: "{title}",fields: [{identifier:"testtext", name:"Testtext", type:"text", required:true, parameters: {max_length: 10, is_multi_line:true}}]}})
+            
           console.log("Unable to get contenttypes");
         })
     }, []);
@@ -82,9 +84,7 @@ const ManageContentTypes = (props:any) => {
     
     return (
 
-        <Modal show={props.show} onHide={() => {
-          props.setShow(false)
-      }} >
+        <Modal show={props.show}>
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
             <Modal.Body style={{height: "30rem"}}>

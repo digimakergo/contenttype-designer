@@ -48,8 +48,9 @@ function App() {
         }
         throw response;
     }).then(data => {
-      if(data.response == "Success")
-        setFieldtypes(data.response);
+      //if(data.response == "Success")
+      //console.log(da)
+        setFieldtypes(data);
     }).catch(error => {
         console.log("error: " + error);
     })
@@ -339,13 +340,19 @@ function App() {
     <div className="App">
       <Container fluid>
         <ManageContentTypes show={showContentManager} setShow={setShowContentManager} setList={setList} setListids={setListids} />
-        <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
-          <Col sm={1} md={1} lg={1} className="d-grid">
+          <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
+          <Col sm={2} md={2} lg={2} className="d-grid">
             <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
           </Col>
 
-          <Col sm={10} md={10} lg={10}>
+          <Col sm={8} md={8} lg={8}>
             <ToastMessage text="Successfully updated the contentmodel" delay={5000} show={showToast} setShow={setShowToast}/>
+          </Col>
+
+          <Col sm={2} md={2} lg={2} className="d-grid">
+            <Button variant="primary" onClick={() => {
+              setShowContentManager(true)
+            }} >Back to main menu</Button>
           </Col>
           
         </Row>
@@ -372,6 +379,7 @@ function App() {
         </Row>
         
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent} list={list}/>
+       
         <Row >
           <Col className="d-grid" lg={{span:1, offset:9}} md={{span:1, offset:9}} sm={{span:1, offset:9}}>
           <Button id="submitdata" onClick={getList}  variant="primary">
@@ -381,6 +389,7 @@ function App() {
         
         </Row>
         
+        <Col lg={2}></Col>
         <ListOfErrors show={showErr} setShow={setShowErr} errors={errors}/>
       </Container>
     </div>

@@ -191,6 +191,9 @@ const Field = (props:any) => {
     }*/
 
     const render = () => {
+
+        
+
         
         if(props.field.type != "container" && props.parameters != null){
             return (
@@ -212,13 +215,16 @@ const Field = (props:any) => {
         }else if(props.field.type === "container"){
             return (
                 <>
+                
                     {children.map((field:any, index:number) => (
                         <FieldContainer key={"drag-"+props.fieldid+"-"+index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={props.fieldid}  collapsed={props.collapse} hasCollapsed={props.hasCollapsed}
                         parameters={props.parameters} list={children} setChildren={setChildren} fieldtypes={props.fieldtypes} parent={props.field}/>
                         )
                     )}
+                    
                     <Button onClick={() => setShow(true)}>+ add field</Button>
                     <AddField show={show} setShow={setShow} fieldtypes={props.fieldtypes} onClick={addContent}/>
+                    
                 </>
             )
         }
@@ -227,6 +233,7 @@ const Field = (props:any) => {
 
     return (
         <> 
+        
 
         <Row className='justify-content-start'>
         <Col xs={2} md={2} lg={2}>
@@ -293,7 +300,7 @@ const Field = (props:any) => {
                         element.style="display:none;"
                             return
                         }
-                       else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
+                       else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(e.target.value )){
                     
                         props.field.identifier = ""; // ikke la identiifer være tom
                         e.target.style= "border: solid red 2px;"

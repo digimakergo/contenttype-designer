@@ -70,7 +70,7 @@ const AddField = (props:any) => {
                   return
               }
 
-               else if(!/^(?![-_.])(?!.*[-_.]{2})[a-z0-9]{1,10}/gm.test(e.target.value )){
+               else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(e.target.value )){
                 setIdentifier("");
                 e.target.style= "border: solid red 2px;"
                 const element:any =document.getElementsByClassName("feilmelding_addfieldIdentifier")[0];
