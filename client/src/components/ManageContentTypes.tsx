@@ -8,30 +8,7 @@ import { useState, useEffect } from 'react'
 import EditContenttype from './EditContenttype';
 
 const ManageContentTypes = (props:any) => {
-    const def:any= {}
-    const[contenttypes, setContenttypes] = useState(def)
-    useEffect(()=>{
-        fetch('/api/contentmodel/',{
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'Method':'GET'
-          }
-        }).then(response => {
-          
-          if(response.ok){
-            return response.json();
-          }throw response;
-        }).then(data => {
-          if(data.type == 'Success'){
-            setContenttypes(data.response) 
-          }
-        }).catch(error => {
-            setContenttypes({"test":{name: "Test",table_name: "dm_test",has_version: false,has_location: false,has_location_id: false,name_pattern: "{title}",fields: [{identifier:"testtext", name:"Testtext", type:"text", required:true, parameters: {max_length: 10, is_multi_line:true}}]}})
-            
-          console.log("Unable to get contenttypes");
-        })
-    }, []);
+    
 
     const [edit, setEdit] = useState(false)
     const [adding, setAdding] = useState(false);
@@ -56,20 +33,20 @@ const ManageContentTypes = (props:any) => {
                 
                 if(data.type == 'Success'){
                     const contenttypestemp:any[] = [];
-                    const keys:any = Object.keys(contenttypes)
+                    const keys:any = Object.keys(props.contenttypes)
                     for (let contenttype of keys){
                         if(contenttype !== selectedKey) {
-                            contenttypestemp[contenttype] = contenttypes[contenttype]
+                            contenttypestemp[contenttype] = props.contenttypes[contenttype]
                         }
                     }
 
                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
                     setSelectedKey("")
-                    setContenttypes(contenttypestemp);
+                    props.setContenttypes(contenttypestemp);
                   
                 }
               }).catch(error => {
-                console.log("Unable to get contenttype");
+                props.setContentManagementMessage([...props.ContentManagementMessage, "Unable to remove a contenttype"]);
               })
 
             
@@ -97,7 +74,7 @@ const ManageContentTypes = (props:any) => {
                                 e.preventDefault()
                                 if(e.target.value != ""){
                                     
-                                    setSelected(contenttypes[e.target.value])
+                                    setSelected(props.contenttypes[e.target.value])
                                     setSelectedKey(e.target.value)
 
                                     let element:any = document.getElementById("ManageContentTypes_select");
@@ -113,8 +90,8 @@ const ManageContentTypes = (props:any) => {
                                 
                             
                                 <option key={"contenttype-0"} value={''}>Choose a contenttype</option>
-                                {Object.keys(contenttypes).map((contenttype:any, index:number)=>(
-                                <option key={'contenttype-'+(index+1)} value={contenttype}>{contenttypes[contenttype].name}</option>
+                                {Object.keys(props.contenttypes).map((contenttype:any, index:number)=>(
+                                <option key={'contenttype-'+(index+1)} value={contenttype}>{props.contenttypes[contenttype].name}</option>
                                 ))}
 
 
@@ -167,12 +144,25 @@ const ManageContentTypes = (props:any) => {
                                 }} >Add contenttype</Button>
                             </Col>
                         </Row>
+                        <Row className='align-content-center'>
+                          
+                            {props.ContentManagementMessage.map((val:string, index:number) => (
+                              <Form.Label key={"message-"+index} style={{marginTop:"1rem"}}>
+                                {val}
+                              </Form.Label>
+                            ))}
+                          
+                        </Row>
+                        
                     </Form.Group>
 
                     
                     <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={props.setList} setListids={props.setListids}/> : "" }
+                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids}/> : "" }
+                    
                     </div>
+
+                    
                 </Form>
                 </Container>
         

@@ -10,7 +10,6 @@ import ListOfErrors from './components/ListOfErrors';
 import ToastMessage from './components/ToastMessage';
 import ManageContentTypes from './components/ManageContentTypes';
 
-
 interface listElements {
   identifier:string,
   name:string,
@@ -28,31 +27,73 @@ function App() {
 
   let listids:number[];
   let setListids:any;
-  [listids, setListids] = useState([]) 
-  const [accesstoken, setAccesstoken] = useState("") 
+  [listids, setListids] = useState([])
   const [fieldtypes, setFieldtypes] = useState([])
   const [showContentManager, setShowContentManager] = useState(true)
 
+  const [toastMessage, setToastMessage] = useState("");
+  const [ContentManagementMessage, setContentManagementMessage] = useState([""]);
+
+  let def:any= {}
+  const[contenttypes, setContenttypes] = useState(def)
+
   useEffect(()=>{
-    fetch('/api/contenttypes/fieldtypes/',{
+
+    const requests = async () => {
+      const errors:string[] = [];
+    let counter = 0;
+    let response = await fetch('/api/contentmodel/',{
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json',
+        'Method':'GET'
+      }
+    })
+
+    if(response.ok){
+      let data:any = await response.json();
+      if(data.type == 'Success'){
+        setContenttypes(data.response) 
+      }else{
+        errors[counter] = "Unable to get contenttypes";
+        counter++;
+      }
+    }else{
+      errors[counter] = "Unable to get contenttypes";
+      counter++;
+    }
+    
+
+    response = await fetch('/api/contenttypes/fieldtypes/',{
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json',
         },
         method: 'GET'
-    }).then(response => {
-        if(response.ok){
-            return response.json();
-        }
-        throw response;
-    }).then(data => {
+    })
+    if(response.ok){
+      
+      let data:any = await response.json();
       if(data.type == "Success"){
         setFieldtypes(data.response);
-        console.log("hi") 
+      }else{
+        console.log("sda")
+        console.log(data)
+        errors[counter] = "Unable to get field types";
+        counter++;
+        //setShowToast(true)
       }
-    }).catch(error => {
-        console.log("Unable to get field types");
-    })
+    }else{
+      console.log("sda")
+      errors[counter] = "Unable to get field types";
+      counter++;
+    }
+    
+    setContentManagementMessage(errors);
+    }
+
+    requests()
+    
 }, [])
   
   const [collapse, setCollapse] = useState(false);
@@ -64,7 +105,7 @@ function App() {
       event.stopPropagation();
     }
   }
-  const def:any[] = []
+  def = []
   const [show, setShow] = useState(false);
   const [showErr, setShowErr] = useState(false);
   const [showToast, setShowToast] = useState(false)
@@ -239,8 +280,8 @@ function App() {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
                   field: val,
-              }
-              counter++;
+                }
+                counter++;
               }
 
               if(fieldtypes[items[i].type]['parameters'][val] == "bool" && items[i].parameters[val] == null  && items[i].parameters[val] == true){
@@ -248,8 +289,8 @@ function App() {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
                   field: val,
-              }
-              counter++;
+                }
+                counter++;
               }
 
               if(fieldtypes[items[i].type]['parameters'][val] == "string" && items[i].parameters[val] == null  && items[i].parameters[val] == ""){
@@ -257,59 +298,31 @@ function App() {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
                   field: val,
+                }
+                counter++;
               }
-              counter++;
-              }
-              
             })
-            
-            
-  
-
-          
-
-      }
-/*
-     const elemenets:any= document.getElementsByClassName("identifiers");
-      console.log(elemenets)
-          for(let i = 0; i < elemenets.length; i++ ){
-            if(elemenets[i].value==""){
-              listErr[counter] = {
-                from:items[i].identifier,
-                message: "identifier cannot be empty",
-                field:"identifier",
-              }
-              counter++;
-            }
-          }
-*/
-          
+      }   
       return listErr;
     }
 
    const getList = async ()=>{
 
       const errs:any[] = valid(list);
-      console.log(errs)
       if (errs.length >  0) {
         setErrors(errs);
         setShowErr(true)
-    
-      
       }else {
         const location= ("/api/contentmodel/" + contenttype + "/");
-      const settings= {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': "*",
-          'mode':'no-cors'
-
-        },
-        body: JSON.stringify(list) 
-      };
-     
-      
+        const settings= {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': "*",
+            'mode':'no-cors'
+          },
+          body: JSON.stringify(list) 
+        };
       try{
         const fetchResponse = await fetch(`${location}`,settings);
         await fetchResponse.json().then(data => {
@@ -318,6 +331,7 @@ function App() {
             setErrors(data.response)
             setShowErr(true)
           }else{
+            setToastMessage("Successfully updated the contentmodel")
             setShowToast(true)
           }
         });
@@ -335,37 +349,31 @@ function App() {
   return (
     <div className="App">
       <Container fluid>
-        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} setList={setList} setListids={setListids} />
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} />
           <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
-          <Col sm={2} md={2} lg={2} className="d-grid">
-            <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
-          </Col>
+            <Col sm={2} md={2} lg={2} className="d-grid">
+              <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
+            </Col>
 
-          <Col sm={8} md={8} lg={8}>
-            <ToastMessage text="Successfully updated the contentmodel" delay={5000} show={showToast} setShow={setShowToast}/>
-          </Col>
+            <Col sm={{span:5, offset:3}} md={{span:5, offset:3}} lg={{span:5, offset:3}}>
+              <ToastMessage text={toastMessage} delay={5000} show={showToast} setShow={setShowToast}/>
+            </Col>
 
-          <Col sm={2} md={2} lg={2} className="d-grid">
-            <Button variant="primary" onClick={() => {
-              setShowContentManager(true)
-            }} >Back to main menu</Button>
-          </Col>
-          
-        </Row>
+            <Col sm={2} md={2} lg={2} className="d-grid">
+              <Button variant="primary" onClick={() => {
+                setShowContentManager(true)
+              }} >Back to main menu</Button>
+            </Col>
+            
+          </Row>
         
-        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} //noValidate
-       
-       onSubmit={Submit}>
-          
+        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} onSubmit={Submit}>
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}
                   Remove={deleteElement} parameters={fieldtypes[field.type]} list={list} fieldtypes={fieldtypes}></DragNDropComponent>
             ))}
           </DndProvider>
-          <Form.Group>
-         
-      </Form.Group>
         </Form>
 
         <Row style={{marginBottom:"0.5rem", marginTop:"0.5rem"}}>
@@ -376,13 +384,12 @@ function App() {
         
         <AddField show={show} setShow={setShow} fieldtypes={fieldtypes} onClick={addContent} list={list}/>
        
-        <Row >
+        <Row>
           <Col className="d-grid" lg={{span:1, offset:9}} md={{span:1, offset:9}} sm={{span:1, offset:9}}>
-          <Button id="submitdata" onClick={getList}  variant="primary">
-        Submit
-      </Button>
+            <Button id="submitdata" onClick={getList}  variant="primary">
+              Submit
+            </Button>
           </Col>
-        
         </Row>
         
         <Col lg={2}></Col>
