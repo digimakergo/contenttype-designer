@@ -48,7 +48,11 @@ const Field = (props:any) => {
         props.field.children.push(contentObj)
     }
     const getFormControl = (type:string, element:string) =>{
-      
+
+        if(props.field.parameters == null){
+            props.field.parameters = {};
+        }
+
         if(type === 'int'){
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = 0;
