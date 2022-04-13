@@ -64,7 +64,7 @@ function App() {
     }
     
 
-    response = await fetch('/api/contenttypes/fieldtypes/',{
+    response = await fetch('/api/contenttype/fieldtypes/',{
         headers:{
             'Content-Type':'application/json',
             'Accept':'application/json',
@@ -313,7 +313,7 @@ function App() {
         setErrors(errs);
         setShowErr(true)
       }else {
-        const location= ("/api/contentmodel/" + contenttype + "/");
+        const location= ("/api/contentmodel/fields/" + contenttype + "/");
         const settings= {
           method: 'PUT',
           headers: {

@@ -67,8 +67,8 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Identifier</Form.Label>
                     </Col>
-                    <Col>
-                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.identifier} onChange={(e:any) => {
+                    <Col sm="8" md="8" lg="8">
+                        <Form.Control className="contenttype-identifier" type="text" defaultValue={props.identifier} placeholder="Choose an id name. E.g., product_id" onChange={(e:any) => {
                             
 
                             function checkIdentifier(list:any[]){
@@ -129,8 +129,8 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Name</Form.Label>
                     </Col>
-                    <Col>
-                        <Form.Control type="text" className="contenttype-name" defaultValue={props.contenttype.name} onChange={(e:any) => {
+                    <Col sm="8" md="8" lg="8">
+                        <Form.Control type="text" className="contenttype-name" defaultValue={props.contenttype.name} placeholder="Choose a name" onChange={(e:any) => {
                             
 
                             if(e.target.value== ""){
@@ -158,7 +158,7 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Has version</Form.Label>
                     </Col>
-                    <Col>
+                    <Col sm="8" md="8" lg="8">
                         <Form.Check type="checkbox" defaultChecked={props.contenttype.has_version} onClick={(e:any) => {
                             props.contenttype.has_version = e.target.checked;
                         }}/>
@@ -169,7 +169,7 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Has location</Form.Label>
                     </Col>
-                    <Col>
+                    <Col sm="8" md="8" lg="8">
                         <Form.Check type="checkbox" defaultChecked={props.contenttype.has_location} onClick={(e:any) => {
                             props.contenttype.has_location = e.target.checked;
                         }}/>
@@ -180,7 +180,7 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Has location id</Form.Label>
                     </Col>
-                    <Col>
+                    <Col sm="8" md="8" lg="8">
                         <Form.Check type="checkbox" defaultChecked={props.contenttype.has_location_id} onClick={(e:any) => {
                             props.contenttype.has_location_id = e.target.checked;
                         }}/>
@@ -195,8 +195,8 @@ const EditContenttype = (props:any) => {
                     <Col>
                         <Form.Label>Name pattern</Form.Label>
                     </Col>
-                    <Col>
-                        <Form.Control type="text" className="contenttype-namepattern" defaultValue={props.contenttype.name_pattern} onChange={(e:any) => {
+                    <Col sm="8" md="8" lg="8">
+                        <Form.Control type="text" className="contenttype-namepattern" defaultValue={props.contenttype.name_pattern} placeholder="Choose a name pattern E.g., {title}" onChange={(e:any) => {
                             if(e.target.value== ""){
                                 props.contenttype.name_pattern = "";
                                 e.target.style= "border: solid red 1px;"
@@ -225,6 +225,7 @@ const EditContenttype = (props:any) => {
                             element = document.getElementsByClassName("editmenu")[0]
                             element.style = "transform: translate(-110%,-16%); transition: 0.5s;";
                             props.setEdit(false)
+                            props.setAdding(false)
                         }} >Go back</Button>
                     </Col>
     
@@ -326,6 +327,13 @@ const EditContenttype = (props:any) => {
                     }}>Save</Button>
                 </Col>
             </Row>
+
+            {props.adding ? 
+            <Row className='text-center'>
+                <Form.Label style={{color:"red"}}>
+                    To edit fields you first have to save the contenttype
+                </Form.Label>
+            </Row> : null}
 
             </Form.Group>
 

@@ -144,7 +144,7 @@ const ManageContentTypes = (props:any) => {
                                 }} >Add contenttype</Button>
                             </Col>
                         </Row>
-                        <Row className='align-content-center'>
+                        <Row className='text-center'>
                           
                             {props.ContentManagementMessage.map((val:string, index:number) => (
                               <Form.Label key={"message-"+index} style={{marginTop:"1rem"}}>

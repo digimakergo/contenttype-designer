@@ -102,6 +102,10 @@ func validation(fields []Field) []ErrorResponse {
 			m := ErrorResponse{Message: "Identifier does not have a valid value", From: elem.Identifier, Field: "identifier"}
 			messages = append(messages, m)
 		}
+		if elem.Identifier == "" {
+			m := ErrorResponse{Message: "Identifier does not have a valid value", From: elem.Identifier, Field: "identifier"}
+			messages = append(messages, m)
+		}
 		if len(elem.Name) == 0 {
 			m := ErrorResponse{Message: "Name does not have a valid value", From: elem.Identifier, Field: "name"}
 			messages = append(messages, m)
@@ -670,12 +674,12 @@ func GetFieldTypes(w http.ResponseWriter, router *http.Request) {
 func init() {
 
 	rest.RegisterRoute("/contentmodel/{entity}/", GetContenttype, "GET")
-	rest.RegisterRoute("/contentmodel/{entity}/", UpdateContenttypeFields, "PUT")
+	rest.RegisterRoute("/contentmodel/fields/{entity}/", UpdateContenttypeFields, "PUT")
 	rest.RegisterRoute("/contentmodel/{entity}/", RemoveContenttype, "DELETE")
 	rest.RegisterRoute("/contentmodel/{entity}/", CreateContenttype, "POST")
 	//rest.RegisterRoute("/contenttypes/", GetContenttypes,"GET")
 	rest.RegisterRoute("/contentmodel/", GetContentmodel, "GET")
-	rest.RegisterRoute("/contenttypes/{entity}/", UpdateContenttype, "PUT")
-	rest.RegisterRoute("/contenttypes/fieldtypes/", GetFieldTypes, "GET")
+	rest.RegisterRoute("/contentmodel/{entity}/", UpdateContenttype, "PUT")
+	rest.RegisterRoute("/contenttype/fieldtypes/", GetFieldTypes, "GET")
 
 }
