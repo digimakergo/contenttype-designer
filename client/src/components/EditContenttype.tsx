@@ -284,7 +284,7 @@ const EditContenttype = (props:any) => {
                                     name_pattern: props.contenttype.name_pattern,
                                     fields: props.contenttype.fields
                                 } 
-                                url = "/api/contenttypes/"+props.identifier+"/";
+                                url = "/api/contentmodel/"+props.identifier+"/";
                                 method = "PUT";
                             }
                             fetch(url,{
@@ -317,6 +317,9 @@ const EditContenttype = (props:any) => {
                                     props.setContenttypes(tmp);
                                   
                                   if(props.adding){
+                                      let tmp = props.contenttypes;
+                                      tmp[identifier] = props.contenttype;
+                                      props.setContenttypes(tmp)
                                       props.setAdding(false);
                                   }
                                 }
