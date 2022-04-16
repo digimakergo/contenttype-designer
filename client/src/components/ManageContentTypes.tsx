@@ -4,11 +4,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import EditContenttype from './EditContenttype';
 
 const ManageContentTypes = (props:any) => {
     
+    const selector:any = useRef(null);
 
     const [edit, setEdit] = useState(false)
     const [adding, setAdding] = useState(false);
@@ -43,6 +44,7 @@ const ManageContentTypes = (props:any) => {
                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
                     setSelectedKey("")
                     props.setContenttypes(contenttypestemp);
+                    selector.current?.reset()
                   
                 }
               }).catch(error => {
@@ -70,7 +72,7 @@ const ManageContentTypes = (props:any) => {
                         
                         <Row>
                             <Col lg={8}>
-                            <Form.Select required style={{border:"1px solid #ced4da"}} id= "ManageContentTypes_select"  onChange={(e:any) => {
+                            <Form.Select ref={selector} required style={{border:"1px solid #ced4da"}} id= "ManageContentTypes_select"  onChange={(e:any) => {
                                 e.preventDefault()
                                 if(e.target.value != ""){
                                     

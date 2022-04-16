@@ -105,7 +105,7 @@ const DragNDropComponent = (props:any) => {
                             <Col xs="8" md="8" lg="8"><h2 style={{color:"white"}}>{fieldname}</h2></Col>
                             <Col xs={{span:"2", offset:"2"}} md={{span:"2", offset:"2"}} lg={{span:"2", offset:"2"}}>
                                 <img onClick={dropdown} className='dropdown-field-img' id={"dropdown-field-img-"+props.index} style={{width:"3rem", float:"right", transition: "500ms", cursor: "pointer"}}
-                                     src='./images/dropdownicon.png'/>
+                                     src='/images/dropdownicon.png'/>
                                 </Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.index} style={{display:"block"}}>

@@ -29,7 +29,7 @@ const FieldContainer = (props:any) => {
                 
                     <Row className='align-items-center' style={headerstyle}>
                         <Col xs="11" md="11" lg="11"><h2 style={{color:"white"}}>{props.field.name}</h2></Col>
-                        <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='./images/dropdownicon.png'/></Col>
+                        <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='/images/dropdownicon.png'/></Col>
                     </Row>                
                     <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
                         <Field field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={props.identifier} setFieldname={props.setFieldname} />

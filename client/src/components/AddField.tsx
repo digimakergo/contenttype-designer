@@ -25,7 +25,7 @@ const AddField = (props:any) => {
             <Form.Control required type='text' placeholder='Write a field name' id="addField_name" onChange={(e:any) => {      
               if(e.target.value== ""){
                 setName("");
-                e.target.style= "border: solid red 1px;"
+                e.target.style= "border: solid red 2px;"
                 const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
                 element.style="display:block;"
   
@@ -89,10 +89,10 @@ const AddField = (props:any) => {
                 </Form.Label>
           </Row>
           <Row style={{margin:"0.5rem"}}>
-            <Form.Select required style={{border:"1px solid #ced4da"}} id= "addField_select" onChange={(event:any) => {
+            <Form.Select required style={{border:"2px solid #ced4da"}} id= "addField_select" onChange={(event:any) => {
               if(event.target.value== ""){
                 setType("");
-                event.target.style= "border: solid red 1px;"
+                event.target.style= "border: solid red 2px;"
                 const element:any =document.getElementsByClassName("feilmelding_select")[0];
                 element.style="display:block;";
               }else{
@@ -144,14 +144,14 @@ const AddField = (props:any) => {
             if(name==""){
               const element:any =document.getElementsByClassName("feilmelding_addfieldname")[0];
               const er:any = document.getElementById("addField_name");
-              er.style = "border:1px solid red;"
+              er.style = "border:2px solid red;"
               console.log(er)
               element.style="display:block;" 
             }
             if(type==""){
                 
                 const er:any = document.getElementById("addField_select");
-                er.style=  "border:1px solid red;"
+                er.style=  "border:2px solid red;"
                 const element:any =document.getElementsByClassName("feilmelding_select")[0];
                 element.style="display:block;";
             }
