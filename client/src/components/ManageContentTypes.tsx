@@ -160,7 +160,7 @@ const ManageContentTypes = (props:any) => {
 
                     
                     <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids}/> : "" }
+                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids} setShowToast={props.setShowToast} setToastMessage={props.setToastMessage} message={adding ? "To edit fields you first have to save the contenttype" : ""}/> : "" }
                     
                     </div>
 

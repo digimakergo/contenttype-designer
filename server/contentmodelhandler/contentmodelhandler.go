@@ -8,11 +8,11 @@ import (
 	"os"
 	"regexp"
 
-	//_ "dmdemo/pkg/controller/deployment" // bruker bare init metoden for å åpne entity0.so
-
-	"github.com/digimakergo/digimaker/core/definition"
 	"github.com/digimakergo/digimaker/rest"
 	"github.com/gorilla/mux"
+
+	//_ "dmdemo/pkg/controller/deployment" // bruker bare init metoden for å åpne entity0.so
+	"github.com/digimakergo/digimaker/core/definition"
 )
 
 type Contenttype struct {
@@ -476,7 +476,7 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 	//validate
 	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttypeStr)
 	var messages []ErrorResponse
-	if contenttypeStr != "" || match == true {
+	if contenttypeStr == "" || match == true {
 		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttypeStr, Field: "identifier"}
 		messages = append(messages, m)
 	}

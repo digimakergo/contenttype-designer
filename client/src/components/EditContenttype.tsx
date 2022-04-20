@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 const EditContenttype = (props:any) => {
     const [identifier, setIdentifier] = useState(props.identifier);
-    
+    const [message, setMessage] = useState(props.message);
+
     
     const validation = () => {
         
@@ -322,22 +323,31 @@ const EditContenttype = (props:any) => {
                                       tmp[identifier] = props.contenttype;
                                       props.setContenttypes(tmp)
                                       props.setAdding(false);
+
+                                      setMessage("Successfully created contenttype")
+
+                                  }else{
+                                    setMessage("Successfully updated contenttype")
                                   }
                                 }
                               }).catch(error => {
-                                console.log("Unable to get contenttype");
+                                  if(props.adding){
+                                    setMessage("Unable to create contenttype");
+                                  }else{
+                                    setMessage("Unable to update contenttype");
+                                  }
                               })
                         }
                     }}>Save</Button>
                 </Col>
             </Row>
 
-            {props.adding ? 
+        
             <Row className='text-center'>
-                <Form.Label style={{color:"red"}}>
-                    To edit fields you first have to save the contenttype
+                <Form.Label>
+                    {message}
                 </Form.Label>
-            </Row> : null}
+            </Row>
 
             </Form.Group>
 

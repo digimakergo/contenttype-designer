@@ -77,14 +77,11 @@ function App() {
       if(data.type == "Success"){
         setFieldtypes(data.response);
       }else{
-        console.log("sda")
-        console.log(data)
         errors[counter] = "Unable to get field types";
         counter++;
         //setShowToast(true)
       }
     }else{
-      console.log("sda")
       errors[counter] = "Unable to get field types";
       counter++;
     }
@@ -334,7 +331,6 @@ function App() {
         const fetchResponse = await fetch(`${location}`,settings);
         await fetchResponse.json().then(data => {
           if(data.type == "error"){
-            console.log(data)
             setErrors(data.response)
             setShowErr(true)
           }else{
@@ -356,7 +352,7 @@ function App() {
   return (
     <div className="App">
       <Container fluid>
-        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} />
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} setShowToast={setShowToast} setToastMessage={setToastMessage} />
           <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
             <Col sm={2} md={2} lg={2} className="d-grid">
               <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
