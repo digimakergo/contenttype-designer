@@ -8,7 +8,7 @@ import (
 	"os"
 	"regexp"
 
-	_ "dmdemo/pkg/controller/deployment" // bruker bare init metoden for å åpne entity0.so
+	//_ "dmdemo/pkg/controller/deployment" // bruker bare init metoden for å åpne entity0.so
 
 	"github.com/digimakergo/digimaker/core/definition"
 	"github.com/digimakergo/digimaker/rest"
