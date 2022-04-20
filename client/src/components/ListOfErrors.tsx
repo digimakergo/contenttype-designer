@@ -16,18 +16,27 @@ const ListOfErrors = (props:any) => {
                 <Button style={{color:"red", textDecoration:"underline"}} onClick={() => {
                     
                     
-                    
-                    
-                    for(let i = 0; i < props.list.length; i++){
-                        if(props.list[i].identifier == error.from){
-
-                            const element = document.getElementById(i+"");
-                            element?.scrollIntoView();
-                            props.setShow(false);
-
-                            document.getElementsByClassName("listoferrors-"+i)[0].innerHTML=error.message;
+                    function finn(list:any[], id:string){
+                        for(let i = 0; i < list.length; i++){
+                            
+                            if(list[i].identifier == error.from){
+                                
+                                return id+"-"+i;
+                            }
+                            else if(list[i].type == "container"){
+                                id = finn(list[i].children, id+"-"+i);
+                                
+                            }
+                            
                         }
+                        return id;
                     }
+                    const tmp = finn(props.list,"id")
+                    const element = document.getElementById(tmp);
+                    element?.scrollIntoView();
+                    props.setShow(false);
+    
+                    document.getElementsByClassName("listoferrors-"+tmp)[0].innerHTML=error.message;
                 }} variant="default">{error.message}</Button>
             </Row>
         ))}

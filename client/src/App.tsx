@@ -263,37 +263,38 @@ function App() {
               }
               counter++;
             }
-
-
-              if(items[i].type==""){
-                listErr[counter] = {
-                  from:items[i].identifier,
-                  message: " type cannot be empty",
-                  field:"type",
-              }
+          if(items[i].type==""){
+            listErr[counter] = {
+              from:items[i].identifier,
+              message: " type cannot be empty",
+              field:"type",
+            }
+            counter++;
+          }
+          if(items[i].type == "container"){
+            const tmp:any[] = valid(items[i].children)
+            for(let j = 0; j < tmp.length; j++){
+              listErr[counter] = tmp[j];
               counter++;
             }
-
+          }else{
             Object.keys(fieldtypes[items[i].type]['parameters']).map((val ,index) => {
-              if(fieldtypes[items[i].type]['parameters'][val] == "int" && items[i].parameters[val] == null  && items[i].parameters[val] > 0){
+              if(fieldtypes[items[i].type]['parameters'][val] == "int" && (items[i].parameters[val] == null || isNaN(items[i].parameters[val]) || items[i].parameters[val] <= 0 || items[i].parameters[val] % 1 != 0)){
+                
                 listErr[counter] = {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
                   field: val,
                 }
                 counter++;
-              }
-
-              if(fieldtypes[items[i].type]['parameters'][val] == "bool" && items[i].parameters[val] == null  && items[i].parameters[val] == true){
+              }else if(fieldtypes[items[i].type]['parameters'][val] == "bool" && items[i].parameters[val] == null){
                 listErr[counter] = {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
                   field: val,
                 }
                 counter++;
-              }
-
-              if(fieldtypes[items[i].type]['parameters'][val] == "string" && items[i].parameters[val] == null  && items[i].parameters[val] == ""){
+              }else if(fieldtypes[items[i].type]['parameters'][val] == "string" && (items[i].parameters[val] == null  || items[i].parameters[val] == "")){
                 listErr[counter] = {
                   from:items[i].identifier,
                   message: val + " has incorrect data",
@@ -302,6 +303,7 @@ function App() {
                 counter++;
               }
             })
+          }
       }   
       return listErr;
     }

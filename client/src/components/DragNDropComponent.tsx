@@ -97,7 +97,7 @@ const DragNDropComponent = (props:any) => {
     }
 
     return (
-        <Form.Group key={identifier} controlId={identifier} id={props.index}  ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
+        <Form.Group key={identifier} controlId={identifier} id={"id-"+props.index}  ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
                 <Col xs={{span:8, offset:1}} md={{span:8, offset:1}} lg={{span:8, offset:1}} style={{border:"solid black 0.1rem"}}>
                     
@@ -109,7 +109,7 @@ const DragNDropComponent = (props:any) => {
                                 </Col>
                         </Row>                
                         <Row  className='dropdown-field-menu' id={"dropdown-field-menu-"+props.index} style={{display:"block"}}>
-                        <Field field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={identifier} setFieldname={setFieldname}/>
+                        <Field field={props.field} index={props.index} id={"id-"+props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={identifier} setFieldname={setFieldname}/>
                         </Row>
                     
                 </Col>

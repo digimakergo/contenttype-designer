@@ -24,7 +24,7 @@ const FieldContainer = (props:any) => {
         props.setList(newlist);
       }
   return (
-    <Form.Group>
+    <Form.Group id={props.id}>
         <Row>
             <Col xs="10" md="10" lg="10" style={{border:"solid black 0.1rem"}}>
                 
@@ -33,7 +33,7 @@ const FieldContainer = (props:any) => {
                         <Col><img onClick={dropdown} className='dropdown-field-img' style={dropDownContent ? {width:"2rem", float:"right", transition: "500ms", cursor: "pointer"} : {width:"2rem", float:"right", transition: "500ms", transform: "rotate(-90deg)", cursor: "pointer"}} src='/images/dropdownicon.png'/></Col>
                     </Row>                
                     <Row  className='dropdown-field-menu' style={ !dropDownContent ? {display:"None"} : {}}>
-                        <Field field={props.field} index={props.index} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={props.identifier} setFieldname={props.setFieldname} />
+                        <Field field={props.field} index={props.index} id={props.id} fieldtypes={props.fieldtypes} parameters={props.parameters} list={props.list} identifier={props.identifier} setFieldname={props.setFieldname} />
                     </Row>
                 
             </Col>
