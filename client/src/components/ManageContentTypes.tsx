@@ -72,7 +72,7 @@ const ManageContentTypes = (props:any) => {
                         
                         <Row>
                             <Col lg={8}>
-                            <Form.Select ref={selector} required style={{border:"1px solid #ced4da"}} id= "ManageContentTypes_select"  onChange={(e:any) => {
+                            <Form.Select required style={{border:"1px solid #ced4da"}} value={selectedKey} id= "ManageContentTypes_select"  onChange={(e:any) => {
                                 e.preventDefault()
                                 if(e.target.value != ""){
                                     

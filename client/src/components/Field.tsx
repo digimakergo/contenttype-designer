@@ -24,6 +24,9 @@ const Field = (props:any) => {
     const [params, setParams] = useState(def);
     const [children, setChildren] = useState(props.field.children);
     const [show, setShow] = useState(false);
+    console.log("---")
+    console.log(props.parameters)
+    console.log("---")
     
     const addContent = (name:string, type:string, identifier:string) => {
         let contentObj:listElements;
@@ -44,16 +47,23 @@ const Field = (props:any) => {
                 children: [],
             }
         }
+        //console.log(contentObj);
         setChildren([...children, contentObj])
         props.field.children.push(contentObj)
+        
     }
     const getFormControl = (type:string, element:string) =>{
+        console.log(type)
+        console.log(element)
+        console.log("----------")
+        
 
         if(props.field.parameters == null){
             props.field.parameters = {};
         }
 
         if(type === 'int'){
+            console.log("sd")
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = 0;
                 
@@ -196,9 +206,9 @@ const Field = (props:any) => {
     const render = () => {
 
         
-
+        console.log(props.field)
         
-        if(props.field.type != "container" && props.parameters != null){
+        if(props.field.type != "container"){
             return (
                     Object.keys(props.parameters['parameters']).map((element:any, index:number) => (
                         <Row key={index} className='justify-content-start'>
@@ -221,7 +231,7 @@ const Field = (props:any) => {
                 
                     {children ? children.map((field:any, index:number) => (
                         <FieldContainer key={"drag-"+props.fieldid+"-"+index} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={props.fieldid}  collapsed={props.collapse}
-                        parameters={props.parameters} list={children} setChildren={setChildren} fieldtypes={props.fieldtypes} parent={props.field}/>
+                        parameters={props.fieldtypes[field.type]} list={children} setList={setChildren} fieldtypes={props.fieldtypes} parent={props.field}/>
                         )
                     ): null}
                     
@@ -385,7 +395,9 @@ const Field = (props:any) => {
             
 
             {render()}
-            
+            <Row>
+                <Form.Label style={{color:"red"}} className={"listoferrors listoferrors-"+props.index}></Form.Label>
+            </Row>
         </>
     )
 }

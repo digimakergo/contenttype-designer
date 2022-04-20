@@ -14,8 +14,20 @@ const ListOfErrors = (props:any) => {
         {props.errors.map((error:any, index:number) => (
             <Row key={"error-"+index}>
                 <Button style={{color:"red", textDecoration:"underline"}} onClick={() => {
-                    const element = document.getElementById(error.from);
-                    element?.scrollIntoView();
+                    
+                    
+                    
+                    
+                    for(let i = 0; i < props.list.length; i++){
+                        if(props.list[i].identifier == error.from){
+
+                            const element = document.getElementById(i+"");
+                            element?.scrollIntoView();
+                            props.setShow(false);
+
+                            document.getElementsByClassName("listoferrors-"+i)[0].innerHTML=error.message;
+                        }
+                    }
                 }} variant="default">{error.message}</Button>
             </Row>
         ))}

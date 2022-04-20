@@ -308,6 +308,11 @@ function App() {
 
    const getList = async ()=>{
 
+
+      const elements = document.getElementsByClassName("listoferrors");
+      for(let i = 0; i < elements.length; i++){
+        elements[i].innerHTML = "";
+      }
       const errs:any[] = valid(list);
       if (errs.length >  0) {
         setErrors(errs);
@@ -393,7 +398,7 @@ function App() {
         </Row>
         
         <Col lg={2}></Col>
-        <ListOfErrors show={showErr} setShow={setShowErr} errors={errors}/>
+        <ListOfErrors show={showErr} setShow={setShowErr} errors={errors} list={list}/>
       </Container>
     </div>
   );

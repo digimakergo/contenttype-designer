@@ -226,6 +226,7 @@ const EditContenttype = (props:any) => {
                             element.style = "transform: translate(-110%,-16%); transition: 0.5s;";
                             props.setEdit(false)
                             props.setAdding(false)
+                            props.setIdentifier("")
                         }} >Go back</Button>
                     </Col>
     

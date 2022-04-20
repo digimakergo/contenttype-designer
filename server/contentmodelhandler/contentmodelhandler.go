@@ -476,7 +476,7 @@ func CreateContenttype(w http.ResponseWriter, router *http.Request) {
 	//validate
 	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttypeStr)
 	var messages []ErrorResponse
-	if match == true {
+	if contenttypeStr != "" || match == true {
 		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttypeStr, Field: "identifier"}
 		messages = append(messages, m)
 	}
@@ -586,11 +586,8 @@ func UpdateContenttype(w http.ResponseWriter, router *http.Request) {
 	//validate
 	match, _ := regexp.MatchString("[A-ZøæåØÆÅ\\s\\d\\W]", contenttype.Identifier)
 	var messages []ErrorResponse
-	if contenttype.Identifier == "" {
-		m := ErrorResponse{Message: "Identifier cannot be empty", From: contenttypeStr, Field: "identifier"}
-		messages = append(messages, m)
-	}
-	if match == true {
+
+	if contenttype.Identifier == "" || match == true {
 		m := ErrorResponse{Message: "Identifier does not have a valid value", From: contenttypeStr, Field: "identifier"}
 		messages = append(messages, m)
 	}

@@ -17,11 +17,12 @@ const FieldContainer = (props:any) => {
         setDropDownContent(!dropDownContent)
     }
     
-    const deleteElement=(identifier:string)=>{
-        const newlist=(props.list.filter((field:any)=>field.identifier !== identifier))
-        props.setChildren(newlist);
-        props.parent.children = newlist;
-    }
+    
+    const deleteElement=(identifier:string,index:number)=>{
+        const newlist=(props.list.filter((any:any)=>any.identifier !== props.list[index].identifier))
+        console.log(newlist)
+        props.setList(newlist);
+      }
   return (
     <Form.Group>
         <Row>
@@ -37,7 +38,7 @@ const FieldContainer = (props:any) => {
                 
             </Col>
             <Col xs="2" md="2" lg="2">
-                <Remove element={props.field.identifier} Remove={deleteElement} />
+                <Remove element={props.field.identifier} index={props.index} Remove={deleteElement} />
             </Col>
         </Row>
     </Form.Group>

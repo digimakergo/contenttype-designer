@@ -97,7 +97,7 @@ const DragNDropComponent = (props:any) => {
     }
 
     return (
-        <Form.Group key={identifier} controlId={identifier} id={identifier}  ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
+        <Form.Group key={identifier} controlId={identifier} id={props.index}  ref={prev} style={{opacity: opacity, marginTop:"1rem"}}>
             <Row>
                 <Col xs={{span:8, offset:1}} md={{span:8, offset:1}} lg={{span:8, offset:1}} style={{border:"solid black 0.1rem"}}>
                     
