@@ -361,7 +361,8 @@ function App() {
 
           <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
             <Col sm={2} md={2} lg={2} className="d-grid">
-              <Button variant='primary' id="collapse" onClick={() => collapseAll()} style={{fontFamily: "sans-serif", fontSize: "1.2rem"}}>Collapse all</Button>
+              <Button variant='primary' id="collapse" onClick={() => collapseAll()} style={{fontFamily: "sans-serif", fontSize: "1.2rem"}}> {collapse ? "Expand all" : "Collapse all"}<img style={collapse ? {width:"2.5rem", transition: "500ms", cursor: "pointer", transform: "rotate(-90deg)"} : {width:"2.5rem", transition: "500ms", cursor: "pointer"}}
+                                     src='/images/dropdownicon.png'/></Button>
             </Col>
 
             <Col sm={{span:5, offset:3}} md={{span:5, offset:3}} lg={{span:5, offset:3}}>
