@@ -62,7 +62,7 @@ const ManageContentTypes = (props:any) => {
     
     return (
 
-        <Modal show={props.show}>
+        <Modal size="lg" show={props.show}>
             <Modal.Header><Modal.Title>Manage contenttypes</Modal.Title></Modal.Header>
         
             <Modal.Body style={{height: "30rem"}}>
@@ -103,14 +103,14 @@ const ManageContentTypes = (props:any) => {
                     choose a contenttype
                 </Form.Label>
                             </Col>
-                            <Col lg={2}>
+                            <Col lg={2} className="d-grid">
                             <Button variant="primary" onClick={(e) => {
                               e.preventDefault()
                                 if(selectedKey !=''){
                                   let element:any = document.getElementsByClassName("mainmenu")[0]
                                   element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                   element = document.getElementsByClassName("editmenu")[0]
-                                  element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
+                                  element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-25%);"; //let element:any = 
                                   element =document.getElementsByClassName("feilmelding_select")[0];
                                   element.style="display:none;"
                                   setEdit(true)
@@ -121,12 +121,18 @@ const ManageContentTypes = (props:any) => {
                                     let element:any = document.getElementById("ManageContentTypes_select");
                                    element.style = "border: solid red 1px;"
                                 }
-                            }} >Edit</Button>
-                 
+                            }} style={{fontFamily:"sans-serif", fontSize:"1.1rem"}}>Edit<img className='img' src='/images/edit1.png' style={{width:"1.8rem", marginLeft:"1rem"}}/></Button>
+
+                            
   
                             </Col>
-                            <Col lg={2}>
-                            <Button variant="danger" onClick={handleRemove} >Delete</Button>
+                            <Col lg={2} className="d-grid">
+                                
+                                    <Button variant="danger" onClick={handleRemove} style={{font:"sans-serif", fontSize:"1.1rem"}}>Delete<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+</svg></Button>
+                                    
+                                
                             </Col>
                         </Row>
                         <Row style={{marginTop:"1rem"}}>
@@ -140,10 +146,12 @@ const ManageContentTypes = (props:any) => {
                                     let element:any = document.getElementsByClassName("mainmenu")[0]
                                     element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                     element = document.getElementsByClassName("editmenu")[0]
-                                    element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-16%);"; //let element:any = 
+                                    element.style = "transform: translateX(0%); transition: 0.5s;transform: translateY(-25%);"; //let element:any = 
                                     element =document.getElementsByClassName("feilmelding_select")[0];
                                     element.style="display:none;"
-                                }} >Add contenttype</Button>
+                                }} style={{fontFamily:"sans-serif", fontSize:"1.1rem"}}><svg style={{transform: "scale(1.3)", marginRight:"1rem"}} xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                              </svg> Add contenttype</Button>
                             </Col>
                         </Row>
                         <Row className='text-center'>
@@ -159,8 +167,8 @@ const ManageContentTypes = (props:any) => {
                     </Form.Group>
 
                     
-                    <div style={{transform: "translate(110%,-16%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids} setShowToast={props.setShowToast} setToastMessage={props.setToastMessage} message={adding ? "To edit fields you first have to save the contenttype" : ""}/> : "" }
+                    <div style={{transform: "translate(110%,-25%)"}} className="editmenu">
+                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids} setShowToast={props.setShowToast} setToastMessage={props.setToastMessage} setHeader={props.setHeader} message={adding ? "To edit fields you first have to save the contenttype" : ""}/> : "" }
                     
                     </div>
 

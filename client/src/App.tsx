@@ -20,7 +20,7 @@ interface listElements {
 }
 
 function App() {
-
+  const [header, setHeader] = useState("");
   let list:listElements[];
   let setList:any;
   [list, setList] = useState([]);
@@ -350,12 +350,18 @@ function App() {
 
 
   return (
-    <div className="App">
-      <Container fluid>
-        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} setShowToast={setShowToast} setToastMessage={setToastMessage} />
+      <Container fluid className='App' style={{marginBottom: "1rem"}}>
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} setShowToast={setShowToast} setToastMessage={setToastMessage} setHeader={setHeader}/>
+          
+          <Row style={{marginBottom: "2rem"}}>
+            <Col sm={{span:12}} md={{span:12}} lg={{span:12}} className="d-grid shadow-lg p-3  bg-white rounded">
+              <img className="text-left" src='/images/digimakerlogo.png' style={{width:"15rem"}}/>
+            </Col>
+          </Row>
+
           <Row style={{marginTop:"0.5rem", marginBottom:"0.5rem"}}>
             <Col sm={2} md={2} lg={2} className="d-grid">
-              <Button variant='primary' id="collapse" onClick={() => collapseAll()}>Collapse all</Button>
+              <Button variant='primary' id="collapse" onClick={() => collapseAll()} style={{fontFamily: "sans-serif", fontSize: "1.2rem"}}>Collapse all</Button>
             </Col>
 
             <Col sm={{span:5, offset:3}} md={{span:5, offset:3}} lg={{span:5, offset:3}}>
@@ -365,15 +371,23 @@ function App() {
             <Col sm={2} md={2} lg={2} className="d-grid">
               <Button variant="primary" onClick={() => {
                 setShowContentManager(true)
-              }} >Back to main menu</Button>
+              }} style={{fontFamily: "sans-serif", fontSize: "1.2rem"}}><svg style={{marginRight:"1rem"}} xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>Manage contenttypes</Button>
+            </Col>
+            
+          </Row>
+          <Row style={{marginTop:"5rem"}}>
+            <Col sm={{span:6, offset:1}} md={{span:6, offset:1}} lg={{span:6, offset:1}} className="d-grid shadow-lg p-3  bg-white rounded" style={{borderLeft:"solid #3047C2 1rem"}}>
+              <h4 className="text-left" style={{fontFamily:"sans-serif", fontSize:"1.6rem"}}>You are currently editing the fields for the contenttype: <label style={{fontWeight: "bold"}}>{header}</label></h4>
             </Col>
             
           </Row>
         
-        <Form style={{paddingTop:"1rem", marginLeft:"0.5rem"}} onSubmit={Submit}>
+        <Form style={{marginLeft:"0.5rem"}} onSubmit={Submit}>
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
-              <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#498EBA"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}
+              <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#3047C2"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}
                   Remove={deleteElement} parameters={fieldtypes[field.type]} list={list} fieldtypes={fieldtypes}></DragNDropComponent>
             ))}
           </DndProvider>
@@ -381,7 +395,9 @@ function App() {
 
         <Row style={{marginBottom:"0.5rem", marginTop:"0.5rem"}}>
           <Col lg={{span:8, offset:2}} md={{span:8, offset:2}}  sm={{span:8, offset:2}} className="d-grid">
-          <Button variant='success' size="lg" onClick={() => setShow(true)}>+ Add field</Button>
+          <Button variant='success' size="lg" onClick={() => setShow(true)}><svg style={{transform: "scale(1.3)", marginRight:"1rem"}} xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                              </svg> Add field</Button>
           </Col>
         </Row>
         
@@ -389,7 +405,7 @@ function App() {
        
         <Row>
           <Col className="d-grid" lg={{span:1, offset:9}} md={{span:1, offset:9}} sm={{span:1, offset:9}}>
-            <Button id="submitdata" onClick={getList}  variant="primary">
+            <Button id="submitdata" onClick={getList}  variant="primary" style={{fontFamily: "sans-serif", fontSize: "1.2rem"}}>
               Submit
             </Button>
           </Col>
@@ -398,7 +414,6 @@ function App() {
         <Col lg={2}></Col>
         <ListOfErrors show={showErr} setShow={setShowErr} errors={errors} list={list}/>
       </Container>
-    </div>
   );
 
 }

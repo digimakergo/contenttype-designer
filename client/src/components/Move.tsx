@@ -12,7 +12,7 @@ function Move (props:any, ref:any) {
                 </svg>   
             </Col>
             <Col xs="8" md="8" lg="8" style={{marginTop:"0.5rem"}}>
-                <p className="p">Move</p>
+                <p className="p" style={{fontFamily: "sans-serif", fontSize: "1.4rem"}}>Move</p>
             </Col>
         </Row>        
     )
