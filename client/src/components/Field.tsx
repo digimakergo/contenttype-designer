@@ -92,7 +92,7 @@ const Field = (props:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
-        }else if(type.indexOf("radio") != -1){
+        }else if(type.indexOf("radio:") != -1){
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = "";
             }
@@ -107,8 +107,22 @@ const Field = (props:any) => {
                     }
                 }}/>
             ));
+        }else if(type.indexOf("options:") != -1){
+            if(props.field.parameters[element] == null){
+                props.field.parameters[element] = "-1";
+            }
 
-        }else if(type.indexOf("check") != -1){
+            const radiobuttons = type.split(":")[1].split(",");
+            const name = "group"+props.index;
+            return radiobuttons.map((value, index) => (
+            
+                <Form.Check defaultChecked={props.field.parameters[element] == index.toString()} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                    if(e.target.checked){
+                        props.field.parameters[element] = index.toString();
+                    }
+                }}/>
+            ));
+        }else if(type.indexOf("check:") != -1){
             if(props.field.parameters[element] == null){
                 props.field.parameters[element] = "";
             }

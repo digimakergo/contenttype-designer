@@ -16,9 +16,9 @@ const ManageContentTypes = (props:any) => {
     
     function handleRemove(){
        
-        if(selectedKey != ""){
+        if(props.selectedKey != ""){
             
-            fetch("/api/contentmodel/"+selectedKey+"/",{
+            fetch("/api/contentmodel/"+props.selectedKey+"/",{
                 headers:{
                   'Content-Type':'application/json',
                   'Accept':'application/json',
@@ -36,13 +36,13 @@ const ManageContentTypes = (props:any) => {
                     const contenttypestemp:any[] = [];
                     const keys:any = Object.keys(props.contenttypes)
                     for (let contenttype of keys){
-                        if(contenttype !== selectedKey) {
+                        if(contenttype !== props.selectedKey) {
                             contenttypestemp[contenttype] = props.contenttypes[contenttype]
                         }
                     }
 
                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
-                    setSelectedKey("")
+                    props.setSelectedKey("")
                     props.setContenttypes(contenttypestemp);
                     selector.current?.reset()
                   
@@ -57,7 +57,7 @@ const ManageContentTypes = (props:any) => {
 
 
     const [selected, setSelected] = useState({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
-    const [selectedKey, setSelectedKey] = useState("")
+    
 
     
     return (
@@ -72,12 +72,12 @@ const ManageContentTypes = (props:any) => {
                         
                         <Row>
                             <Col lg={8}>
-                            <Form.Select required style={{border:"1px solid #ced4da"}} value={selectedKey} id= "ManageContentTypes_select"  onChange={(e:any) => {
+                            <Form.Select required style={{border:"1px solid #ced4da"}} value={props.selectedKey} id= "ManageContentTypes_select"  onChange={(e:any) => {
                                 e.preventDefault()
                                 if(e.target.value != ""){
                                     
                                     setSelected(props.contenttypes[e.target.value])
-                                    setSelectedKey(e.target.value)
+                                    props.setSelectedKey(e.target.value)
 
                                     let element:any = document.getElementById("ManageContentTypes_select");
                                    element.style = "border: solid #ced4da 1px;"
@@ -86,7 +86,7 @@ const ManageContentTypes = (props:any) => {
                                     element.style="display:none;"
                                 }else{
                                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
-                                    setSelectedKey("")
+                                    props.setSelectedKey("")
                                 }
                             }}>
                                 
@@ -106,7 +106,7 @@ const ManageContentTypes = (props:any) => {
                             <Col lg={2} className="d-grid">
                             <Button variant="primary" onClick={(e) => {
                               e.preventDefault()
-                                if(selectedKey !=''){
+                                if(props.selectedKey !=''){
                                   let element:any = document.getElementsByClassName("mainmenu")[0]
                                   element.style = "transform: translateX(-110%); transition: 0.5s;"; //let element:any = 
                                   element = document.getElementsByClassName("editmenu")[0]
@@ -139,7 +139,7 @@ const ManageContentTypes = (props:any) => {
                             <Col lg={{span:10, offset:1}} className="d-grid">
                                 <Button variant="primary" onClick={() => {
                                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
-                                    setSelectedKey("")
+                                    props.setSelectedKey("")
                                     setEdit(true)
                                     setAdding(true)
 
@@ -168,7 +168,7 @@ const ManageContentTypes = (props:any) => {
 
                     
                     <div style={{transform: "translate(110%,-25%)"}} className="editmenu">
-                    {edit ? <EditContenttype contenttype={selected} identifier={selectedKey} setIdentifier={setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids} setShowToast={props.setShowToast} setToastMessage={props.setToastMessage} setHeader={props.setHeader} message={adding ? "To edit fields you first have to save the contenttype" : ""}/> : "" }
+                    {edit ? <EditContenttype contenttype={selected} identifier={props.selectedKey} setIdentifier={props.setSelectedKey} show={props.show} setShow={props.setShow} setEdit={setEdit} adding={adding} setAdding={setAdding} contenttypes={props.contenttypes} setContenttypes={props.setContenttypes} setList={props.setList} setListids={props.setListids} setShowToast={props.setShowToast} setToastMessage={props.setToastMessage} setHeader={props.setHeader} message={adding ? "To edit fields you first have to save the contenttype" : ""}/> : "" }
                     
                     </div>
 

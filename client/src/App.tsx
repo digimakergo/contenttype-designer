@@ -21,6 +21,8 @@ interface listElements {
 
 function App() {
   const [header, setHeader] = useState("");
+  const [selectedKey, setSelectedKey] = useState("");
+
   let list:listElements[];
   let setList:any;
   [list, setList] = useState([]);
@@ -228,7 +230,6 @@ function App() {
     }).catch(error=>{
       
     });*/
-    const contenttype = "article"
 
     const valid = (items:any[]) => {
       const listErr = [];
@@ -317,7 +318,7 @@ function App() {
         setErrors(errs);
         setShowErr(true)
       }else {
-        const location= ("/api/contentmodel/fields/" + contenttype + "/");
+        const location= ("/api/contentmodel/fields/" + selectedKey + "/");
         const settings= {
           method: 'PUT',
           headers: {
@@ -327,14 +328,26 @@ function App() {
           },
           body: JSON.stringify(list) 
         };
-      try{
+      try{  
         const fetchResponse = await fetch(`${location}`,settings);
         await fetchResponse.json().then(data => {
-          if(data.type == "error"){
+          if(data.Type == "Succes"){
+            setToastMessage("Successfully updated the contentmodel")
+            setShowToast(true)
+          }else if(data.type == "error" && Array.isArray(data.response)){
             setErrors(data.response)
             setShowErr(true)
           }else{
-            setToastMessage("Successfully updated the contentmodel")
+            setToastMessage(data.response)
+            setShowToast(true)
+          }
+          
+        }).catch(data => {
+          if(data.type == "error" && Array.isArray(data.response)){
+            setErrors(data.response)
+            setShowErr(true)
+          }else{
+            setToastMessage(data.response)
             setShowToast(true)
           }
         });
@@ -351,7 +364,7 @@ function App() {
 
   return (
       <Container fluid className='App' style={{marginBottom: "1rem"}}>
-        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} setShowToast={setShowToast} setToastMessage={setToastMessage} setHeader={setHeader}/>
+        <ManageContentTypes show={showContentManager} setShow={setShowContentManager} ContentManagementMessage={ContentManagementMessage} setContentManagementMessage={setContentManagementMessage} contenttypes={contenttypes} setContenttypes={setContenttypes} setList={setList} setListids={setListids} setShowToast={setShowToast} setToastMessage={setToastMessage} setHeader={setHeader} setSelectedKey={setSelectedKey} selectedKey={selectedKey}/>
           
           <Row style={{marginBottom: "2rem"}}>
             <Col sm={{span:12}} md={{span:12}} lg={{span:12}} className="d-grid shadow-lg p-3  bg-white rounded">
