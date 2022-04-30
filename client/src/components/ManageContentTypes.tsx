@@ -119,7 +119,7 @@ const ManageContentTypes = (props:any) => {
                                     const event:any =document.getElementsByClassName("feilmelding_select")[0];
                                     event.style="display:block;"
                                     let element:any = document.getElementById("ManageContentTypes_select");
-                                   element.style = "border: solid red 1px;"
+                                   element.style = "border: solid red 2px;"
                                 }
                             }} style={{fontFamily:"sans-serif", fontSize:"1.1rem"}}>Edit<img className='img' src='/images/edit1.png' style={{width:"1.8rem", marginLeft:"1rem"}}/></Button>
 

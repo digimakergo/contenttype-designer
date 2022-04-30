@@ -41,7 +41,7 @@ const AddField = (props:any) => {
                 </Form.Label>
                 
           
-                <Form.Control required type='text' placeholder='Choose an id name. E.g., product_id' id="addField-identifier" onChange={(e:any) => {      
+                <Form.Control required type='text' placeholder='Write an identifier. E.g., product_id' id="addField-identifier" onChange={(e:any) => {      
                   function checkIdentifier(list:any[]){
                     for(let i = 0; i < list.length; i++){    
                         if(e.target.value==list[i].identifier){
