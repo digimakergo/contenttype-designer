@@ -111,6 +111,7 @@ const EditContenttype = (props:any) => {
             
                            else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(e.target.value )){
                             //props.contenttype.identifier = "";
+                            setIdentifier(e.target.value);
                             e.target.style= "border: solid red 2px;"
                             const element:any =document.getElementsByClassName("contenttype-error-identifier")[0];
                             element.style="display:block;"
@@ -239,7 +240,7 @@ const EditContenttype = (props:any) => {
                     
     
                     <Col lg={{span:4, offset: 8}} className='d-grid'>
-                        <Button disabled={props.adding} variant='primary' onClick={(e) => {
+                        <Button disabled={props.adding} variant='primary' name="edit-fields" onClick={(e) => {
                             e.preventDefault()
                             const listids = []
                             for(let i = 0; i < props.contenttype.fields.length; i++){
@@ -262,7 +263,7 @@ const EditContenttype = (props:any) => {
 
             <Row>
                 <Col className='d-grid'>
-                    <Button variant='success' onClick={() => {
+                    <Button variant='success' name="saveContenttype" onClick={() => {
                         if(validation()){
                             
                             let tmp:any = {}

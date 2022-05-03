@@ -61,7 +61,7 @@ const Field = (props:any) => {
             }
             
             return (
-                <Form.Control className={props.field.identifier + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e:any) => {
+                <Form.Control className={props.id + "-" + element} type='number' defaultValue={props.field.parameters[element]} onChange={(e:any) => {
                     const val = Number(e.target.value);
                     props.field.parameters[element] = val;
                     if(val > 0 && val % 1 == 0){
@@ -78,7 +78,7 @@ const Field = (props:any) => {
             }
             
             return (
-                <Form.Control className={props.field.identifier + "-" + element} type='text' defaultValue={props.field.parameters[element]} onChange={(e) => {
+                <Form.Control className={props.id + "-" + element} type='text' defaultValue={props.field.parameters[element]} onChange={(e) => {
                     props.field.parameters[element] = (e.target.value);
                 }}/>
             )
@@ -88,7 +88,7 @@ const Field = (props:any) => {
             }
             //use indexOf in defaultvaluie field to check if it should be checked
             return (    
-                <Form.Check defaultChecked={props.field.parameters[element]} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element]} className={props.id + "-" + element} onClick={(e:any) => {
                     props.field.parameters[element] = e.target.checked;
                 }}/>
             )
@@ -101,7 +101,7 @@ const Field = (props:any) => {
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
-                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.id + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element] = value;
                     }
@@ -116,7 +116,7 @@ const Field = (props:any) => {
             const name = "group"+props.index;
             return radiobuttons.map((value, index) => (
             
-                <Form.Check defaultChecked={props.field.parameters[element] == index.toString()} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element] == index.toString()} inline name={name} id={`inline-radio-${index}`} key={index} label={value} type={'radio'} className={props.id + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         props.field.parameters[element] = index.toString();
                     }
@@ -130,7 +130,7 @@ const Field = (props:any) => {
             const radiobuttons = type.split(":")[1].split(",");
             //also use IndexOf here OR split but indexOf is simpler
             return radiobuttons.map((value, index) => (
-                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.field.identifier + "-" + element} onClick={(e:any) => {
+                <Form.Check defaultChecked={props.field.parameters[element].indexOf(value) != -1} inline name="group1" id={`inline-radio-${index}`} key={index} label={value} type={'checkbox'} className={props.id + "-" + element} onClick={(e:any) => {
                     if(e.target.checked){
                         if(props.field.parameters[element] != ""){
                             props.field.parameters[element] += "," + value;
@@ -262,7 +262,7 @@ const Field = (props:any) => {
         </Col>
         <Col >
             
-            <Form.Control className={props.field.identifier + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
+            <Form.Control className={props.id + "-name"} required type = "text"  defaultValue={props.field.name} onChange={(e:any) => {
             if(e.target.value== ""){
                 props.field.name = "";
                 e.target.style= "border: solid red 2px;"
@@ -279,7 +279,7 @@ const Field = (props:any) => {
                
                 
             }}}/>
-              <Form.Label className="feilmelding" style={{display:"none"}}>
+              <Form.Label className={"feilmelding "+props.id+"-name-error"} style={{display:"none"}}>
                   Error i name, prøv igjen
               </Form.Label>
               
@@ -294,7 +294,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                    <Form.Control className={props.field.identifier + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" defaultValue={props.field.identifier} onChange={(e:any) => {
+                    <Form.Control className={props.id + "-identifier identifiers"} required type = "text"  placeholder="Choose an id name. E.g., product_id" defaultValue={props.field.identifier} onChange={(e:any) => {
                         let index = props.index;
                         function checkIdentifier(list:any[]){
                             let index = props.index;
@@ -355,11 +355,11 @@ const Field = (props:any) => {
                    
                     
                     }}/>
-                      <Form.Label className="feilmelding_identifier" style={{display:"none"}}>
+                      <Form.Label className={"feilmelding_identifier "+props.id+"-identifier-error"} style={{display:"none"}}>
                           Error in identifier, try again
                       </Form.Label>
 
-                      <Form.Label className="feilmelding_likidentifier" style={{display:"none"}}>
+                      <Form.Label className={"feilmelding_likidentifier "+props.id+"-identifier-error-equal"} style={{display:"none"}}>
                          identifier is a duplicate, try again
                       </Form.Label>
 
@@ -377,7 +377,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col>
-                    <Form.Label >{props.field.type}</Form.Label>    
+                    <Form.Label className={props.id+"-type"}>{props.field.type}</Form.Label>    
                 </Col>
             </Row>
             
@@ -390,7 +390,7 @@ const Field = (props:any) => {
                     </Form.Label>
                 </Col>
                 <Col >
-                <Form.Check type="checkbox" defaultChecked={props.field.required} onClick={(e:any) => {
+                <Form.Check type="checkbox" defaultChecked={props.field.required} className={props.id+"-required"} onClick={(e:any) => {
                     props.field.required = e.target.checked;
                 }}/>
                 </Col>
