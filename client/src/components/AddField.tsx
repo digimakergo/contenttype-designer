@@ -52,6 +52,7 @@ const AddField = (props:any) => {
                     return true;
                 }
                 if(!checkIdentifier(props.list)){
+                  setIdentifier("");
                   e.target.style= "border: solid red 2px;"
                   const error:any =document.getElementsByClassName("feilmelding_likidentifieras")[0];
                   error.style="display:block; "
@@ -105,7 +106,7 @@ const AddField = (props:any) => {
             
               <option key={'empty'} value={''}>Choose a type</option>
               {Object.keys(props.fieldtypes).map((element:any, index:number)=>(
-                <option key={index}>{element}</option>
+                <option key={index} value={element}>{element}</option>
               ))}
             </Form.Select>
            

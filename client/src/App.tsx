@@ -172,10 +172,14 @@ function App() {
     setCollapse(false);
   }
   const deleteElement=(identifier:string,index:number)=>{
-    const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
-    setList(newlist);
-    const newlistids=(listids.filter((any:any)=>any !== listids[index]))
-    setListids(newlistids);
+
+    let will = window.confirm("Are you sure you want to delete this field?")
+    if(will){
+      const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
+      setList(newlist);
+      const newlistids=(listids.filter((any:any)=>any !== listids[index]))
+      setListids(newlistids);
+    }
   }
   
   const collapseAll = () => {
