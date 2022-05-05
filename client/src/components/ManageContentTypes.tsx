@@ -17,42 +17,43 @@ const ManageContentTypes = (props:any) => {
     function handleRemove(){
        
         if(props.selectedKey != ""){
-            
+
+          let will = window.confirm("Are you sure you want to delete this contenttype?");
+
+          if(will){
             fetch("/api/contentmodel/"+props.selectedKey+"/",{
-                headers:{
-                  'Content-Type':'application/json',
-                  'Accept':'application/json',
-                  
-                },
-                method:"DELETE"
-
-              }).then(response => {
-                if(response.ok){
-                  return response.json();
-                }throw response;
-              }).then(data => {
+              headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json',
                 
-                if(data.type == 'Success'){
-                    const contenttypestemp:any[] = [];
-                    const keys:any = Object.keys(props.contenttypes)
-                    for (let contenttype of keys){
-                        if(contenttype !== props.selectedKey) {
-                            contenttypestemp[contenttype] = props.contenttypes[contenttype]
-                        }
-                    }
+              },
+              method:"DELETE"
 
-                    setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
-                    props.setSelectedKey("")
-                    props.setContenttypes(contenttypestemp);
-                    selector.current?.reset()
-                  
-                }
-              }).catch(error => {
-                props.setContentManagementMessage([...props.ContentManagementMessage, "Unable to remove a contenttype"]);
-              })
+            }).then(response => {
+              if(response.ok){
+                return response.json();
+              }throw response;
+            }).then(data => {
+              
+              if(data.type == 'Success'){
+                  const contenttypestemp:any[] = [];
+                  const keys:any = Object.keys(props.contenttypes)
+                  for (let contenttype of keys){
+                      if(contenttype !== props.selectedKey) {
+                          contenttypestemp[contenttype] = props.contenttypes[contenttype]
+                      }
+                  }
 
-            
-        }
+                  setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
+                  props.setSelectedKey("")
+                  props.setContenttypes(contenttypestemp);
+                  selector.current?.reset()
+              }
+            }).catch(error => {
+              props.setContentManagementMessage([...props.ContentManagementMessage, "Unable to remove a contenttype"]);
+            })
+           }
+          }
     }
 
 

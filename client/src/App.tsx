@@ -34,6 +34,7 @@ function App() {
   const [showContentManager, setShowContentManager] = useState(true)
 
   const [toastMessage, setToastMessage] = useState("");
+  const [toastMessageState, setToastMessageState] = useState("");
   const [ContentManagementMessage, setContentManagementMessage] = useState([""]);
 
   let def:any= {}
@@ -171,10 +172,14 @@ function App() {
     setCollapse(false);
   }
   const deleteElement=(identifier:string,index:number)=>{
-    const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
-    setList(newlist);
-    const newlistids=(listids.filter((any:any)=>any !== listids[index]))
-    setListids(newlistids);
+
+    let will = window.confirm("Are you sure you want to delete this field?")
+    if(will){
+      const newlist=(list.filter((any:any)=>any.identifier !== list[index].identifier))
+      setList(newlist);
+      const newlistids=(listids.filter((any:any)=>any !== listids[index]))
+      setListids(newlistids);
+    }
   }
   
   const collapseAll = () => {
@@ -333,21 +338,31 @@ function App() {
         await fetchResponse.json().then(data => {
           if(data.Type == "Succes"){
             setToastMessage("Successfully updated the contentmodel")
+            setToastMessageState("#198754")
             setShowToast(true)
           }else if(data.type == "error" && Array.isArray(data.response)){
             setErrors(data.response)
+            setToastMessageState("#dc3545")
             setShowErr(true)
           }else{
             setToastMessage(data.response)
+            setToastMessageState("#198754")
             setShowToast(true)
           }
           
         }).catch(data => {
           if(data.type == "error" && Array.isArray(data.response)){
             setErrors(data.response)
+            setToastMessageState("#dc3545")
             setShowErr(true)
           }else{
-            setToastMessage(data.response)
+            if(data.response == null){
+              setToastMessage("Internal server error (Server not responding)")
+            }else{
+              setErrors(data.response)
+            }
+            
+            setToastMessageState("#dc3545")
             setShowToast(true)
           }
         });
@@ -379,7 +394,7 @@ function App() {
             </Col>
 
             <Col sm={{span:5, offset:3}} md={{span:5, offset:3}} lg={{span:5, offset:3}}>
-              <ToastMessage text={toastMessage} delay={5000} show={showToast} setShow={setShowToast}/>
+              <ToastMessage text={toastMessage} state={toastMessageState} delay={5000} show={showToast} setShow={setShowToast}/>
             </Col>
 
             <Col sm={2} md={2} lg={2} className="d-grid">

@@ -90,6 +90,8 @@ async function editContenttype(contenttype) {
 
 
 
+
+
     
     
 
@@ -170,12 +172,13 @@ async function edit_contenttype_fields(contenttype) {
     submit.click();
 
 
-
+    //duplicate 
+    
 
 
 }
 
-//edit_contenttype_fields("test")
+edit_contenttype_fields("test")
 
 async function add_contenttype_fields(contenttype) {
      //editing the contenttype's fields attributtes
@@ -228,26 +231,24 @@ async function add_contenttype_fields(contenttype) {
 
     //duplicate 
 
+    select = await driver.findElement(By.id("addField_select"));
+    
+   
 
     add_identifier.sendKeys("title", Key.RETURN);
     add_name.sendKeys("Test", Key.RETURN);
-    select.sendKeys("file", Key.RETURN);
+    await select.findElement(By.css("option[value='file']")).click();
+
     await driver.findElement(By.name("addField")).click();   
     
     add_identifier_err = await driver.findElement(By.className("feilmelding_likidentifieras form-label")).getAttribute("value");
     assert.notStrictEqual("", add_identifier_err);
     
-    add_identifier.clear();add_identifier.sendKeys("title", Key.RETURN);
+    add_identifier.clear();add_identifier.sendKeys("test", Key.RETURN);
     await driver.findElement(By.name("addField")).click();   
 
-    
-    
-    identi_err1 = await driver.findElement(By.className("contenttype-error-identifier")).getAttribute("value");
-    identi_err2 = await driver.findElement(By.className("contenttype-error-identifier-equal")).getAttribute("value");
-    assert.strictEqual(null, identi_err1);
-    assert.strictEqual(null, identi_err2);
 
 
 }
 
-add_contenttype_fields("test")
+//add_contenttype_fields("test")
