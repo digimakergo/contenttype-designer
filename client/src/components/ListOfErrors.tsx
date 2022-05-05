@@ -42,7 +42,7 @@ const ListOfErrors = (props:any) => {
         ))}
     </Modal.Body>
     <Modal.Footer>
-        <Button variant='primary' onClick={() => {
+        <Button name="hide-errors"variant='primary' onClick={() => {
             props.setShow(false)
         }}>Cancel</Button>
     </Modal.Footer>

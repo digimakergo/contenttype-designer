@@ -22,7 +22,7 @@ const AddField = (props:any) => {
          <Form.Group>
           <Row style={{margin:"0.5rem"}}>
 
-            <Form.Control required type='text' placeholder='Write a field name' id="addField_name" onChange={(e:any) => {      
+            <Form.Control required type='text' placeholder='Write a field name' className="add_name" id="addField_name" onChange={(e:any) => {      
               if(e.target.value== ""){
                 setName("");
                 e.target.style= "border: solid red 2px;"
@@ -41,7 +41,7 @@ const AddField = (props:any) => {
                 </Form.Label>
                 
           
-                <Form.Control required type='text' placeholder='Write an identifier. E.g., product_id' id="addField-identifier" onChange={(e:any) => {      
+                <Form.Control required type='text' placeholder='Write an identifier. E.g., product_id' className="add_identifier" id="addField-identifier" onChange={(e:any) => {      
                   function checkIdentifier(list:any[]){
                     for(let i = 0; i < list.length; i++){    
                         if(e.target.value==list[i].identifier){
@@ -157,8 +157,8 @@ const AddField = (props:any) => {
             }
              
           }    
-        }}>ADD</Button>
-        <Button variant='primary' onClick={() => {props.setShow(false)}}>Cancel</Button>    
+        }} name="addField">ADD</Button>
+        <Button variant='primary' name="cancel_addField" onClick={() => {props.setShow(false)}}>Cancel</Button>    
         </Modal.Footer>
     </Modal>
   )

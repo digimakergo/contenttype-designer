@@ -118,16 +118,56 @@ async function edit_contenttype_fields(contenttype) {
     await driver.findElement(By.name("edit_contenttype")).click();
     await driver.findElement(By.name("edit-fields")).click();
 
-    let title = await driver.findElement(By.className("login-name form-control"));
-    let identifier = await driver.findElement(By.className("login-identifier identifiers form-control"));
-    let max = await driver.findElement(By.className("login-max_length form-control"));
+    let name = await driver.findElement(By.className("id-0-name"));
+    let identifier = await driver.findElement(By.className("id-0-identifier"));
+    let max = await driver.findElement(By.className("id-0-max_length"));
 
-    title.clear();
+    const submit = await driver.findElement(By.id("submitdata"));
+    
+
+    
+    name.clear();
     identifier.clear();
+    
+    await driver.executeScript("arguments[0].scrollIntoView(true)", max)
+    await driver.sleep(500)
     max.clear();
 
-    await driver.findElement(By.id("submitdata")).click(); 
+    await driver.executeScript("arguments[0].scrollIntoView(true)", submit)
+    await driver.sleep(500)
+    submit.click(); 
 
+    let name_err = await driver.findElement(By.className("feilmelding id-0-name-error")).getAttribute("value");
+    let identifier_err = await driver.findElement(By.className("id-0-identifier-error")).getAttribute("value");
+    let maxVal = await max.getAttribute("value");
+
+
+    assert.notStrictEqual("", name_err)
+    assert.notStrictEqual("", identifier_err)
+    assert.strictEqual(true, Number(maxVal) <= 0)
+
+    await driver.findElement(By.name("hide-errors")).click();
+
+    //success
+
+    name.sendKeys("Title", Key.RETURN);
+    identifier.sendKeys("title", Key.RETURN);
+    max.sendKeys("100", Key.RETURN);
+    await driver.sleep(500)
+    submit.click();   
+    
+    name_err = await driver.findElement(By.className("feilmelding id-0-name-error")).getAttribute("value");
+    identifier_err = await driver.findElement(By.className("id-0-identifier-error")).getAttribute("value");
+    maxVal = await max.getAttribute("value");
+
+    assert.notStrictEqual("", name_err)
+    assert.notStrictEqual("", identifier_err)
+    assert.strictEqual(false, Number(maxVal) <= 0)
+
+
+    await driver.executeScript("arguments[0].scrollIntoView(true)", submit)
+    await driver.sleep(500)
+    submit.click();
 
 
 
@@ -135,4 +175,79 @@ async function edit_contenttype_fields(contenttype) {
 
 }
 
-edit_contenttype_fields("frontpage")
+//edit_contenttype_fields("test")
+
+async function add_contenttype_fields(contenttype) {
+     //editing the contenttype's fields attributtes
+    // Starting the driver
+    let driver = await new Builder().forBrowser('firefox').build()
+    await driver.get("http://localhost:3000/")
+    
+    // Selecting the contenttype
+    let select = await driver.findElement(By.id("ManageContentTypes_select"));
+    select.findElement(By.css("option[value='"+contenttype+"']")).click();
+    let selectedValue = await select.getAttribute("value");
+    console.log(selectedValue)
+
+    await driver.findElement(By.name("edit_contenttype")).click();
+    await driver.findElement(By.name("edit-fields")).click();
+    //assert.notStrictEqual("", selectedValue)
+
+    const add = await driver.findElement(By.name("addFields_btn"));
+
+    await driver.executeScript("arguments[0].scrollIntoView(true)", add)
+    await driver.sleep(1000)
+    add.click();
+    await driver.sleep(1000)
+  
+
+    let add_name = await driver.findElement(By.className("add_name"));
+    let add_identifier = await driver.findElement(By.className("add_identifier"));
+
+
+    const add_field = await driver.findElement(By.name("addField"));
+
+
+    
+    
+    add_name.clear();
+    add_identifier.clear();
+
+
+    await driver.executeScript("arguments[0].scrollIntoView(true)", add_field)
+    await driver.sleep(500)
+    add_field.click(); 
+    
+    let add_name_err = await driver.findElement(By.className("feilmelding_addfieldname form-label")).getAttribute("value");
+    let add_identifier_err = await driver.findElement(By.className("feilmelding_likidentifieras form-label")).getAttribute("value");
+    let add_select_err= await driver.findElement(By.className("feilmelding_select form-label")).getAttribute("value");
+
+    assert.notStrictEqual("", add_name_err)
+    assert.notStrictEqual("", add_identifier_err)
+    assert.notStrictEqual("", add_select_err)
+
+    //duplicate 
+
+
+    add_identifier.sendKeys("title", Key.RETURN);
+    add_name.sendKeys("Test", Key.RETURN);
+    select.sendKeys("file", Key.RETURN);
+    await driver.findElement(By.name("addField")).click();   
+    
+    add_identifier_err = await driver.findElement(By.className("feilmelding_likidentifieras form-label")).getAttribute("value");
+    assert.notStrictEqual("", add_identifier_err);
+    
+    add_identifier.clear();add_identifier.sendKeys("title", Key.RETURN);
+    await driver.findElement(By.name("addField")).click();   
+
+    
+    
+    identi_err1 = await driver.findElement(By.className("contenttype-error-identifier")).getAttribute("value");
+    identi_err2 = await driver.findElement(By.className("contenttype-error-identifier-equal")).getAttribute("value");
+    assert.strictEqual(null, identi_err1);
+    assert.strictEqual(null, identi_err2);
+
+
+}
+
+add_contenttype_fields("test")
