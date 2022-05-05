@@ -1,0 +1,15 @@
+{
+    "text": {"parameters":{"max_length":"int","is_multi_line": "bool"}},
+    "richtext":{ "parameters":{"mode":"radio:compact,full"}},
+    "radio":{"parameters":{"options":"options:Yes,No"}},
+    "file": {"parameters":{"max_size":"int","format":"check:pdf,docx"}},
+    "image":{ "parameters":{"format":"check:jpg,png"}},
+    "select":{"parameters":{}},
+    "int": {"parameters":{}},
+    "datetime": {"parameters":{"dateonly":"bool"}},
+    "password": {"parameters":{}},
+    "checkbox": {"parameters":{}},
+    "container": {"parameters":{}},
+    "relation": {"parameters":{"type":"string","value":"string", "editmode":"radio:browse,select"}},
+    "relationlist": {"parameters":{"type":"string","value":"string", "editmode":"radio:browse,select"}}
+}
