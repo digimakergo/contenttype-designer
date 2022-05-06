@@ -245,7 +245,7 @@ function App() {
           if(items[i].name==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: "name cannot be empty",
+              message: "Name cannot be empty",
               field:"name",
             }
             counter++;
@@ -253,7 +253,7 @@ function App() {
           if(items[i].identifier==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: "identifier cannot be empty",
+              message: "Invalid identifier",
               field:"identifier",
             }
             counter++;
@@ -261,7 +261,7 @@ function App() {
           if(items[i].required==null){
             listErr[counter] = {
                 from:items[i].identifier,
-              message: " required cannot be empty",
+              message: " Required cannot be empty",
                 field:"required",
               }
               counter++;
@@ -269,7 +269,7 @@ function App() {
           if(items[i].type==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: " type cannot be empty",
+              message: " Type cannot be empty",
               field:"type",
             }
             counter++;
@@ -413,7 +413,7 @@ function App() {
             
           </Row>
         
-        <Form style={{marginLeft:"0.5rem"}} onSubmit={Submit}>
+        <Form style={{marginLeft:"0.5rem"}} name="dropfield" onSubmit={Submit}>
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#3047C2"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}

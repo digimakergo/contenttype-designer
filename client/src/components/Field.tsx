@@ -310,6 +310,7 @@ const Field = (props:any) => {
                         }
 
                         if(!checkIdentifier(props.list)){
+                            props.field.identifier = ""; 
                             const error:any =document.getElementsByClassName("feilmelding_likidentifier")[index];
                             error.style="display:block;"
 
@@ -319,7 +320,7 @@ const Field = (props:any) => {
                         }
                        else if(!/^(?!.*\.)(?!.*__)(?!.*[A-Z])(?!.*\.$)[^\W][\w.]{0,29}$/gm.test(e.target.value )){
                     
-                        props.field.identifier = ""; // ikke la identiifer være tom
+                        props.field.identifier = "";
                         e.target.style= "border: solid red 2px;"
                         const element:any =document.getElementsByClassName("feilmelding_identifier")[index];
                         element.style="display:block;"

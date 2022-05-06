@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mocha": "^10.0.0",
+    "selenium-webdriver": "^4.1.2"
+  },
+  "name": "selenium",
+  "version": "1.0.0",
+  "main": "test.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
