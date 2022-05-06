@@ -245,7 +245,7 @@ function App() {
           if(items[i].name==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: "name cannot be empty",
+              message: "Name cannot be empty",
               field:"name",
             }
             counter++;
@@ -253,7 +253,7 @@ function App() {
           if(items[i].identifier==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: "identifier cannot be empty",
+              message: "Invalid identifier",
               field:"identifier",
             }
             counter++;
@@ -261,7 +261,7 @@ function App() {
           if(items[i].required==null){
             listErr[counter] = {
                 from:items[i].identifier,
-              message: " required cannot be empty",
+              message: " Required cannot be empty",
                 field:"required",
               }
               counter++;
@@ -269,7 +269,7 @@ function App() {
           if(items[i].type==""){
             listErr[counter] = {
               from:items[i].identifier,
-              message: " type cannot be empty",
+              message: " Type cannot be empty",
               field:"type",
             }
             counter++;
@@ -413,7 +413,7 @@ function App() {
             
           </Row>
         
-        <Form style={{marginLeft:"0.5rem"}} onSubmit={Submit}>
+        <Form style={{marginLeft:"0.5rem"}} name="dropfield" onSubmit={Submit}>
           <DndProvider backend={HTML5Backend}>
             {list.map((field:any, index:number) => (
               <DragNDropComponent key={"drag-"+listids[index]} headerColor={index % 2 == 0 ? "#1CA4FC" : "#3047C2"} index={index} field={field} fieldid={listids[index]} moveItem={moveItem} moveId={moveId} collapsed={collapse}
@@ -424,7 +424,7 @@ function App() {
 
         <Row style={{marginBottom:"0.5rem", marginTop:"0.5rem"}}>
           <Col lg={{span:8, offset:2}} md={{span:8, offset:2}}  sm={{span:8, offset:2}} className="d-grid">
-          <Button variant='success' size="lg" onClick={() => setShow(true)}><svg style={{transform: "scale(1.3)", marginRight:"1rem"}} xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+          <Button name="addFields_btn" variant='success' size="lg" onClick={() => setShow(true)}><svg style={{transform: "scale(1.3)", marginRight:"1rem"}} xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                               </svg> Add field</Button>
           </Col>

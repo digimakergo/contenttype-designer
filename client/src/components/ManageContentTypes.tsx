@@ -105,7 +105,7 @@ const ManageContentTypes = (props:any) => {
                 </Form.Label>
                             </Col>
                             <Col lg={2} className="d-grid">
-                            <Button variant="primary" onClick={(e) => {
+                            <Button variant="primary" name="edit_contenttype" onClick={(e) => {
                               e.preventDefault()
                                 if(props.selectedKey !=''){
                                   let element:any = document.getElementsByClassName("mainmenu")[0]
@@ -129,7 +129,7 @@ const ManageContentTypes = (props:any) => {
                             </Col>
                             <Col lg={2} className="d-grid">
                                 
-                                    <Button variant="danger" onClick={handleRemove} style={{font:"sans-serif", fontSize:"1.1rem"}}>Delete<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <Button variant="danger" name="delete_contenttype" onClick={handleRemove} style={{font:"sans-serif", fontSize:"1.1rem"}}>Delete<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
 </svg></Button>
                                     
@@ -138,7 +138,7 @@ const ManageContentTypes = (props:any) => {
                         </Row>
                         <Row style={{marginTop:"1rem"}}>
                             <Col lg={{span:10, offset:1}} className="d-grid">
-                                <Button variant="primary" onClick={() => {
+                                <Button variant="primary" name="add_contenttype" onClick={() => {
                                     setSelected({"":{name: "",table_name: "",has_version: false,has_location: false,has_location_id: false,name_pattern: "",fields: []}})
                                     props.setSelectedKey("")
                                     setEdit(true)

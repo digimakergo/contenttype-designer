@@ -1,37 +1,61 @@
-const {Builder, By, Key, util} = require("selenium-webdriver");
+const {Builder, By, Key, util, until} = require("selenium-webdriver");
+const ltCapabilities= require("./capabilitites");
 const assert = require("assert");
-const { get } = require("http");
 
-async function deleteContenttype(contenttype){
-    // Starting the driver
-    let driver = await new Builder().forBrowser('firefox').build()
-    await driver.get("http://localhost:3000/")
+/*describe("Testing deletion of a contettype: test",  async function (){
+    this.timeout(100000000)
+    var driver;
     
-    // Selecting the contenttype
-    let select = await driver.findElement(By.id("ManageContentTypes_select"));
-    select.findElement(By.css("option[value='"+contenttype+"']")).click();
-    let data = await select.getText();
+    const USERNAME = ltCapabilities.capabilities["LT:Options"].user;
 
-    // Deleting the contenttype
-    await driver.findElement(By.name("delete_contenttype")).click();
 
-    // Checking that its deleted
-    let newData = await select.getText();
-    assert.notStrictEqual(newData, data);
-    let isEmpty = await select.getAttribute("value");
-    assert.strictEqual("", isEmpty);
+    const KEY = ltCapabilities.capabilities["LT:Options"].accessKey;
 
+    const GRID_HOST="hub.lambdatest.com/wd/hub";
+
+    const gridURL= "https://" + USERNAME + ":" + KEY + "@" + GRID_HOST;
+
+    beforeEach(function(){
+        driver =  new Builder().usingServer(gridURL)
+        .withCapabilities(ltCapabilities.capabilities)
+        .build();
+
+        // Starting the driver
+    //let driver = await new Builder().forBrowser('firefox').build()
+    
     
 
 
+    });
+    afterEach(async function(){
+        // Closing window
+        await driver.quit();
+    });
+    
+    it("Deletes the contenttype 'test'.", async function(){
+        
+        await driver.get("http://designer.dev.digimaker.no/")
+        driver.sleep(1000)
 
+        // Selecting the contenttype
+        let select = await driver.findElement(By.id("ManageContentTypes_select"));
+        select.findElement(By.css("option[value='test']")).click();
+        let data = await select.getText();
 
-    // Closing window
-    await driver.quit();
-}
+        // Deleting the contenttype
+        await driver.findElement(By.name("delete_contenttype")).click();
+
+        // Checking that its deleted
+        let newData = await select.getText();
+        assert.notStrictEqual(newData, data);
+        let isEmpty = await select.getAttribute("value");
+        assert.strictEqual("", isEmpty);
+    })
+    
+})
 //deleteContenttype("brtikkel");
 
-
+*/
 async function editContenttype(contenttype) {
     //editing the contenttype
     // Starting the driver
@@ -174,11 +198,11 @@ async function edit_contenttype_fields(contenttype) {
 
     //duplicate 
     
-
+   
 
 }
 
-edit_contenttype_fields("test")
+//edit_contenttype_fields("test")
 
 async function add_contenttype_fields(contenttype) {
      //editing the contenttype's fields attributtes
@@ -237,7 +261,7 @@ async function add_contenttype_fields(contenttype) {
 
     add_identifier.sendKeys("title", Key.RETURN);
     add_name.sendKeys("Test", Key.RETURN);
-    await select.findElement(By.css("option[value='file']")).click();
+    await select.findElement(By.css("option[value='password']")).click();
 
     await driver.findElement(By.name("addField")).click();   
     
@@ -249,6 +273,66 @@ async function add_contenttype_fields(contenttype) {
 
 
 
+    const element = await driver.findElement(By.className("id-1-identifier"));element.clear();element.sendKeys("title", Key.RETURN);
+    const submit = await driver.findElement(By.id("submitdata"))
+    await driver.executeScript("arguments[0].scrollIntoView(true)", submit)
+    await driver.sleep(500)
+    submit.click();
+    await driver.sleep(500)
+    await driver.findElement(By.name("hide-errors")).click()
+    let val = await driver.findElement(By.className("id-1-identifier-error-equal")).getAttribute("value");
+
+    assert.notStrictEqual("", val)
+
+
+    //Move
+    await driver.actions().dragAndDrop(move,move).perform();
+
+    let target= await move.getText();
+    if(target === "Dropped"){
+        console.log("dropped")
+    }else{
+        console("not dropped")
+    }
+
+
+    let draggable = driver.findElement(By.id("move"));
+ 
+    //To perform drag and drop by offset
+    await driver.actions().dragAndDrop(draggable, { x: 50, y: 50 }).perform();
+    
+
+    //Remove
+    await driver.findElements(By.className("remove")).then(async function(res){
+        for(let i = 0; i < res.length; i++){
+            
+            console.log(res[i])
+        }
+        await driver.executeScript("arguments[0].click()", res[1])
+
+        await driver.wait(until.alertIsPresent());
+        await driver.switchTo().alert().accept();
+    })
+    submit.click();
+    
+
+    
+
+
+/*
+    identifier.sendKeys("title", Key.RETURN);
+    name.sendKeys("Frontpage", Key.RETURN);
+
+    await driver.findElement(By.id("submitdata")).click(); 
+
+    identifier_err = await driver.findElement(By.className("feilmelding_identifier id-1-identifier-error form-label")).getAttribute("value");
+    assert.notStrictEqual("", identifier_err);
+    
+    identifier.clear();identifier.sendKeys("title", Key.RETURN);
+    await driver.findElement(By.name("submitdata")).click();  
+*/
+
+
 }
 
-//add_contenttype_fields("test")
+add_contenttype_fields("test")

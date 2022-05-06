@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 
 const Remove = (props:any) => {
     return (
-       <Row style={{marginTop:"0.5rem"}} onClick={()=>{
+       <Row className="remove" style={{marginTop:"0.5rem"}} onClick={()=>{
            props.Remove(props.element, props.index)}}>
          <Col className="col-4" >
                     <img alt='remove field'   src="/images/remove.png" className="img" style={{width:"2rem"}}
