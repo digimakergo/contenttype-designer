@@ -56,6 +56,56 @@ const assert = require("assert");
 //deleteContenttype("brtikkel");
 
 */
+
+async function addContenttype(){
+    // adding a contenttype
+    // Starting the driver
+    let driver = await new Builder().forBrowser('firefox').build()
+    await driver.get("http://designer.dev.digimaker.no/")
+
+    await driver.findElement(By.name("add_contenttype")).click();
+
+    let identi = await driver.findElement(By.className("contenttype-identifier"));
+    let name = await driver.findElement(By.className("contenttype-name"));
+    let pattern = await driver.findElement(By.className("contenttype-namepattern"));
+
+    //emptying fields
+    identi.clear();
+    name.clear();
+    pattern.clear();
+    
+    await driver.findElement(By.name("saveContenttype")).click();   
+    
+    let identi_err = await driver.findElement(By.className("contenttype-error-identifier")).getAttribute("value");
+    let name_err = await driver.findElement(By.className("contenttype-error-name")).getAttribute("value");
+    let pattern_err = await driver.findElement(By.className("contenttype-error-namepattern")).getAttribute("value");
+
+
+    assert.notStrictEqual("", identi_err)
+    assert.notStrictEqual("", name_err)
+    assert.notStrictEqual("", pattern_err)
+
+
+    //duplicate identifier
+    identi.sendKeys("article", Key.RETURN);
+    name.sendKeys("Test", Key.RETURN);
+    pattern.sendKeys("{}", Key.RETURN);
+    await driver.findElement(By.name("saveContenttype")).click();   
+    
+    identi_err = await driver.findElement(By.className("contenttype-error-identifier-equal")).getAttribute("value");
+    assert.notStrictEqual("", identi_err);
+    
+    identi.clear();identi.sendKeys("test", Key.RETURN);
+    await driver.findElement(By.name("saveContenttype")).click();   
+
+    identi_err1 = await driver.findElement(By.className("contenttype-error-identifier")).getAttribute("value");
+    identi_err2 = await driver.findElement(By.className("contenttype-error-identifier-equal")).getAttribute("value");
+    assert.strictEqual(null, identi_err1);
+    assert.strictEqual(null, identi_err2);
+
+}
+
+//addContenttype();
 async function editContenttype(contenttype) {
     //editing the contenttype
     // Starting the driver
@@ -335,4 +385,4 @@ async function add_contenttype_fields(contenttype) {
 
 }
 
-add_contenttype_fields("test")
+//add_contenttype_fields("test")
