@@ -61,7 +61,7 @@ async function addContenttype(){
     // adding a contenttype
     // Starting the driver
     let driver = await new Builder().forBrowser('firefox').build()
-    await driver.get("http://designer.dev.digimaker.no/")
+    await driver.get("http://localhost:3000")
 
     await driver.findElement(By.name("add_contenttype")).click();
 
@@ -103,9 +103,15 @@ async function addContenttype(){
     assert.strictEqual(null, identi_err1);
     assert.strictEqual(null, identi_err2);
 
+    await driver.findElement(By.name("back")).click()
+    const select = await driver.findElement(By.id("ManageContentTypes_select"));
+    await select.findElement(By.css("option[value='test']")).click();
+    const selectedValue = await select.getAttribute("value");
+    assert.strictEqual("test", selectedValue);
+
 }
 
-//addContenttype();
+addContenttype();
 async function editContenttype(contenttype) {
     //editing the contenttype
     // Starting the driver
@@ -116,7 +122,7 @@ async function editContenttype(contenttype) {
     let select = await driver.findElement(By.id("ManageContentTypes_select"));
     select.findElement(By.css("option[value='"+contenttype+"']")).click();
     let selectedValue = await select.getAttribute("value");
-    console.log(selectedValue)
+    
     //assert.notStrictEqual("", selectedValue)
 
        
@@ -365,7 +371,8 @@ async function add_contenttype_fields(contenttype) {
     })
     submit.click();
     
-
+    const elem1 = await driver.findElement()
+    //driver.actions.
     
 
 

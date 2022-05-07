@@ -66,7 +66,7 @@ const EditContenttype = (props:any) => {
             <Form.Group>
                 <Row style={{marginBottom:"0.5rem"}}>
                 <Col lg={{span:2}} className="d-grid">
-                        <Button variant="primary" onClick={() => {
+                        <Button variant="primary" name="back" onClick={() => {
                             let element:any = document.getElementsByClassName("mainmenu")[0]
                             element.style = "transform: translateX(0%); transition: 0.5s;";
                             element = document.getElementsByClassName("editmenu")[0]
@@ -99,6 +99,7 @@ const EditContenttype = (props:any) => {
                                 return true;
                             }
                             if(!checkIdentifier(props.contenttypes)){
+                            setIdentifier(e.target.value);
                               e.target.style= "border: solid red 2px;"
                               const error:any =document.getElementsByClassName("contenttype-error-identifier-equal")[0];
                               error.style="display:block; "
