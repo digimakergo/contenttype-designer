@@ -2,7 +2,7 @@ const {Builder, By, Key, util, until} = require("selenium-webdriver");
 const ltCapabilities= require("./capabilitites");
 const assert = require("assert");
 
-/*describe("Testing deletion of a contettype: test",  async function (){
+describe("Testing deletion of a contettype: test",  async function (){
     this.timeout(100000000)
     var driver;
     
@@ -43,18 +43,32 @@ const assert = require("assert");
         let data = await select.getText();
 
         // Deleting the contenttype
-        await driver.findElement(By.name("delete_contenttype")).click();
+        let remove=await driver.findElement(By.name("delete_contenttype")).click();
 
         // Checking that its deleted
         let newData = await select.getText();
         assert.notStrictEqual(newData, data);
         let isEmpty = await select.getAttribute("value");
         assert.strictEqual("", isEmpty);
+
+        await driver.findElements(By.className("delete_contenttype")).then(async function(res){
+            for(let i = 0; i < res.length; i++){
+                
+                console.log(res[i])
+            }
+            await driver.executeScript("arguments[0].click()", res[1])
+    
+            await driver.wait(until.alertIsPresent());
+            await driver.switchTo().alert().accept();
+        })
+        remove.click();
+        
     })
     
 })
 //deleteContenttype("brtikkel");
 
+<<<<<<< Updated upstream
 */
 
 async function addContenttype(){
@@ -112,6 +126,9 @@ async function addContenttype(){
 }
 
 addContenttype();
+=======
+
+>>>>>>> Stashed changes
 async function editContenttype(contenttype) {
     //editing the contenttype
     // Starting the driver
