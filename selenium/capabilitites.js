@@ -1,10 +1,11 @@
 var capabilities = {
     'LT:Options' : {
-        "user" : "Guled01212",
-        "accessKey" : "FFgzsJQviKgRBpicZeWj2L1EZR3VPPrAlNOKYkSYfHPmzV7mbf",
-        "build" : "Test build",
-        "name" : "Test",
-        "platformName" : "Windows 10"
+        "user" : "khalid9865",
+        "accessKey" : "6JKOsh49IzXKBNlcLimn7hcPreVhOX3JRoJZU0BNCp45ozgy40",
+        "build" : "Testing",
+        "name" : "Tester",
+        "platformName" : "Windows 10",
+        "resolution" : "1920x1080"
     },
     "browserName" : "Firefox",
     "browserVersion" : "100.0",
