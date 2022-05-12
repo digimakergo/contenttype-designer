@@ -46,6 +46,7 @@ type Field struct {
 	Name       string      `json:"name"`
 	Type       string      `json:"type"`
 	Required   bool        `json:"required"`
+	IsOutput   bool        `json:"is_output"`
 	Parameters *Parameters `json:"parameters,omitempty"`
 	Children   []Field     `json:"children,omitempty"`
 }
