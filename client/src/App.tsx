@@ -15,6 +15,7 @@ interface listElements {
   name:string,
   type:string,
   required:boolean,
+  is_output?:boolean,
   parameters?:any,
   children?:any[]
 }
@@ -164,6 +165,7 @@ function App() {
         type: type,
         name: name,
         required: false,
+        is_output: true,
         children: [],
       }
     }
