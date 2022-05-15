@@ -69,7 +69,8 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
         identi_err = await driver.findElement(By.className("contenttype-error-identifier-equal")).getAttribute("value");
         assert.notStrictEqual("", identi_err);
         
-        identi.clear();identi.sendKeys("test", Key.RETURN);
+        await identi.clear();
+        await identi.sendKeys("test", Key.RETURN);
         await driver.findElement(By.name("saveContenttype")).click();   
 
         identi_err1 = await driver.findElement(By.className("contenttype-error-identifier")).getAttribute("value");
@@ -79,6 +80,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
 
         await driver.findElement(By.name("back")).click()
         const select = await driver.findElement(By.id("ManageContentTypes_select"));
+        await driver.sleep(1000)
         await select.findElement(By.css("option[value='test']")).click();
         const selectedValue = await select.getAttribute("value");
         assert.strictEqual("test", selectedValue);
@@ -136,9 +138,40 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
     
     
     })
+})
+
+
+describe("Testing the management of the contenttype test's fields",  async function (){
+    this.timeout(100000000)
+    var driver;
+    
+    const USERNAME = ltCapabilities.capabilities["LT:Options"].user;
+
+
+    const KEY = ltCapabilities.capabilities["LT:Options"].accessKey;
+
+    const GRID_HOST="hub.lambdatest.com/wd/hub";
+
+    const gridURL= "https://" + USERNAME + ":" + KEY + "@" + GRID_HOST;
+
+    beforeEach(function(){
+        driver =  new Builder().usingServer(gridURL)
+        .withCapabilities(ltCapabilities.capabilities)
+        .build();
+
+        // Starting the driver
+    //let driver = await new Builder().forBrowser('firefox').build()
     
     
-    it("Edit the contenttype fields 'title'.", async function(){
+
+
+    });
+    afterEach(async function(){
+        // Closing window
+        await driver.quit();
+    });
+    
+    it("Manage a field 'title' for 'test'.", async function(){
             
         await driver.get("http://designer.dev.digimaker.no/")
         
@@ -149,8 +182,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
     
         await driver.findElement(By.name("edit_contenttype")).click();
         await driver.sleep(10)
-        const edit = await driver.findElement(By.name("edit_fields"))
-        edit.click();
+        await driver.findElement(By.name("edit_fields")).click();
 
 
         //adding a field
@@ -230,7 +262,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
         
     })
     
-    it("Add a contenttype fields 'title'.", async function(){
+    it("Manage multiple fields in 'test'.", async function(){
             
         await driver.get("http://designer.dev.digimaker.no/")
         
@@ -291,7 +323,8 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
         add_identifier_err = await driver.findElement(By.className("feilmelding_likidentifieras form-label")).getAttribute("value");
         assert.notStrictEqual("", add_identifier_err);
         
-        add_identifier.clear();add_identifier.sendKeys("test", Key.RETURN);
+        add_identifier.clear();
+        await add_identifier.sendKeys("test", Key.RETURN);
         await driver.sleep(1000)
         await driver.findElement(By.name("addField")).click();   
     
@@ -325,7 +358,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
         //To perform drag and drop by offset
         await driver.actions().dragAndDrop(draggable, { x: 50, y: 50 }).perform();*/    
         
-    
+        
         //Remove
         await driver.findElements(By.className("remove")).then(async function(res){
             await driver.executeScript("arguments[0].click()", res[1])
@@ -338,6 +371,38 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
        
         
     })
+    
+})
+
+describe("Testing the management of the contenttype: 'test'",  async function (){
+    this.timeout(100000000)
+    var driver;
+    
+    const USERNAME = ltCapabilities.capabilities["LT:Options"].user;
+
+
+    const KEY = ltCapabilities.capabilities["LT:Options"].accessKey;
+
+    const GRID_HOST="hub.lambdatest.com/wd/hub";
+
+    const gridURL= "https://" + USERNAME + ":" + KEY + "@" + GRID_HOST;
+
+    beforeEach(function(){
+        driver =  new Builder().usingServer(gridURL)
+        .withCapabilities(ltCapabilities.capabilities)
+        .build();
+
+        // Starting the driver
+    //let driver = await new Builder().forBrowser('firefox').build()
+    
+    
+
+
+    });
+    afterEach(async function(){
+        // Closing window
+        await driver.quit();
+    });
     
     it("Deletes the contenttype 'test'.", async function(){
         //Deletes a contentype
@@ -357,6 +422,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
         });
 
         // Checking that its deleted
+        await driver.sleep(1000)
         let newData = await select.getText();
         assert.notStrictEqual(newData, data);
         let isEmpty = await select.getAttribute("value");
