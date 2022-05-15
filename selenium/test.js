@@ -149,7 +149,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
     
         await driver.findElement(By.name("edit_contenttype")).click();
         await driver.sleep(10)
-        const edit = await driver.findElement(By.name("edit-fields"))
+        const edit = await driver.findElement(By.name("edit_fields"))
         edit.click();
 
 
@@ -242,7 +242,7 @@ describe("Testing the management of the contenttype: 'test'",  async function ()
            
         await driver.findElement(By.name("edit_contenttype")).click();
         await driver.sleep(1000)
-        await driver.findElement(By.name("edit-fields")).sendKeys(Key.ENTER);
+        await driver.findElement(By.name("edit_fields")).sendKeys(Key.ENTER);
         //assert.notStrictEqual("", selectedValue)
     
         const add = await driver.findElement(By.name("addFields_btn"));

@@ -241,7 +241,7 @@ const EditContenttype = (props:any) => {
                     
     
                     <Col lg={{span:4, offset: 8}} className='d-grid'>
-                        <Button disabled={props.adding} variant='primary' name="edit-fields" onClick={(e) => {
+                        <Button disabled={props.adding} variant='primary' name="edit_fields" onClick={(e) => {
                             e.preventDefault()
                             const listids = []
                             for(let i = 0; i < props.contenttype.fields.length; i++){
