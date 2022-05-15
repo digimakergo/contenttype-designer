@@ -15,6 +15,7 @@ interface listElements {
     name:string,
     type:string,
     required:boolean,
+    is_output?:boolean,
     parameters?:any,
     children?:any[]
   }
@@ -41,6 +42,7 @@ const Field = (props:any) => {
                 type: type,
                 name: name,
                 required: false,
+                is_output: true,
                 children: [],
             }
         }
