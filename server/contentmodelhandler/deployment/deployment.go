@@ -7,18 +7,14 @@ import (
 	"plugin"
 	"strconv"
 
-	"github.com/digimakergo/digimaker/core/log"
-
-	//"github.com/digimakergo/digimaker/rest"
 	"github.com/digimakergo/digimaker/codegen/entity"
-	_ "github.com/digimakergo/digimaker/codegen/table"
 	"github.com/digimakergo/digimaker/core/definition"
+	"github.com/digimakergo/digimaker/core/log"
 )
 
 var counter int = 0
 
 func GenerateEntities() {
-	preStrCounter := strconv.Itoa(counter)
 	counter++
 	strCounter := strconv.Itoa(counter)
 	if counter > 0 {
@@ -35,18 +31,9 @@ func GenerateEntities() {
 		log.Fatal(error)
 		log.Fatal("Couldn't rebuild entities plugin")
 	} else {
-		//table.GenerateTable("article") //get the query to create the table
 		LoadEntities()
 	}
-	if counter > 1 {
-		fmt.Println("removing entity " + preStrCounter)
-		e1 := os.RemoveAll("./entity" + preStrCounter)
-		e2 := os.Remove("./plugin/entity" + preStrCounter + ".so")
 
-		if e1 == nil || e2 != nil {
-			log.Info("Couldn't remove previous files")
-		}
-	}
 }
 
 func LoadEntities() {
@@ -60,6 +47,7 @@ func LoadEntities() {
 }
 
 func init() {
+	entity.Generate("./entity0")
+	exec.Command("go", "build", "-buildmode=plugin", "-o", "./plugin/entity0.so", "./entity0/")
 	LoadEntities()
-	//rest.RegisterRoute("/dmdemo/generateenetities/", GenerateEntities, "GET")
 }
